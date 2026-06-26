@@ -1,0 +1,59 @@
+/**
+ * Design tokens — single source of truth for colors, spacing, typography, and motion.
+ * Every component references these variables instead of hardcoding values.
+ */
+:root {
+  /* ── Colors ─────────────────────────────────────────────── */
+  --color-paper: #FDFBF7;
+  --color-paper-light: #FDFBF7;
+  --color-paper-dark: #F4F1EA;
+  --color-charcoal: #2D2D2D;
+  --color-charcoal-light: #5A5A5A;
+  --color-charcoal-dark: #1C1C1C;
+  --color-coral: #E05342;
+  --color-coral-light: #F78475;
+  --color-coral-dark: #B83B2C;
+
+  /* ── Spacing ────────────────────────────────────────────── */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-section: clamp(3rem, 2rem + 4vw, 6rem);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+
+  --font-editorial: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Courier New, monospace;
+
+  /* ── Radius ─────────────────────────────────────────────── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(45, 45, 45, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(45, 45, 45, 0.07), 0 2px 4px -2px rgba(45, 45, 45, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(45, 45, 45, 0.08), 0 4px 6px -4px rgba(45, 45, 45, 0.04);
+  --shadow-premium: 0 8px 30px rgba(45, 45, 45, 0.04);
+  --shadow-premium-hover: 0 12px 40px rgba(45, 45, 45, 0.08);
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 500ms;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}

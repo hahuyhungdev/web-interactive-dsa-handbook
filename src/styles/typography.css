@@ -1,0 +1,21 @@
+/**
+ * Typography — editorial font pairing strategy.
+ * Playfair Display for headings, Inter for body, JetBrains Mono for code.
+ */
+
+/* Base heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-editorial);
+  color: var(--color-charcoal);
+  letter-spacing: -0.02em;
+}
+
+/* Body text */
+p, li, td, th, label, input, textarea, select, button {
+  font-family: var(--font-sans);
+}
+
+/* Code blocks */
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
