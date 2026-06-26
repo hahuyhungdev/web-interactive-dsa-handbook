@@ -422,7 +422,7 @@ function StackParenthesesVisualizer({
         <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
           Input String
         </span>
-        <div className="flex gap-1.5 bg-paper-dark border border-charcoal/5 p-2 rounded-xl shadow-inner">
+        <div className="flex gap-1.5 bg-paper-dark border border-charcoal/5 p-2 rounded-xl shadow-inner overflow-x-auto max-w-full">
           {inputString.split("").map((char, idx) => {
             const isActive = idx === charIndex;
             return (
@@ -804,7 +804,7 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between bg-paper border border-charcoal/10 rounded-3xl p-6 shadow-sm min-h-[500px]">
+    <div className="flex-1 flex flex-col justify-between gap-6 bg-paper border border-charcoal/10 rounded-3xl p-6 shadow-sm min-h-[500px]">
       <div>
         <h3 className="font-editorial text-xl font-bold text-charcoal mb-2">
           Execution Visualizer
@@ -825,7 +825,7 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
 
         {/* Step Flow List (Trace Timeline) */}
         {totalSteps > 0 && (
-          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden flex flex-col max-h-[160px] shadow-inner">
+          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden flex flex-col max-h-[200px] shadow-inner">
             <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
               <span className="text-[9px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
                 Execution Flow Trace
@@ -834,7 +834,7 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
                 {totalSteps} operations
               </span>
             </div>
-            <div className="p-1.5 overflow-y-auto space-y-1 flex-1 max-h-[120px]">
+            <div className="p-1.5 overflow-y-auto space-y-1 flex-1">
               {steps.map((step: any, idx: number) => {
                 const isActive = idx === stepIndex;
                 let description = "";
@@ -1433,7 +1433,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
         })}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
+      <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
         {/* Left Column: Code Editor & Runner */}
         <div className="flex-1 min-w-0 flex flex-col gap-4">
           <div className="relative border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden font-mono text-base shadow-sm">
