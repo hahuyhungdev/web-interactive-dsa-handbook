@@ -1,7 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MainLayout } from '@/layouts/MainLayout';
 import { LESSON_ROUTE_MAP, ROUTES } from '@/shared/constants/routes';
+import { useActiveLesson } from './lesson-sync';
 
 /**
  * Layout wrapper — owns activeLesson state (sidebar concern).
@@ -9,12 +10,12 @@ import { LESSON_ROUTE_MAP, ROUTES } from '@/shared/constants/routes';
  */
 export function AppLayout() {
   const navigate = useNavigate();
-  const [activeLesson, setActiveLesson] = useState<string | null>(null);
+  const [activeLesson, setActiveLesson] = useActiveLesson();
 
   const handleSelectLesson = useCallback((lesson: string) => {
     setActiveLesson(lesson);
     navigate(LESSON_ROUTE_MAP[lesson] ?? ROUTES.HOME);
-  }, [navigate]);
+  }, [navigate, setActiveLesson]);
 
   return (
     <MainLayout
@@ -23,3 +24,4 @@ export function AppLayout() {
     />
   );
 }
+

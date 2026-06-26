@@ -36,6 +36,8 @@ export const LESSON_ROUTE_MAP: Record<string, string> = {
   "Challenge: Two Sum": ROUTES.PRACTICE("two-sum"),
   "Challenge: Max Value in Array": ROUTES.PRACTICE("find-max"),
   "Challenge: Reverse Linked List": ROUTES.PRACTICE("reverse-list"),
+  "Challenge: Binary Search": ROUTES.PRACTICE("binary-search"),
+  "Challenge: Valid Parentheses": ROUTES.PRACTICE("valid-parentheses"),
 
   // New visualizers
   "Stack & Queue Visualizer": ROUTES.STACK_QUEUE,

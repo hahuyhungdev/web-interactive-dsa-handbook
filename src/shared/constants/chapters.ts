@@ -19,6 +19,7 @@ export const CHAPTERS: Chapter[] = [
         duration: "15 min",
       },
       { title: "Challenge: Two Sum", type: "practice", duration: "20 min" },
+      { title: "Challenge: Binary Search", type: "practice", duration: "20 min" },
     ],
   },
   {
@@ -105,6 +106,11 @@ export const CHAPTERS: Chapter[] = [
         title: "Stack & Queue Visualizer",
         type: "visualizer",
         duration: "20 min",
+      },
+      {
+        title: "Challenge: Valid Parentheses",
+        type: "practice",
+        duration: "25 min",
       },
     ],
   },
