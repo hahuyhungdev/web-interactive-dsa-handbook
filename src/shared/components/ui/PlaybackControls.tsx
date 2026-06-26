@@ -113,7 +113,7 @@ export function PlaybackControls({
         </div>
 
         {/* Speed and step info */}
-        <div className="flex items-center gap-6 font-sans text-base font-semibold">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6 font-sans text-base font-semibold">
           <div className="flex items-center gap-2">
             <span className="text-charcoal uppercase tracking-wider text-base">
               Speed:

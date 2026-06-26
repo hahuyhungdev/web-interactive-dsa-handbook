@@ -158,6 +158,126 @@ const THEORY_CONTENT: Record<string, {
         </p>
       </div>
     )
+  },
+  'stack-queue-intro': {
+    title: 'Stack & Queue Fundamentals',
+    chapter: 'Chapter IV: Stacks & Queues',
+    duration: '10 min',
+    content: (
+      <div className="space-y-6 font-editorial text-charcoal leading-relaxed text-base md:text-lg">
+        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block">
+          Syllabus Core IV.I
+        </p>
+        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-coral first-letter:float-left first-letter:mr-3 first-letter:mt-1">
+          Stacks and Queues are restricted linear data structures. Unlike general arrays or linked lists where elements can be accessed or modified at any arbitrary index, stacks and queues enforce strict policies on where operations can occur.
+        </p>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">The Stack: LIFO (Last-In, First-Out)</h3>
+        <p>
+          A Stack functions like a stack of plates: the last plate placed on top is the first one to be removed.
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal">
+          <li><strong>Push:</strong> Add an element to the top of the stack — <strong>O(1)</strong> time.</li>
+          <li><strong>Pop:</strong> Remove the element from the top of the stack — <strong>O(1)</strong> time.</li>
+          <li><strong>Peek:</strong> View the top element without removing it — <strong>O(1)</strong> time.</li>
+        </ul>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">The Queue: FIFO (First-In, First-Out)</h3>
+        <p>
+          A Queue represents a waiting line: the first person to join the queue is the first to be served.
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal">
+          <li><strong>Enqueue:</strong> Add an element to the rear (back) of the queue — <strong>O(1)</strong> time.</li>
+          <li><strong>Dequeue:</strong> Remove the element from the front of the queue — <strong>O(1)</strong> time.</li>
+          <li><strong>Front:</strong> View the front element without removing it — <strong>O(1)</strong> time.</li>
+        </ul>
+      </div>
+    )
+  },
+  'bst-intro': {
+    title: 'Binary Search Tree Fundamentals',
+    chapter: 'Chapter V: Trees & Binary Search Trees',
+    duration: '15 min',
+    content: (
+      <div className="space-y-6 font-editorial text-charcoal leading-relaxed text-base md:text-lg">
+        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block">
+          Syllabus Core V.I
+        </p>
+        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-coral first-letter:float-left first-letter:mr-3 first-letter:mt-1">
+          A Tree is a hierarchical non-linear data structure. A <strong>Binary Tree</strong> is a special tree where each node has at most two children: a left child and a right child.
+        </p>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">The Binary Search Tree Property</h3>
+        <p>
+          A <strong>Binary Search Tree (BST)</strong> enforces an ordering constraint on its nodes:
+        </p>
+        <blockquote className="border-l-4 border-coral pl-4 italic bg-paper-dark/30 py-2 my-4 rounded-r-xl font-sans text-base">
+          For any node N, all values in N's left subtree are strictly less than N's value, and all values in N's right subtree are strictly greater than N's value.
+        </blockquote>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">BST Time Complexities</h3>
+        <p>
+          This property enables fast search, insertion, and deletion:
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal">
+          <li><strong>Balanced Tree:</strong> Operations take logarithmic time — <strong>O(log N)</strong>.</li>
+          <li><strong>Skewed Tree:</strong> (Worst case, where the tree degrades into a linked list) — <strong>O(N)</strong>.</li>
+        </ul>
+      </div>
+    )
+  },
+  'hash-table-intro': {
+    title: 'Hash Table Fundamentals',
+    chapter: 'Chapter VI: Hash Tables & Hashing',
+    duration: '12 min',
+    content: (
+      <div className="space-y-6 font-editorial text-charcoal leading-relaxed text-base md:text-lg">
+        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block">
+          Syllabus Core VI.I
+        </p>
+        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-coral first-letter:float-left first-letter:mr-3 first-letter:mt-1">
+          A Hash Table is a data structure that implements an associative array abstract data type, mapping keys to values. It uses a mathematical <strong>Hash Function</strong> to compute an index into an array of buckets or slots.
+        </p>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">The Hashing Mechanism</h3>
+        <p>
+          The hashing process consists of two primary steps:
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal">
+          <li><strong>Hash Computation:</strong> Transforming a variable-length key (like a string) into a numeric hash code.</li>
+          <li><strong>Modulo Compression:</strong> Compressing the hash code into the array size using the modulo operator (<code>index = hashCode % arraySize</code>).</li>
+        </ul>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">Collision Resolution</h3>
+        <p>
+          Since two distinct keys can hash to the same bucket index, we need collision resolution. <strong>Separate Chaining</strong> builds a linked list (or chain) of entries inside each bucket to store multiple key-value pairs at the same index.
+        </p>
+      </div>
+    )
+  },
+  'graph-intro': {
+    title: 'Graph Representation & Traversals',
+    chapter: 'Chapter VII: Graphs & Traversals',
+    duration: '15 min',
+    content: (
+      <div className="space-y-6 font-editorial text-charcoal leading-relaxed text-base md:text-lg">
+        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block">
+          Syllabus Core VII.I
+        </p>
+        <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-coral first-letter:float-left first-letter:mr-3 first-letter:mt-1">
+          A Graph is a non-linear network consisting of a set of <strong>Vertices (Nodes)</strong> and a set of <strong>Edges</strong> connecting them. Graphs are ideal for modeling networks like social connections, maps, or dependencies.
+        </p>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">Graph Traversals: BFS & DFS</h3>
+        <p>
+          Traversal means visiting all nodes in a graph systematically:
+        </p>
+        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal">
+          <li><strong>Breadth-First Search (BFS):</strong> Explores node layer-by-layer, visiting all neighbors first before going deeper. Uses a <strong>Queue</strong> (FIFO).</li>
+          <li><strong>Depth-First Search (DFS):</strong> Explores as deep as possible down each branch before backtracking. Uses a <strong>Stack</strong> (LIFO) or recursion.</li>
+        </ul>
+      </div>
+    )
   }
 };
 

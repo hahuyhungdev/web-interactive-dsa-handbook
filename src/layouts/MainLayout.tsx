@@ -27,9 +27,9 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     <div className="min-h-screen bg-paper text-charcoal selection:bg-coral/20 selection:text-coral flex flex-col">
       <Navbar />
 
-      <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-7xl w-full mx-auto relative px-4 md:px-6 mb-12">
+      <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-12">
         {/* Left column: Sidebar TableOfContents */}
-        <aside className="w-full md:w-80 shrink-0 md:pr-8 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0">
+        <aside className="w-full md:w-72 shrink-0 md:pr-6 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0">
           <div className="md:sticky md:top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2">
             <TableOfContents
               activeLesson={activeLesson}
@@ -40,7 +40,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
         </aside>
 
         {/* Right column: Active Route Workspace */}
-        <main className="flex-1 py-6 md:py-0 md:pl-8">
+        <main className="flex-1 min-w-0 py-6 md:py-0 md:pl-6">
           <Outlet />
         </main>
       </div>

@@ -1,0 +1,33 @@
+export const STACK_CODE: string[] = [
+  "class Stack {",
+  "  constructor() { this.items = []; } // @init",
+  "  push(val) {",
+  "    this.items.push(val); // @push",
+  "  }",
+  "  pop() {",
+  "    if (this.isEmpty()) return null; // @empty-check",
+  "    return this.items.pop(); // @pop",
+  "  }",
+  "  peek() {",
+  "    return this.items[this.items.length - 1]; // @peek",
+  "  }",
+  "  isEmpty() { return this.items.length === 0; }",
+  "}",
+];
+
+export const QUEUE_CODE: string[] = [
+  "class Queue {",
+  "  constructor() { this.items = []; } // @init",
+  "  enqueue(val) {",
+  "    this.items.push(val); // @enqueue",
+  "  }",
+  "  dequeue() {",
+  "    if (this.isEmpty()) return null; // @empty-check",
+  "    return this.items.shift(); // @dequeue",
+  "  }",
+  "  front() {",
+  "    return this.items[0]; // @front",
+  "  }",
+  "  isEmpty() { return this.items.length === 0; }",
+  "}",
+];

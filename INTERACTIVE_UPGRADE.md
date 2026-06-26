@@ -75,7 +75,7 @@ The algorithm never runs "live" against the UI. Instead each algorithm runs **on
 
 ```ts
 type VisualizerFrame = {
-  array?: ArrayItem[];        // full state of every bar at this step
+  array?: ArrayItem[]; // full state of every bar at this step
   highlightedMarker?: string; // which source line is "active"
 };
 ```
@@ -95,7 +95,9 @@ Generators live in `src/features/sorting/utils/generateFrames.ts`, one pure func
 `src/features/sorting/sortRegistry.ts` holds one array, `SORT_ALGOS`, where each entry fully describes an algorithm as data:
 
 ```ts
-{ id, label, fileName, complexity, generate, code }
+{
+  (id, label, fileName, complexity, generate, code);
+}
 ```
 
 The literal id union is derived from the data itself:
@@ -125,7 +127,7 @@ Each bar is keyed by a permanent per-element id (`item.index`, assigned once at 
 
 ### c. Constant heights per identity
 
-For this to be fully flicker-free, an element's height must never change once created. Bubble/Selection/Insertion/Quick already move element *objects*, so heights are constant. **Merge sort was rewritten** from the naive "overwrite values in place" model to **moving the element objects** into their merged order (atomic reposition per merge window). Now every algorithm is pure repositioning → zero `scaleY`, verified at 1.0 throughout live autoplay.
+For this to be fully flicker-free, an element's height must never change once created. Bubble/Selection/Insertion/Quick already move element _objects_, so heights are constant. **Merge sort was rewritten** from the naive "overwrite values in place" model to **moving the element objects** into their merged order (atomic reposition per merge window). Now every algorithm is pure repositioning → zero `scaleY`, verified at 1.0 throughout live autoplay.
 
 > Pitfall avoided: writing merged objects back one-at-a-time creates a moment where the same object id exists at two indices → duplicate React keys → flicker/warning. The reposition is therefore committed as a single atomic frame.
 

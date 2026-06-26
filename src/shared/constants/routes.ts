@@ -8,6 +8,10 @@ export const ROUTES = {
   /** Deep-link to a specific sort algorithm tab. */
   SORTING_ALGO: (algoId: string) => `/sorting?algo=${algoId}`,
   LINKED_LIST: "/linked-list",
+  STACK_QUEUE: "/stack-queue",
+  TREE: "/tree",
+  HASH_TABLE: "/hash-table",
+  GRAPH: "/graph",
   SEARCH: "/search",
   THEORY: (lessonId: string) => `/theory/${lessonId}`,
   PRACTICE: (challengeId: string) => `/practice/${challengeId}`,
@@ -32,6 +36,18 @@ export const LESSON_ROUTE_MAP: Record<string, string> = {
   "Challenge: Two Sum": ROUTES.PRACTICE("two-sum"),
   "Challenge: Max Value in Array": ROUTES.PRACTICE("find-max"),
   "Challenge: Reverse Linked List": ROUTES.PRACTICE("reverse-list"),
+
+  // New visualizers
+  "Stack & Queue Visualizer": ROUTES.STACK_QUEUE,
+  "Binary Search Tree Visualizer": ROUTES.TREE,
+  "Hash Table Visualizer": ROUTES.HASH_TABLE,
+  "Graph Traversal Visualizer": ROUTES.GRAPH,
+
+  // New theory lessons
+  "Stack & Queue Fundamentals": ROUTES.THEORY("stack-queue-intro"),
+  "Binary Search Tree Fundamentals": ROUTES.THEORY("bst-intro"),
+  "Hash Table Fundamentals": ROUTES.THEORY("hash-table-intro"),
+  "Graph Representation & Traversals": ROUTES.THEORY("graph-intro"),
 };
 
 /**

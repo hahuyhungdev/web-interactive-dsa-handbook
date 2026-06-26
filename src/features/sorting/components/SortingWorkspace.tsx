@@ -66,7 +66,7 @@ export function SortingWorkspace({
       />
 
       <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
-        <div className="flex-1 w-full bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm">
+        <div className="flex-1 w-full min-w-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm">
           <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
             Visual Sandbox
           </h3>
