@@ -1,13 +1,13 @@
 export interface ArrayItem {
   value: number;
   index: number;
-  status: 'default' | 'comparing' | 'swapping' | 'sorted';
+  status: "default" | "comparing" | "swapping" | "sorted" | "pivot";
 }
 
 export interface NodeItem {
   id: string;
   value: string;
-  status: 'default' | 'active' | 'traversing' | 'inserted' | 'deleted';
+  status: "default" | "active" | "traversing" | "inserted" | "deleted";
 }
 
 export interface VisualizerFrame {
@@ -19,7 +19,7 @@ export interface VisualizerFrame {
 
 export interface Lesson {
   title: string;
-  type: 'theory' | 'visualizer' | 'practice';
+  type: "theory" | "visualizer" | "practice";
   duration: string;
 }
 

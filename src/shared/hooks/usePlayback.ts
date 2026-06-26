@@ -1,12 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 interface UsePlaybackOptions {
   totalFrames: number;
-  speed: number | '';
+  speed: number | "";
   isActive: boolean;
 }
 
-export function usePlayback({ totalFrames, speed, isActive }: UsePlaybackOptions) {
+export function usePlayback({
+  totalFrames,
+  speed,
+  isActive,
+}: UsePlaybackOptions) {
   const [stepIndex, setStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -21,15 +25,18 @@ export function usePlayback({ totalFrames, speed, isActive }: UsePlaybackOptions
   useEffect(() => {
     if (!isPlaying) return;
 
-    const intervalId = setInterval(() => {
-      setStepIndex((prev) => {
-        if (prev >= totalFrames - 1) {
-          setIsPlaying(false);
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, 100 / (typeof speed === 'number' ? speed : 1));
+    const intervalId = setInterval(
+      () => {
+        setStepIndex((prev) => {
+          if (prev >= totalFrames - 1) {
+            setIsPlaying(false);
+            return prev;
+          }
+          return prev + 1;
+        });
+      },
+      100 / (typeof speed === "number" ? speed : 1),
+    );
 
     return () => clearInterval(intervalId);
   }, [isPlaying, speed, totalFrames]);
@@ -60,6 +67,14 @@ export function usePlayback({ totalFrames, speed, isActive }: UsePlaybackOptions
     setStepIndex(0);
   }, []);
 
+  const scrubTo = useCallback(
+    (index: number) => {
+      setIsPlaying(false);
+      setStepIndex(Math.min(Math.max(0, index), Math.max(0, totalFrames - 1)));
+    },
+    [totalFrames],
+  );
+
   return {
     stepIndex,
     setStepIndex,
@@ -70,5 +85,6 @@ export function usePlayback({ totalFrames, speed, isActive }: UsePlaybackOptions
     handleStepForward,
     handleStepBackward,
     reset,
+    scrubTo,
   };
 }

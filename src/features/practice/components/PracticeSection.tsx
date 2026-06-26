@@ -1,18 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { keymap, EditorView } from "@codemirror/view";
+import { Prec } from "@codemirror/state";
 
 const BOILERPLATES = {
-  'two-sum': `function twoSum(nums, target) {
+  "two-sum": `function twoSum(nums, target) {
   // Write your code here
 
 }`,
-  'reverse-list': `function reverseList(head) {
+  "reverse-list": `function reverseList(head) {
   // Write your code here
 
 }`,
-  'find-max': `function findMax(arr) {
+  "find-max": `function findMax(arr) {
   // Write your code here
 
-}`
+}`,
 };
 
 interface TestCase {
@@ -29,31 +33,34 @@ interface TestResult {
 }
 
 const TEST_CASES: Record<string, TestCase[]> = {
-  'two-sum': [
+  "two-sum": [
     { input: [[2, 7, 11, 15], 9], expected: [0, 1] },
     { input: [[3, 2, 4], 6], expected: [1, 2] },
-    { input: [[3, 3], 6], expected: [0, 1] }
+    { input: [[3, 3], 6], expected: [0, 1] },
   ],
-  'reverse-list': [
+  "reverse-list": [
     { input: [[1, 2, 3, 4, 5]], expected: [5, 4, 3, 2, 1] },
     { input: [[42]], expected: [42] },
-    { input: [[]], expected: [] }
+    { input: [[]], expected: [] },
   ],
-  'find-max': [
+  "find-max": [
     { input: [[1, 5, 3, 9, 2]], expected: 9 },
     { input: [[-10, -5, -3, -9, -2]], expected: -2 },
-    { input: [[42]], expected: 42 }
-  ]
+    { input: [[42]], expected: 42 },
+  ],
 };
 
 function isEqual(actual: any, expected: any, challenge: string): boolean {
-  if (challenge === 'two-sum') {
+  if (challenge === "two-sum") {
     if (!Array.isArray(actual) || actual.length !== 2) return false;
     const sortedActual = [...actual].sort((a, b) => a - b);
     const sortedExpected = [...expected].sort((a, b) => a - b);
-    return sortedActual[0] === sortedExpected[0] && sortedActual[1] === sortedExpected[1];
+    return (
+      sortedActual[0] === sortedExpected[0] &&
+      sortedActual[1] === sortedExpected[1]
+    );
   }
-  if (challenge === 'reverse-list') {
+  if (challenge === "reverse-list") {
     if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
     if (actual.length !== expected.length) return false;
     for (let i = 0; i < actual.length; i++) {
@@ -61,7 +68,7 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
     }
     return true;
   }
-  if (challenge === 'find-max') {
+  if (challenge === "find-max") {
     return actual === expected;
   }
   return false;
@@ -71,7 +78,7 @@ function safeStringify(val: any): string {
   try {
     return JSON.stringify(val);
   } catch (e) {
-    return 'Error: Circular or non-serializable structure';
+    return "Error: Circular or non-serializable structure";
   }
 }
 
@@ -80,28 +87,31 @@ interface PracticeSectionProps {
 }
 
 export function PracticeSection({ activeLesson }: PracticeSectionProps) {
-  const [selectedTab, setSelectedTab] = useState<'two-sum' | 'reverse-list' | 'find-max'>('two-sum');
-  const [code, setCode] = useState(BOILERPLATES['two-sum']);
-  const [summary, setSummary] = useState('');
+  const [selectedTab, setSelectedTab] = useState<
+    "two-sum" | "reverse-list" | "find-max"
+  >("two-sum");
+  const [code, setCode] = useState(BOILERPLATES["two-sum"]);
+  const [summary, setSummary] = useState("");
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [compileError, setCompileError] = useState<string | null>(null);
   const workerRef = useRef<Worker | null>(null);
+  const runRef = useRef<() => void>(() => {});
 
   // Sync activeLesson prop to selectedTab
   useEffect(() => {
-    if (activeLesson === 'Challenge: Two Sum') {
-      setSelectedTab('two-sum');
-    } else if (activeLesson === 'Challenge: Max Value in Array') {
-      setSelectedTab('find-max');
-    } else if (activeLesson === 'Challenge: Reverse Linked List') {
-      setSelectedTab('reverse-list');
+    if (activeLesson === "Challenge: Two Sum") {
+      setSelectedTab("two-sum");
+    } else if (activeLesson === "Challenge: Max Value in Array") {
+      setSelectedTab("find-max");
+    } else if (activeLesson === "Challenge: Reverse Linked List") {
+      setSelectedTab("reverse-list");
     }
   }, [activeLesson]);
 
   // Load boilerplate on tab change
   useEffect(() => {
     setCode(BOILERPLATES[selectedTab]);
-    setSummary('');
+    setSummary("");
     setTestResults([]);
     setCompileError(null);
   }, [selectedTab]);
@@ -111,17 +121,21 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       workerRef.current.terminate();
     }
     setCompileError(null);
-
     const trimmedCode = code.trim();
     if (!trimmedCode) {
-      setSummary('Empty submission');
+      setSummary("Empty submission");
       setTestResults([]);
       return;
     }
 
     const currentTab = selectedTab;
     const testCases = TEST_CASES[currentTab];
-    const functionName = currentTab === 'two-sum' ? 'twoSum' : currentTab === 'reverse-list' ? 'reverseList' : 'findMax';
+    const functionName =
+      currentTab === "two-sum"
+        ? "twoSum"
+        : currentTab === "reverse-list"
+          ? "reverseList"
+          : "findMax";
 
     const workerCode = `
       try {
@@ -244,19 +258,19 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       };
     `;
 
-    const blob = new Blob([workerCode], { type: 'application/javascript' });
+    const blob = new Blob([workerCode], { type: "application/javascript" });
     const worker = new Worker(URL.createObjectURL(blob));
     workerRef.current = worker;
 
     const timeoutId = setTimeout(() => {
       worker.terminate();
-      setSummary('Timeout');
+      setSummary("Timeout");
       const errorResults = testCases.map((tc: TestCase) => ({
         input: tc.input,
         expected: tc.expected,
         actual: null,
-        error: 'Execution timed out',
-        passed: false
+        error: "Execution timed out",
+        passed: false,
       }));
       setTestResults(errorResults);
     }, 1000);
@@ -266,24 +280,24 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       worker.terminate();
       const data = e.data;
 
-      if (data.type === 'success') {
+      if (data.type === "success") {
         const processedResults = data.results.map((r: TestResult) => {
           const passed = !r.error && isEqual(r.actual, r.expected, currentTab);
           return { ...r, passed };
         });
 
         const allPassed = processedResults.every((r: TestResult) => r.passed);
-        setSummary(allPassed ? 'All Tests Passed' : 'Tests Failed');
+        setSummary(allPassed ? "All Tests Passed" : "Tests Failed");
         setTestResults(processedResults);
-      } else if (data.type === 'error') {
+      } else if (data.type === "error") {
         setCompileError(data.error);
-        setSummary('Tests Failed');
+        setSummary("Tests Failed");
         const errorResults = testCases.map((tc: TestCase) => ({
           input: tc.input,
           expected: tc.expected,
           actual: null,
           error: data.error,
-          passed: false
+          passed: false,
         }));
         setTestResults(errorResults);
       }
@@ -292,7 +306,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     worker.postMessage({
       code: trimmedCode,
       functionName,
-      testCases
+      testCases,
     });
   };
 
@@ -304,39 +318,69 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     };
   }, []);
 
+  // Keep the latest handler in a ref so the CodeMirror keymap (created once)
+  // always invokes the current closure.
+  useEffect(() => {
+    runRef.current = handleRunCode;
+  });
+
+  const cmExtensions = useMemo(
+    () => [
+      javascript(),
+      EditorView.lineWrapping,
+      Prec.highest(
+        keymap.of([
+          {
+            key: "Mod-Enter",
+            preventDefault: true,
+            run: () => {
+              runRef.current();
+              return true;
+            },
+          },
+        ]),
+      ),
+    ],
+    [],
+  );
+
+  const handleCodeChange = useCallback((value: string) => {
+    setCode(value);
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Tabs */}
       <div className="flex border-b border-charcoal/10 gap-4 pb-1">
         <button
           id="challenge-tab-two-sum"
-          onClick={() => setSelectedTab('two-sum')}
+          onClick={() => setSelectedTab("two-sum")}
           className={`pb-2 text-base font-sans font-bold tracking-wider uppercase border-b-2 transition-all ${
-            selectedTab === 'two-sum'
-              ? 'text-coral border-coral'
-              : 'text-charcoal border-transparent hover:text-charcoal'
+            selectedTab === "two-sum"
+              ? "text-coral border-coral"
+              : "text-charcoal border-transparent hover:text-charcoal"
           }`}
         >
           Two Sum
         </button>
         <button
           id="challenge-tab-reverse-list"
-          onClick={() => setSelectedTab('reverse-list')}
+          onClick={() => setSelectedTab("reverse-list")}
           className={`pb-2 text-base font-sans font-bold tracking-wider uppercase border-b-2 transition-all ${
-            selectedTab === 'reverse-list'
-              ? 'text-coral border-coral'
-              : 'text-charcoal border-transparent hover:text-charcoal'
+            selectedTab === "reverse-list"
+              ? "text-coral border-coral"
+              : "text-charcoal border-transparent hover:text-charcoal"
           }`}
         >
           Reverse List
         </button>
         <button
           id="challenge-tab-find-max"
-          onClick={() => setSelectedTab('find-max')}
+          onClick={() => setSelectedTab("find-max")}
           className={`pb-2 text-base font-sans font-bold tracking-wider uppercase border-b-2 transition-all ${
-            selectedTab === 'find-max'
-              ? 'text-coral border-coral'
-              : 'text-charcoal border-transparent hover:text-charcoal'
+            selectedTab === "find-max"
+              ? "text-coral border-coral"
+              : "text-charcoal border-transparent hover:text-charcoal"
           }`}
         >
           Find Max
@@ -353,16 +397,32 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
             </div>
             <span className="text-base text-charcoal tracking-wider">
-              {selectedTab === 'two-sum' ? 'twoSum.js' : selectedTab === 'reverse-list' ? 'reverseList.js' : 'findMax.js'}
+              {selectedTab === "two-sum"
+                ? "twoSum.js"
+                : selectedTab === "reverse-list"
+                  ? "reverseList.js"
+                  : "findMax.js"}
             </span>
           </div>
-          <textarea
-            id="code-editor"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="w-full min-h-[220px] p-6 bg-transparent text-charcoal outline-none resize-y font-mono text-base leading-relaxed"
-            spellCheck="false"
-          />
+          <div id="code-editor" className="bg-paper">
+            <CodeMirror
+              value={code}
+              height="240px"
+              theme="light"
+              extensions={cmExtensions}
+              onChange={handleCodeChange}
+              basicSetup={{
+                lineNumbers: true,
+                highlightActiveLine: true,
+                bracketMatching: true,
+                closeBrackets: true,
+                autocompletion: true,
+                indentOnInput: true,
+                tabSize: 2,
+              }}
+              className="text-base font-mono"
+            />
+          </div>
         </div>
 
         {/* Action Controls */}
@@ -370,22 +430,28 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           <button
             id="btn-run-code"
             onClick={handleRunCode}
+            title="Run code (⌘/Ctrl + Enter)"
             className="px-6 py-3 bg-coral text-paper hover:bg-coral-dark rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-all duration-300"
           >
-            Run Code
+            Run Code{" "}
+            <span className="hidden md:inline ml-2 font-mono text-xs opacity-80">
+              ⌘↵
+            </span>
           </button>
 
           <div
             id="test-summary"
             className={`font-sans text-base font-bold ${
-              summary === 'All Tests Passed'
-                ? 'text-green-600'
-                : summary === 'Empty submission' || summary === 'Timeout' || summary === 'Tests Failed'
-                ? 'text-red-500'
-                : 'text-charcoal'
+              summary === "All Tests Passed"
+                ? "text-green-600"
+                : summary === "Empty submission" ||
+                    summary === "Timeout" ||
+                    summary === "Tests Failed"
+                  ? "text-red-500"
+                  : "text-charcoal"
             }`}
           >
-            {summary || 'Not Evaluated'}
+            {summary || "Not Evaluated"}
           </div>
         </div>
       </div>
@@ -402,7 +468,9 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
         )}
         {testResults.length === 0 ? (
           <div className="text-charcoal italic">
-            {summary === 'Empty submission' ? 'Empty submission' : 'No results. Write your solution and click Run Code.'}
+            {summary === "Empty submission"
+              ? "Empty submission"
+              : "No results. Write your solution and click Run Code."}
           </div>
         ) : (
           <div className="space-y-4">
@@ -414,27 +482,40 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                   data-test-status={isPassed ? "passed" : "failed"}
                   className={`p-4 rounded-xl border transition-all ${
                     isPassed
-                      ? 'bg-green-500/5 border-green-500/20 text-green-700'
-                      : 'bg-red-500/5 border-red-500/20 text-red-700'
+                      ? "bg-green-500/5 border-green-500/20 text-green-700"
+                      : "bg-red-500/5 border-red-500/20 text-red-700"
                   }`}
                 >
                   <div className="flex items-center justify-between font-bold mb-2">
                     <span>Test Case {idx + 1}</span>
-                    <span className={`text-base px-2 py-0.5 rounded-full uppercase tracking-wider ${
-                      isPassed ? 'bg-green-500/10 text-green-700' : 'bg-red-500/10 text-red-700'
-                    }`}>
-                      {isPassed ? 'Passed' : 'Failed'}
+                    <span
+                      className={`text-base px-2 py-0.5 rounded-full uppercase tracking-wider ${
+                        isPassed
+                          ? "bg-green-500/10 text-green-700"
+                          : "bg-red-500/10 text-red-700"
+                      }`}
+                    >
+                      {isPassed ? "Passed" : "Failed"}
                     </span>
                   </div>
                   <div className="space-y-1 text-charcoal font-mono text-base">
                     <div>
-                      <span className="font-semibold text-charcoal">Input:</span> {safeStringify(tc.input)}
+                      <span className="font-semibold text-charcoal">
+                        Input:
+                      </span>{" "}
+                      {safeStringify(tc.input)}
                     </div>
                     <div>
-                      <span className="font-semibold text-charcoal">Expected:</span> {safeStringify(tc.expected)}
+                      <span className="font-semibold text-charcoal">
+                        Expected:
+                      </span>{" "}
+                      {safeStringify(tc.expected)}
                     </div>
                     <div>
-                      <span className="font-semibold text-charcoal">Actual:</span> {tc.error ? 'Error' : safeStringify(tc.actual)}
+                      <span className="font-semibold text-charcoal">
+                        Actual:
+                      </span>{" "}
+                      {tc.error ? "Error" : safeStringify(tc.actual)}
                     </div>
                     {tc.error && (
                       <div className="text-red-500 mt-1 font-semibold">

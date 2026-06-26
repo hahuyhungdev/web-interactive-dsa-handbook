@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ROUTES, ROUTE_LESSON_MAP } from '@/shared/constants/routes';
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { ROUTES, ROUTE_LESSON_MAP } from "@/shared/constants/routes";
 
 // Shared state for lesson sync — only what's needed across layout + sync
-let _setActiveLesson: React.Dispatch<React.SetStateAction<string | null>> | null = null;
+let _setActiveLesson: React.Dispatch<
+  React.SetStateAction<string | null>
+> | null = null;
 
-export function useActiveLesson(): [string | null, React.Dispatch<React.SetStateAction<string | null>>] {
+export function useActiveLesson(): [
+  string | null,
+  React.Dispatch<React.SetStateAction<string | null>>,
+] {
   const [activeLesson, setActiveLesson] = useState<string | null>(null);
   _setActiveLesson = setActiveLesson;
   return [activeLesson, setActiveLesson];
@@ -20,9 +25,13 @@ export function LessonSync() {
 
   useEffect(() => {
     if (!_setActiveLesson) return;
-    const path = location.pathname;
-    _setActiveLesson(ROUTE_LESSON_MAP[path] ?? null);
-  }, [location.pathname]);
+    // Prefer a full path+query match (deep-linked sort tabs), then fall back
+    // to the bare pathname.
+    const full = location.pathname + location.search;
+    _setActiveLesson(
+      ROUTE_LESSON_MAP[full] ?? ROUTE_LESSON_MAP[location.pathname] ?? null,
+    );
+  }, [location.pathname, location.search]);
 
   return null;
 }
