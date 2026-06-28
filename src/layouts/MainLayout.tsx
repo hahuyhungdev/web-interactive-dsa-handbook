@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Navbar } from "@/layouts/components/Navbar";
 import { TableOfContents } from "@/layouts/components/TableOfContents";
@@ -15,6 +15,8 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
   const [showHelp, setShowHelp] = useState(false);
   const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
@@ -42,42 +44,44 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     <div className="min-h-screen bg-paper text-charcoal selection:bg-coral/20 selection:text-coral flex flex-col">
       <Navbar />
 
-      <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-12">
+      <div className="pt-20 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-8">
         {/* Left column: Sidebar TableOfContents */}
-        <aside className="w-full md:w-72 shrink-0 md:pr-6 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0">
-          <details
-            open={isDesktop || isMobileTocOpen}
-            onToggle={(e) => {
-              if (isDesktop) {
-                (e.target as HTMLDetailsElement).open = true;
-              } else {
-                setIsMobileTocOpen((e.target as HTMLDetailsElement).open);
-              }
-            }}
-            className="md:border-0 md:bg-transparent md:p-0 border border-charcoal/10 rounded-xl p-3 bg-paper-dark/10 mb-4"
-          >
-            <summary className="md:hidden font-sans text-base font-bold text-charcoal cursor-pointer flex items-center justify-between select-none focus:outline-none list-none [&::-webkit-details-marker]:hidden">
-              <span className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-coral" />
-                <span>Chapters Outline</span>
-              </span>
-              <span className="transition-transform duration-200 group-open:rotate-180 text-charcoal/60 font-sans text-xs">
-                ▼
-              </span>
-            </summary>
-            
-            <div className="mt-4 md:mt-0 md:sticky md:top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2">
-              <TableOfContents
-                activeLesson={activeLesson}
-                onSelectLesson={handleSelectLesson}
-                isSidebar={true}
-              />
-            </div>
-          </details>
-        </aside>
+        {!isHomePage && (
+          <aside className="w-full md:w-72 shrink-0 md:pr-6 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0">
+            <details
+              open={isDesktop || isMobileTocOpen}
+              onToggle={(e) => {
+                if (isDesktop) {
+                  (e.target as HTMLDetailsElement).open = true;
+                } else {
+                  setIsMobileTocOpen((e.target as HTMLDetailsElement).open);
+                }
+              }}
+              className="md:border-0 md:bg-transparent md:p-0 border border-charcoal/10 rounded-xl p-3 bg-paper-dark/10 mb-4"
+            >
+              <summary className="md:hidden font-sans text-base font-bold text-charcoal cursor-pointer flex items-center justify-between select-none focus:outline-none list-none [&::-webkit-details-marker]:hidden">
+                <span className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-coral" />
+                  <span>Chapters Outline</span>
+                </span>
+                <span className="transition-transform duration-200 group-open:rotate-180 text-charcoal/60 font-sans text-xs">
+                  ▼
+                </span>
+              </summary>
+              
+              <div className="mt-4 md:mt-0 md:sticky md:top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2">
+                <TableOfContents
+                  activeLesson={activeLesson}
+                  onSelectLesson={handleSelectLesson}
+                  isSidebar={true}
+                />
+              </div>
+            </details>
+          </aside>
+        )}
 
         {/* Right column: Active Route Workspace */}
-        <main className="flex-1 min-w-0 py-6 md:py-0 md:pl-6">
+        <main className={`flex-1 min-w-0 py-6 md:py-0 ${isHomePage ? "" : "md:pl-6"}`}>
           <Outlet />
         </main>
       </div>
@@ -99,7 +103,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
       <KeyboardHelpOverlay open={showHelp} onClose={() => setShowHelp(false)} />
 
       {/* Footer */}
-      <footer className="border-t border-charcoal/10 py-12 px-6 text-center text-base text-charcoal font-sans tracking-wide shrink-0">
+      <footer className="border-t border-charcoal/10 py-8 px-6 text-center text-base text-charcoal font-sans tracking-wide shrink-0">
         <p className="flex items-center justify-center gap-1">
           Designed with an editorial eye. Made with{" "}
           <Heart className="w-4 h-4 text-coral fill-coral" /> for computer

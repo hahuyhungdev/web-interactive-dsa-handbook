@@ -284,6 +284,12 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await inputFindVal.fill('30');
     await btnFind.click();
     await page.waitForTimeout(50);
+    // Pause the autoplay immediately to prevent speed races
+    await page.locator('#btn-pause').click();
+    await page.waitForTimeout(50);
+    // Reset to step 0 for clean deterministic stepping
+    await page.locator('#btn-reset').click();
+    await page.waitForTimeout(50);
 
     let hasTraversingState = false;
     for (let step = 0; step < 8; step++) {

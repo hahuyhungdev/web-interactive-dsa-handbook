@@ -61,4 +61,32 @@
   .active-spring:active {
     transform: scale(0.97);
   }
+
+  /* Improve visibility of charcoal utility texts by boosting their opacity */
+  .text-charcoal\/40 {
+    color: rgb(45 45 45 / 0.65) !important;
+  }
+  .text-charcoal\/50 {
+    color: rgb(45 45 45 / 0.72) !important;
+  }
+  .text-charcoal\/60 {
+    color: rgb(45 45 45 / 0.8) !important;
+  }
+  .text-charcoal\/70 {
+    color: rgb(45 45 45 / 0.88) !important;
+  }
+  .text-charcoal\/80 {
+    color: rgb(45 45 45 / 0.95) !important;
+  }
+
+  /* Force all font sizes below 14px (0.875rem) to be at least 14px */
+  .text-xs,
+  .text-\[8px\],
+  .text-\[9px\],
+  .text-\[10px\],
+  .text-\[11px\],
+  .text-\[12px\],
+  .text-\[13px\] {
+    font-size: 0.875rem !important; /* 14px */
+  }
 }
