@@ -8,6 +8,7 @@ export interface NodeItem {
   id: string;
   value: string;
   status: "default" | "active" | "traversing" | "inserted" | "deleted";
+  pointerStatus?: "default" | "highlighted" | "skipped";
 }
 
 export interface VisualizerFrame {

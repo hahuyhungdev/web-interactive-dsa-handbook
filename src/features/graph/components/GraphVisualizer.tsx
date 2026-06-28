@@ -166,7 +166,7 @@ export function GraphVisualizer({
                   <circle
                     cx={node.x}
                     cy={node.y}
-                    r="8.5"
+                    r="9"
                     fill="none"
                     stroke={colors.fill}
                     strokeWidth="0.6"
@@ -174,7 +174,7 @@ export function GraphVisualizer({
                   >
                     <animate
                       attributeName="r"
-                      values="7.5;9.5;7.5"
+                      values="8;10;8"
                       dur="1.5s"
                       repeatCount="indefinite"
                     />
@@ -189,7 +189,7 @@ export function GraphVisualizer({
                 <circle
                   cx={node.x}
                   cy={node.y}
-                  r="6.5"
+                  r="7"
                   fill={colors.fill}
                   stroke={colors.stroke}
                   strokeWidth="0.8"
@@ -200,7 +200,7 @@ export function GraphVisualizer({
                   y={node.y}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fontSize="4.2"
+                  fontSize="5.2"
                   fontWeight="bold"
                   fontFamily="sans-serif"
                   fill={

@@ -82,19 +82,19 @@ export function CodeViewer({
   return (
     <div
       id="code-viewer"
-      className="font-mono text-base bg-paper-dark border border-charcoal/10 rounded-2xl p-6 shadow-sm overflow-x-auto min-w-[280px] min-h-[340px] flex flex-col flex-1"
+      className="font-mono text-sm sm:text-base glass-panel-dark rounded-2xl p-5 sm:p-6 shadow-sm overflow-x-auto w-full max-w-full min-h-[340px] flex flex-col flex-1"
     >
-      <div className="flex items-center justify-between border-b border-charcoal/5 pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-charcoal/5 pb-3 mb-4 shrink-0">
         <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-          <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-          <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-coral/60"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/60"></div>
         </div>
-        <span className="text-base text-charcoal font-bold tracking-wider">
+        <span className="text-xs sm:text-sm text-charcoal/60 font-bold tracking-wider uppercase">
           {displayName}
         </span>
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1 overflow-x-auto w-full">
         {cleanLines.map((line, idx) => {
           const lineNum = idx + 1;
           const isActive = lineNum === activeLine;
@@ -103,10 +103,10 @@ export function CodeViewer({
               key={lineNum}
               data-line-number={lineNum}
               data-line-active={isActive ? "true" : undefined}
-              className={`py-0.5 px-2 -mx-2 rounded transition-colors whitespace-pre ${
+              className={`py-0.5 px-2 -mx-2 rounded transition-all whitespace-pre ${
                 isActive
-                  ? "bg-coral/10 border-l-2 border-coral code-line-active text-charcoal font-bold font-mono"
-                  : "text-charcoal font-mono"
+                  ? "bg-coral/10 border-l-2 border-coral code-line-active text-charcoal font-bold font-mono shadow-sm"
+                  : "text-charcoal/70 font-mono hover:text-charcoal transition-colors duration-150"
               }`}
             >
               {line}

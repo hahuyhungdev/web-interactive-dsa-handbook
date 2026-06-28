@@ -6,14 +6,16 @@ type InsertPosition = "head" | "tail" | "index";
 
 interface LinkedListVisualizerProps {
   list: NodeItem[];
-  onListChange: (newList: NodeItem[], insertedId: string | null) => void;
-  onFind: (target: string | null) => void;
+  onInsert: (val: string, pos: InsertPosition, index?: number) => void;
+  onDelete: (val: string) => void;
+  onFind: (target: string) => void;
   currentNodesState: NodeItem[];
 }
 
 export function LinkedListVisualizer({
   list,
-  onListChange,
+  onInsert,
+  onDelete,
   onFind,
   currentNodesState,
 }: LinkedListVisualizerProps) {
@@ -32,27 +34,16 @@ export function LinkedListVisualizer({
     }
     setWarning("");
 
-    const newNode: NodeItem = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      value: trimmed,
-      status: "inserted",
-    };
-
-    let newList: NodeItem[];
-    if (insertPos === "head") {
-      newList = [newNode, ...list];
-    } else if (insertPos === "tail") {
-      newList = [...list, newNode];
-    } else {
+    if (insertPos === "index") {
       const rawIdx = Number(insertIdx);
       if (!Number.isInteger(rawIdx) || rawIdx < 0 || rawIdx > list.length) {
         setWarning(`Index must be between 0 and ${list.length}`);
         return;
       }
-      newList = [...list.slice(0, rawIdx), newNode, ...list.slice(rawIdx)];
+      onInsert(trimmed, "index", rawIdx);
+    } else {
+      onInsert(trimmed, insertPos);
     }
-
-    onListChange(newList, newNode.id);
     setInsertVal("");
   };
 
@@ -66,8 +57,7 @@ export function LinkedListVisualizer({
       return;
     }
 
-    const newList = list.filter((_, idx) => idx !== index);
-    onListChange(newList, null);
+    onDelete(trimmed);
     setDeleteVal("");
     setWarning("");
   };
@@ -85,10 +75,10 @@ export function LinkedListVisualizer({
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Interaction Controls */}
-      <div className="flex flex-col gap-6 bg-paper border border-charcoal/10 rounded-2xl p-6 shadow-sm">
+      <div className="flex flex-col gap-6 glass-panel rounded-2xl p-5 sm:p-6 shadow-sm">
         {/* Insert Section */}
         <div className="flex flex-col gap-2">
-          <label className="font-sans text-base font-bold uppercase tracking-wider text-charcoal">
+          <label className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-charcoal/60">
             Insert Node
           </label>
           <div className="flex flex-wrap gap-2">
@@ -104,13 +94,13 @@ export function LinkedListVisualizer({
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleInsert();
               }}
-              className="flex-1 min-w-[160px] px-3 py-2 text-base border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="flex-1 min-w-[140px] px-3 py-2 text-sm sm:text-base border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal transition-all shadow-inner"
             />
             <select
               id="select-list-position"
               value={insertPos}
               onChange={(e) => setInsertPos(e.target.value as InsertPosition)}
-              className="px-3 py-2 text-base font-mono border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="px-3 py-2 text-sm sm:text-base font-mono border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
             >
               <option value="tail">at tail</option>
               <option value="head">at head</option>
@@ -127,14 +117,14 @@ export function LinkedListVisualizer({
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleInsert();
                 }}
-                className="w-20 px-3 py-2 text-base font-mono border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+                className="w-20 px-3 py-2 text-sm font-mono border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal transition-all shadow-inner"
                 placeholder="idx"
               />
             )}
             <button
               id="btn-list-insert"
               onClick={handleInsert}
-              className="px-4 py-2 bg-coral hover:bg-coral-dark text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-all duration-300 shrink-0"
+              className="px-4 py-2 bg-coral hover:bg-coral-dark text-paper rounded-xl font-sans text-xs sm:text-sm font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring shrink-0"
             >
               Insert
             </button>
@@ -142,14 +132,14 @@ export function LinkedListVisualizer({
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] bg-charcoal/10 w-full"></div>
+        <div className="h-[1px] bg-charcoal/5 w-full"></div>
 
         {/* Delete Section */}
         <div className="flex flex-col gap-2">
-          <label className="font-sans text-base font-bold uppercase tracking-wider text-charcoal">
+          <label className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-charcoal/60">
             Delete Node (by value)
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full">
             <input
               id="input-list-delete-val"
               type="text"
@@ -159,12 +149,12 @@ export function LinkedListVisualizer({
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleDelete();
               }}
-              className="flex-1 px-3 py-2 text-base border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="flex-1 min-w-0 px-3 py-2 text-sm sm:text-base border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal transition-all shadow-inner"
             />
             <button
               id="btn-list-delete"
               onClick={handleDelete}
-              className="px-4 py-2 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-base font-bold uppercase tracking-wider transition-all duration-300 shrink-0"
+              className="px-4 py-2 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs sm:text-sm font-bold uppercase tracking-wider transition-spring hover-spring active-spring shrink-0"
             >
               Delete
             </button>
@@ -172,14 +162,14 @@ export function LinkedListVisualizer({
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] bg-charcoal/10 w-full"></div>
+        <div className="h-[1px] bg-charcoal/5 w-full"></div>
 
         {/* Find Section */}
         <div className="flex flex-col gap-2">
-          <label className="font-sans text-base font-bold uppercase tracking-wider text-charcoal">
+          <label className="font-sans text-xs sm:text-sm font-bold uppercase tracking-wider text-charcoal/60">
             Find (animated traversal)
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full">
             <input
               id="input-list-find-val"
               type="text"
@@ -189,12 +179,12 @@ export function LinkedListVisualizer({
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleFind();
               }}
-              className="flex-1 px-3 py-2 text-base border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="flex-1 min-w-0 px-3 py-2 text-sm sm:text-base border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal transition-all shadow-inner"
             />
             <button
               id="btn-list-find"
               onClick={handleFind}
-              className="px-4 py-2 bg-charcoal text-paper hover:bg-coral hover:text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-all duration-300 shrink-0"
+              className="px-4 py-2 bg-charcoal text-paper hover:bg-coral hover:text-paper rounded-xl font-sans text-xs sm:text-sm font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring shrink-0"
             >
               Find
             </button>
@@ -204,7 +194,7 @@ export function LinkedListVisualizer({
         {warning && (
           <p
             id="list-validation-warning"
-            className="text-red-500 text-base font-sans font-semibold"
+            className="text-red-500 text-xs sm:text-sm font-sans font-semibold animate-pulse"
           >
             {warning}
           </p>
@@ -214,10 +204,10 @@ export function LinkedListVisualizer({
       {/* Linked List Visualizer Container */}
       <div
         id="linked-list-visualizer-container"
-        className="flex items-center justify-start gap-4 overflow-x-auto bg-paper-dark border border-charcoal/10 rounded-3xl p-8 min-h-[140px] flex-wrap md:flex-nowrap"
+        className="flex items-center justify-start gap-4 overflow-x-auto glass-panel-dark border border-charcoal/10 rounded-3xl p-8 min-h-[140px] flex-nowrap shadow-inner"
       >
         {currentNodesState.length === 0 ? (
-          <div className="text-base text-charcoal font-mono italic w-full text-center py-4">
+          <div className="text-sm sm:text-base text-charcoal/50 font-mono italic w-full text-center py-4">
             Empty Linked List
           </div>
         ) : (
@@ -235,20 +225,20 @@ export function LinkedListVisualizer({
                   damping: 30,
                   mass: 0.6,
                 }}
-                className="flex items-center gap-4 shrink-0"
+                className="flex items-center gap-4 shrink-0 font-sans"
               >
                 {/* Node Card */}
                 <div
-                  className={`list-node w-16 h-16 rounded-full border flex flex-col items-center justify-center font-mono font-bold shadow-sm transition-colors duration-300 ${
+                  className={`list-node w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 flex flex-col items-center justify-center font-mono font-bold shadow-md transition-all duration-300 ${
                     node.status === "traversing"
-                      ? "bg-amber-400 border-amber-500 text-charcoal"
+                      ? "bg-gradient-to-br from-amber-400 to-amber-300 border-amber-500 text-charcoal shadow-[0_4px_12px_rgba(251,191,36,0.25)]"
                       : node.status === "inserted"
-                        ? "bg-emerald-500 border-emerald-600 text-paper"
+                        ? "bg-gradient-to-br from-emerald-500 to-teal-400 border-emerald-600 text-paper shadow-[0_4px_12px_rgba(16,185,129,0.25)]"
                         : node.status === "deleted"
-                          ? "bg-red-500 border-red-600 text-paper"
+                          ? "bg-gradient-to-br from-coral to-coral-light border-coral-dark text-paper shadow-[0_4px_12px_rgba(224,83,66,0.25)]"
                           : node.status === "active"
-                            ? "bg-blue-50 border-blue-200 text-blue-800"
-                            : "bg-paper border-charcoal/20 text-charcoal"
+                            ? "bg-gradient-to-br from-violet-500 to-fuchsia-400 border-violet-600 text-paper shadow-[0_4px_12px_rgba(139,92,246,0.25)]"
+                            : "bg-gradient-to-br from-paper to-paper-dark border-charcoal/15 text-charcoal hover:border-charcoal/30 shadow-sm"
                   }`}
                   data-value={node.value}
                   data-status={node.status}
@@ -258,14 +248,40 @@ export function LinkedListVisualizer({
 
                 {/* Connector Arrow */}
                 {idx < currentNodesState.length - 1 && (
-                  <div
-                    className="list-pointer flex items-center justify-center text-charcoal"
-                    data-element-type="linked-list-pointer"
-                  >
-                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                      <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z" />
-                    </svg>
-                  </div>
+                  node.pointerStatus === "skipped" ? (
+                    <div
+                      className="list-pointer flex items-center justify-center text-coral relative"
+                      data-element-type="linked-list-pointer"
+                      style={{ width: "96px", marginLeft: "-24px", marginRight: "-24px", zIndex: 10 }}
+                    >
+                      <svg className="w-24 h-12 overflow-visible" viewBox="0 0 96 48">
+                        <path
+                          d="M 12,24 C 36,0 60,0 84,24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeDasharray="4,4"
+                        />
+                        <polygon points="84,24 80,16 88,20" fill="currentColor" />
+                      </svg>
+                      <span className="absolute top-0 text-[9px] font-sans font-bold bg-paper px-1 rounded border border-coral text-coral uppercase tracking-wide shadow-sm">
+                        Bypass
+                      </span>
+                    </div>
+                  ) : (
+                    <div
+                      className={`list-pointer flex items-center justify-center transition-all duration-300 ${
+                        node.pointerStatus === "highlighted"
+                          ? "text-coral animate-pulse scale-125"
+                          : "text-charcoal/40"
+                      }`}
+                      data-element-type="linked-list-pointer"
+                    >
+                      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z" />
+                      </svg>
+                    </div>
+                  )
                 )}
               </motion.div>
             ))}

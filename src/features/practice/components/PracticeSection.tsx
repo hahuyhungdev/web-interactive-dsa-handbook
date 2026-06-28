@@ -124,6 +124,7 @@ const TEST_CASES: Record<string, TestCase[]> = {
 };
 
 function isEqual(actual: any, expected: any, challenge: string): boolean {
+  if (expected === null || expected === undefined) return true;
   if (challenge === "two-sum") {
     if (!Array.isArray(actual) || actual.length !== 2) return false;
     const sortedActual = [...actual].sort((a, b) => a - b);
@@ -478,12 +479,16 @@ function StackParenthesesVisualizer({
 interface CodeVisualizerProps {
   challenge: string;
   testResult: TestResult | undefined;
+  userCode: string;
 }
 
-function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
+function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [speedMs, setSpeedMs] = useState(600);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const codeViewerRef = useRef<HTMLDivElement | null>(null);
+  const traceListRef = useRef<HTMLDivElement | null>(null);
 
   const steps = testResult?.steps || [];
   const totalSteps = steps.length;
@@ -537,14 +542,14 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
             return prev;
           }
         });
-      }, 600);
+      }, speedMs);
     } else {
       if (timerRef.current) clearInterval(timerRef.current);
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, stepIndex, totalSteps]);
+  }, [isPlaying, stepIndex, totalSteps, speedMs]);
 
   // Keyboard shortcut listener for scrubbing
   useEffect(() => {
@@ -577,6 +582,40 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handlePlayToggle, handleStepBackward, handleStepForward]);
 
+  // Extract lines of code for Code Viewer
+  const codeLines = useMemo(() => {
+    if (!userCode) return [];
+    return userCode.split("\n");
+  }, [userCode]);
+
+  // Active step values
+  const currentStep = steps[stepIndex] || steps[steps.length - 1] || null;
+  const activeLine = currentStep ? currentStep.line : null;
+  const isFinalStep = stepIndex === totalSteps;
+
+  // Auto-scroll active code line into view
+  useEffect(() => {
+    if (activeLine && codeViewerRef.current) {
+      const activeEl = codeViewerRef.current.querySelector(`[data-line="${activeLine}"]`);
+      if (activeEl) {
+        codeViewerRef.current.scrollTop = activeEl.offsetTop - codeViewerRef.current.offsetTop - (codeViewerRef.current.clientHeight / 2);
+      }
+    }
+  }, [activeLine]);
+
+  // Auto-scroll active trace list item into view
+  useEffect(() => {
+    if (traceListRef.current) {
+      const activeEl = traceListRef.current.children[stepIndex] as HTMLElement;
+      if (activeEl && typeof activeEl.offsetTop === "number") {
+        traceListRef.current.scrollTo({
+          top: activeEl.offsetTop - traceListRef.current.offsetTop - 10,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [stepIndex]);
+
   if (!testResult || !isValidResultForChallenge) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-paper border border-charcoal/10 rounded-3xl h-full shadow-sm min-h-[350px]">
@@ -586,10 +625,6 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
       </div>
     );
   }
-
-  // Active step values
-  const currentStep = steps[stepIndex] || null;
-  const isFinalStep = stepIndex === totalSteps;
 
   // Compute visual components
   let visualizerNode: JSX.Element | null = null;
@@ -804,28 +839,73 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between gap-6 bg-paper border border-charcoal/10 rounded-3xl p-6 shadow-sm min-h-[500px]">
+    <div className="flex-1 flex flex-col justify-between gap-4 bg-paper border border-charcoal/10 rounded-3xl p-5 shadow-sm min-h-[550px] w-full">
       <div>
-        <h3 className="font-editorial text-xl font-bold text-charcoal mb-2">
+        <h3 className="font-editorial text-xl font-bold text-charcoal mb-1">
           Execution Visualizer
         </h3>
-        <p className="text-xs font-sans text-charcoal/50 uppercase tracking-wider mb-4">
+        <p className="text-xs font-sans text-charcoal/50 uppercase tracking-wider mb-3">
           Visualizing Test Case {testResult.passed ? "✓ Passed" : "✗ Failed"}
         </p>
 
-        {visualizerNode}
+        {/* Code Viewer Panel */}
+        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[180px] shadow-inner mb-4">
+          <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
+            <span className="text-[10px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
+              Code Viewer
+            </span>
+            {activeLine !== null && (
+              <span className="text-[9px] font-mono text-coral font-bold uppercase tracking-wider animate-pulse">
+                Executing Line {activeLine}
+              </span>
+            )}
+          </div>
+          <div
+            ref={codeViewerRef}
+            className="p-3 overflow-y-auto space-y-0.5 flex-1 font-mono text-[11px] leading-relaxed select-none"
+          >
+            {codeLines.map((line, idx) => {
+              const lineNum = idx + 1;
+              const isActive = lineNum === activeLine;
+              return (
+                <div
+                  key={lineNum}
+                  data-line={lineNum}
+                  className={`flex items-start -mx-3 px-3 py-0.5 transition-all duration-150 ${
+                    isActive
+                      ? "bg-coral/10 border-l-2 border-coral text-charcoal font-bold"
+                      : "text-charcoal/60 hover:text-charcoal/80"
+                  }`}
+                >
+                  <span className="w-6 shrink-0 text-right pr-2 text-charcoal/30 select-none font-mono text-[10px]">
+                    {lineNum}
+                  </span>
+                  <span className="whitespace-pre font-mono">{line}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Visual Sandbox Panel */}
+        <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm mb-1">
+          <span className="text-[10px] font-sans font-bold text-charcoal/40 uppercase tracking-wider block mb-2">
+            Visual Sandbox
+          </span>
+          {visualizerNode}
+        </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Step details message */}
-        <div className="bg-paper-dark border border-charcoal/5 rounded-xl px-4 py-3 min-h-[48px] flex items-center shadow-inner">
+        <div className="bg-paper-dark border border-charcoal/5 rounded-xl px-4 py-2.5 min-h-[44px] flex items-center shadow-inner">
           <span className="font-bold text-coral mr-2">›</span>
-          <span className="font-mono text-sm text-charcoal">{statusText}</span>
+          <span className="font-mono text-[13px] text-charcoal">{statusText}</span>
         </div>
 
         {/* Step Flow List (Trace Timeline) */}
         {totalSteps > 0 && (
-          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden flex flex-col max-h-[200px] shadow-inner">
+          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[140px] shadow-inner">
             <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
               <span className="text-[9px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
                 Execution Flow Trace
@@ -834,7 +914,7 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
                 {totalSteps} operations
               </span>
             </div>
-            <div className="p-1.5 overflow-y-auto space-y-1 flex-1">
+            <div ref={traceListRef} className="p-1.5 overflow-y-auto space-y-1 flex-1">
               {steps.map((step: any, idx: number) => {
                 const isActive = idx === stepIndex;
                 let description = "";
@@ -853,18 +933,20 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
                   description = `Pop '${step.value}' from stack`;
                 }
 
+                const lineLabel = step.line ? ` (Line ${step.line})` : "";
+
                 return (
                   <button
                     key={idx}
                     onClick={() => setStepIndex(idx)}
                     className={`w-full text-left font-mono text-[11px] px-2.5 py-1.5 rounded-lg border transition-all flex items-center justify-between ${
                       isActive
-                        ? "bg-coral text-paper border-coral shadow-sm font-bold animate-pulse"
-                        : "bg-paper/40 hover:bg-paper/80 text-charcoal/70 border-transparent"
+                        ? "bg-coral text-paper border-coral shadow-sm font-bold"
+                        : "bg-paper/40 hover:bg-paper/85 text-charcoal/70 border-transparent"
                     }`}
                   >
                     <span className="truncate">
-                      {idx + 1}. {description}
+                      {idx + 1}. {description}{lineLabel}
                     </span>
                     <span
                       className={`text-[8px] px-1.5 py-0.5 rounded-md ${
@@ -890,58 +972,84 @@ function CodeVisualizer({ challenge, testResult }: CodeVisualizerProps) {
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between font-mono text-xs text-charcoal/60 px-1">
               <span className="flex items-center gap-1">
-                <Info className="w-3 h-3" />
-                <span className="text-[10px]">Use Arrow keys & Space</span>
+                <Info className="w-3.5 h-3.5 text-charcoal/40" />
+                <span className="text-[10px]">Arrow keys & Space control timeline</span>
               </span>
               <span>
                 Step {stepIndex} / {totalSteps}
               </span>
             </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setStepIndex(0)}
-                disabled={stepIndex === 0}
-                className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-              <button
-                onClick={handleStepBackward}
-                disabled={stepIndex === 0}
-                className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal"
-              >
-                <SkipBack className="w-3.5 h-3.5" />
-              </button>
-              <button
-                onClick={handlePlayToggle}
-                className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-coral text-paper font-sans text-xs font-bold uppercase tracking-wider hover:bg-coral-dark shadow-sm transition-all"
-              >
-                {isPlaying ? (
-                  <>
-                    <Pause className="w-3.5 h-3.5 fill-current" /> Pause
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-3.5 h-3.5 fill-current" /> Play
-                  </>
-                )}
-              </button>
-              <button
-                onClick={handleStepForward}
-                disabled={stepIndex === totalSteps}
-                className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal"
-              >
-                <SkipForward className="w-3.5 h-3.5" />
-              </button>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="range"
+                min={0}
+                max={totalSteps}
+                value={stepIndex}
+                onChange={(e) => setStepIndex(Number(e.target.value))}
+                className="flex-1 accent-coral h-1.5 bg-charcoal/10 rounded-lg cursor-pointer transition-all hover:bg-charcoal/15"
+              />
             </div>
-            <input
-              type="range"
-              min={0}
-              max={totalSteps}
-              value={stepIndex}
-              onChange={(e) => setStepIndex(Number(e.target.value))}
-              className="w-full accent-coral h-1 bg-charcoal/10 rounded-lg cursor-pointer my-2"
-            />
+
+            <div className="flex items-center justify-between gap-4 mt-1">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setStepIndex(0)}
+                  disabled={stepIndex === 0}
+                  title="Reset (R)"
+                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handleStepBackward}
+                  disabled={stepIndex === 0}
+                  title="Step Backward (Left Arrow)"
+                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                >
+                  <SkipBack className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={handlePlayToggle}
+                  className="w-28 flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg bg-coral text-paper font-sans text-xs font-bold uppercase tracking-wider hover:bg-coral-dark shadow-sm transition-all active:scale-98"
+                >
+                  {isPlaying ? (
+                    <>
+                      <Pause className="w-3.5 h-3.5 fill-current" /> Pause
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-3.5 h-3.5 fill-current" /> Play
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleStepForward}
+                  disabled={stepIndex === totalSteps}
+                  title="Step Forward (Right Arrow)"
+                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                >
+                  <SkipForward className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Speed Slider */}
+              <div className="flex items-center gap-2 border border-charcoal/10 rounded-lg bg-paper px-2.5 py-1 shadow-sm">
+                <span className="text-[10px] font-sans text-charcoal/45 uppercase tracking-wider font-bold">Speed:</span>
+                <input
+                  type="range"
+                  min={100}
+                  max={1500}
+                  step={100}
+                  value={1600 - speedMs}
+                  onChange={(e) => setSpeedMs(1600 - Number(e.target.value))}
+                  className="w-16 accent-coral h-1 bg-charcoal/10 rounded-lg cursor-pointer"
+                />
+                <span className="text-[10px] font-mono font-bold text-charcoal/70 min-w-[20px] text-right">
+                  {Math.round((600 / speedMs) * 10) / 10}x
+                </span>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -961,10 +1069,16 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState<TabId>("two-sum");
   const [code, setCode] = useState(BOILERPLATES["two-sum"]);
+  const [lastSubmittedCode, setLastSubmittedCode] = useState(BOILERPLATES["two-sum"]);
   const [summary, setSummary] = useState("");
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [compileError, setCompileError] = useState<string | null>(null);
   const [activeTC, setActiveTC] = useState(0);
+
+  const [useCustomInput, setUseCustomInput] = useState(false);
+  const [customInputArray, setCustomInputArray] = useState("[2, 7, 11, 15]");
+  const [customInputTarget, setCustomInputTarget] = useState("9");
+  const [customInputString, setCustomInputString] = useState("()[]{}");
 
   const workerRef = useRef<Worker | null>(null);
   const runRef = useRef<() => void>(() => {});
@@ -987,10 +1101,26 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   // Load boilerplate on tab change
   useEffect(() => {
     setCode(BOILERPLATES[selectedTab]);
+    setLastSubmittedCode(BOILERPLATES[selectedTab]);
     setSummary("");
     setTestResults([]);
     setCompileError(null);
     setActiveTC(0);
+    setUseCustomInput(false);
+
+    if (selectedTab === "two-sum") {
+      setCustomInputArray("[2, 7, 11, 15]");
+      setCustomInputTarget("9");
+    } else if (selectedTab === "binary-search") {
+      setCustomInputArray("[1, 3, 5, 7, 9, 11, 13]");
+      setCustomInputTarget("7");
+    } else if (selectedTab === "reverse-list") {
+      setCustomInputArray("[1, 2, 3, 4, 5]");
+    } else if (selectedTab === "find-max") {
+      setCustomInputArray("[1, 5, 3, 9, 2]");
+    } else if (selectedTab === "valid-parentheses") {
+      setCustomInputString("()[]{}");
+    }
   }, [selectedTab]);
 
   const handleTabClick = (tab: TabId) => {
@@ -1008,9 +1138,45 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       setTestResults([]);
       return;
     }
+    setLastSubmittedCode(trimmedCode);
 
     const currentTab = selectedTab;
-    const testCases = TEST_CASES[currentTab];
+    let testCases = TEST_CASES[currentTab];
+
+    if (useCustomInput) {
+      try {
+        if (
+          currentTab === "two-sum" ||
+          currentTab === "binary-search" ||
+          currentTab === "reverse-list" ||
+          currentTab === "find-max"
+        ) {
+          const parsed = JSON.parse(customInputArray);
+          if (!Array.isArray(parsed)) {
+            throw new Error("Input must be a valid array (e.g. [1, 2, 3])");
+          }
+          if (parsed.some((x) => typeof x !== "number")) {
+            throw new Error("Array must contain numbers only");
+          }
+          if (currentTab === "two-sum" || currentTab === "binary-search") {
+            const targetNum = Number(customInputTarget);
+            if (isNaN(targetNum)) {
+              throw new Error("Target must be a valid number");
+            }
+            testCases = [{ input: [parsed, targetNum], expected: null }];
+          } else {
+            testCases = [{ input: [parsed], expected: null }];
+          }
+        } else if (currentTab === "valid-parentheses") {
+          testCases = [{ input: [customInputString], expected: null }];
+        }
+      } catch (err: any) {
+        setCompileError(`Invalid custom input: ${err.message}`);
+        setSummary("Tests Failed");
+        setTestResults([]);
+        return;
+      }
+    }
 
     let functionName = "twoSum";
     if (currentTab === "reverse-list") {
@@ -1147,9 +1313,28 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           const steps = [];
           const proxyMap = new Map();
 
+          function getLineNumber() {
+            const err = new Error();
+            const stack = err.stack;
+            if (!stack) return null;
+            const lines = stack.split('\\n');
+            for (let i = 1; i < lines.length; i++) {
+              const line = lines[i];
+              const match = line.match(/<anonymous>:(\\d+):/) || 
+                            line.match(/eval:(\\d+):/);
+              if (match) {
+                const compiledLineNum = parseInt(match[1], 10);
+                // Offset is 3 due to Function constructor wrapper lines.
+                return Math.max(1, compiledLineNum - 3);
+              }
+            }
+            return null;
+          }
+
           const tracker = {
             push(step) {
               if (steps.length < 500) {
+                step.line = getLineNumber();
                 originalPush.call(steps, step);
               }
             }
@@ -1476,6 +1661,79 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             </div>
           </div>
 
+          {/* Custom Input Configuration */}
+          <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={useCustomInput}
+                  onChange={(e) => setUseCustomInput(e.target.checked)}
+                  className="rounded border-charcoal/20 text-coral focus:ring-coral w-4 h-4"
+                />
+                <span className="font-sans text-sm font-bold text-charcoal">Use Custom Test Case</span>
+              </label>
+              <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
+                {useCustomInput ? "Custom Input Active" : "Using Default Test Cases"}
+              </span>
+            </div>
+
+            {useCustomInput && (
+              <div className="pt-3 border-t border-charcoal/5 flex flex-col gap-3 font-sans text-sm">
+                {(selectedTab === "two-sum" ||
+                  selectedTab === "binary-search" ||
+                  selectedTab === "reverse-list" ||
+                  selectedTab === "find-max") && (
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                      Array / List Items:
+                    </span>
+                    <input
+                      type="text"
+                      value={customInputArray}
+                      onChange={(e) => setCustomInputArray(e.target.value)}
+                      placeholder="e.g. [2, 7, 11, 15]"
+                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                    />
+                    <span className="text-[10px] text-charcoal/40 font-mono">
+                      Must be a valid JSON array of numbers.
+                    </span>
+                  </div>
+                )}
+
+                {(selectedTab === "two-sum" || selectedTab === "binary-search") && (
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                      Target Number:
+                    </span>
+                    <input
+                      type="number"
+                      value={customInputTarget}
+                      onChange={(e) => setCustomInputTarget(e.target.value)}
+                      placeholder="e.g. 9"
+                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                    />
+                  </div>
+                )}
+
+                {selectedTab === "valid-parentheses" && (
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                      Parentheses String:
+                    </span>
+                    <input
+                      type="text"
+                      value={customInputString}
+                      onChange={(e) => setCustomInputString(e.target.value)}
+                      placeholder="e.g. ()[]{}"
+                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* Action Controls */}
           <div className="flex items-center justify-between gap-4">
             <button
@@ -1543,7 +1801,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                         ) : (
                           <XCircle className="w-4 h-4 text-red-500" />
                         )}
-                        Test Case {idx + 1}
+                        {useCustomInput ? "Custom Test Case" : `Test Case ${idx + 1}`}
                       </span>
                       <span
                         className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-sans border ${
@@ -1552,7 +1810,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                             : "bg-red-500/10 text-red-700 border-red-500/20"
                         }`}
                       >
-                        {isPassed ? "Passed" : "Failed"}
+                        {useCustomInput ? (tc.error ? "Failed" : "Success") : (isPassed ? "Passed" : "Failed")}
                       </span>
                     </div>
                     <div className="text-charcoal/70 font-mono text-[11px] truncate">
@@ -1571,8 +1829,8 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
         </div>
 
         {/* Right Column: Visual Sandbox */}
-        <div className="w-full lg:w-[480px] shrink-0 flex flex-col">
-          <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} />
+        <div className="w-full lg:w-[500px] shrink-0 flex flex-col">
+          <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
         </div>
       </div>
     </div>

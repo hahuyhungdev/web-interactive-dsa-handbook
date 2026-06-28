@@ -271,7 +271,7 @@ export function HashTableWorkspace() {
         </div>
 
         {!isCodeCollapsed ? (
-          <div className="w-full lg:w-[390px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col transition-all duration-300">
+          <div className="w-full lg:w-[390px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col transition-all duration-300 min-w-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-editorial text-xl font-bold text-charcoal">
                 Implementation

@@ -36,10 +36,10 @@ export function TreeVisualizer({ frame }: TreeVisualizerProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div className="bg-paper-dark border border-charcoal/10 rounded-3xl p-6 overflow-hidden flex items-center justify-center">
+      <div className="bg-paper-dark border border-charcoal/10 rounded-3xl p-6 overflow-x-auto w-full">
         <svg
           viewBox={`0 0 ${SVG_WIDTH} ${SVG_HEIGHT}`}
-          className="w-full h-auto max-h-[480px]"
+          className="w-full h-auto max-h-[480px] min-w-[650px]"
         >
           {/* Edges */}
           {edges.map((edge) => {

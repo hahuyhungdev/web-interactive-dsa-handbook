@@ -24,3 +24,41 @@
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out forwards;
 }
+
+@layer utilities {
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-panel-dark {
+    background: var(--glass-bg-dark);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .transition-spring {
+    transition: all var(--duration-normal) var(--ease-spring);
+  }
+
+  .hover-spring:hover {
+    transform: scale(1.025);
+  }
+  
+  .active-spring:active {
+    transform: scale(0.97);
+  }
+}

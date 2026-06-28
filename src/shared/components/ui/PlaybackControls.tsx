@@ -51,15 +51,15 @@ export function PlaybackControls({
   const progressPct = sliderDisabled ? 0 : (stepIndex / safeMax) * 100;
 
   return (
-    <div className="flex flex-col gap-3 bg-paper-light border border-charcoal/10 rounded-2xl p-4 shadow-sm">
+    <div className="flex flex-col gap-4.5 glass-panel rounded-2xl p-4 sm:p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {isPlaying ? (
             <button
               id="btn-pause"
               onClick={onPause}
               title="Pause (Space)"
-              className="p-2.5 bg-charcoal text-paper hover:bg-coral hover:text-paper rounded-xl transition-all shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+              className="p-2.5 bg-charcoal text-paper hover:bg-coral hover:text-paper rounded-xl transition-spring hover-spring active-spring shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
               aria-label="Pause"
               aria-keyshortcuts="Space"
             >
@@ -70,7 +70,7 @@ export function PlaybackControls({
               id="btn-play"
               onClick={onPlay}
               title="Play (Space)"
-              className="p-2.5 bg-coral text-paper hover:bg-coral-dark rounded-xl transition-all shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+              className="p-2.5 bg-coral text-paper hover:bg-coral-dark rounded-xl transition-spring hover-spring active-spring shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
               aria-label="Play"
               aria-keyshortcuts="Space"
             >
@@ -82,7 +82,7 @@ export function PlaybackControls({
             id="btn-step-backward"
             onClick={onStepBackward}
             title="Step backward (←)"
-            className="p-2.5 border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+            className="p-2.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl transition-spring hover-spring active-spring focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
             aria-label="Step Backward"
             aria-keyshortcuts="ArrowLeft"
           >
@@ -93,7 +93,7 @@ export function PlaybackControls({
             id="btn-step-forward"
             onClick={onStepForward}
             title="Step forward (→)"
-            className="p-2.5 border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+            className="p-2.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl transition-spring hover-spring active-spring focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
             aria-label="Step Forward"
             aria-keyshortcuts="ArrowRight"
           >
@@ -104,7 +104,7 @@ export function PlaybackControls({
             id="btn-reset"
             onClick={onReset}
             title="Reset (R)"
-            className="p-2.5 border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+            className="p-2.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl transition-spring hover-spring active-spring focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
             aria-label="Reset"
             aria-keyshortcuts="R"
           >
@@ -113,9 +113,9 @@ export function PlaybackControls({
         </div>
 
         {/* Speed and step info */}
-        <div className="flex flex-wrap items-center gap-3 sm:gap-6 font-sans text-base font-semibold">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-6 font-sans text-sm sm:text-base font-semibold">
           <div className="flex items-center gap-2">
-            <span className="text-charcoal uppercase tracking-wider text-base">
+            <span className="text-charcoal/60 uppercase tracking-wider text-xs sm:text-sm font-bold">
               Speed:
             </span>
             <input
@@ -143,14 +143,14 @@ export function PlaybackControls({
                   onSpeedChange(1);
                 }
               }}
-              className="w-16 px-2.5 py-1.5 text-base font-mono border border-charcoal/20 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="w-16 px-2.5 py-1.5 text-sm sm:text-base font-mono border border-charcoal/20 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
             />
           </div>
 
-          <div className="flex items-center gap-1.5 bg-charcoal/5 px-3 py-1.5 rounded-xl border border-charcoal/10 font-mono text-base text-charcoal">
-            <Info className="w-4 h-4 text-charcoal" />
+          <div className="flex items-center gap-1.5 bg-charcoal/5 px-3 py-1.5 rounded-xl border border-charcoal/10 font-mono text-xs sm:text-sm text-charcoal/80">
+            <Info className="w-3.5 h-3.5 text-charcoal/50" />
             <span>Step:</span>
-            <span id="playback-step-info" className="font-bold">
+            <span id="playback-step-info" className="font-extrabold text-charcoal">
               {stepIndex}
             </span>
             <span>/</span>
@@ -161,7 +161,7 @@ export function PlaybackControls({
             <button
               type="button"
               aria-label="Keyboard shortcuts"
-              className="p-2 border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+              className="p-2 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl transition-spring hover-spring active-spring focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
             >
               <Keyboard className="w-4 h-4" />
             </button>
@@ -169,19 +169,19 @@ export function PlaybackControls({
               role="tooltip"
               className="pointer-events-none absolute right-0 top-[calc(100%+8px)] z-20 w-64 origin-top-right opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100 transition-all duration-150 bg-paper border border-charcoal/10 rounded-2xl shadow-premium-hover p-4"
             >
-              <p className="font-sans text-base font-bold uppercase tracking-wider text-charcoal mb-2">
-                Keyboard
+              <p className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
+                Keyboard Shortcuts
               </p>
-              <ul className="flex flex-col gap-1.5 font-mono text-sm text-charcoal">
+              <ul className="flex flex-col gap-1.5 font-mono text-[10px] text-charcoal">
                 {SHORTCUTS.map((s) => (
                   <li
                     key={s.keys}
                     className="flex items-center justify-between gap-3"
                   >
-                    <kbd className="px-1.5 py-0.5 bg-paper-dark border border-charcoal/15 rounded text-xs">
+                    <kbd className="px-1.5 py-0.5 bg-paper-dark border border-charcoal/15 rounded text-[9px] font-bold">
                       {s.keys}
                     </kbd>
-                    <span className="text-charcoal/70 text-xs">{s.label}</span>
+                    <span className="text-charcoal/70">{s.label}</span>
                   </li>
                 ))}
               </ul>
@@ -213,7 +213,7 @@ export function PlaybackControls({
             <Slider.Range className="absolute bg-coral rounded-full h-full" />
           </Slider.Track>
           <Slider.Thumb
-            className="block w-4 h-4 bg-paper border-2 border-coral rounded-full shadow-sm transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-light disabled:opacity-40"
+            className="block relative w-4 h-4 bg-paper border-2 border-coral rounded-full shadow-sm transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-paper-light disabled:opacity-40 after:content-[''] after:absolute after:-top-3 after:-bottom-3 after:-left-3 after:-right-3"
             data-element-type="scrubber-thumb"
           />
         </Slider.Root>

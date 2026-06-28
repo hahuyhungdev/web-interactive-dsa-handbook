@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { LinkedListVisualizer } from "./LinkedListVisualizer";
 import { CodeViewer } from "@/features/theory/components/CodeViewer";
 import { PlaybackControls } from "@/shared/components/ui/PlaybackControls";
@@ -7,8 +8,74 @@ import { usePlaybackKeyboard } from "@/shared/hooks/usePlaybackKeyboard";
 import {
   generateListFrames,
   generateFindFrames,
+  generateDeleteFrames,
 } from "../utils/generateFrames";
 import type { NodeItem } from "@/shared/types";
+
+const CODE_SNIPPETS = {
+  insertHead: [
+    "function insertHead(head, val) {",
+    "  let newNode = new Node(val); // @init",
+    "  newNode.next = head; // @link",
+    "  head = newNode; // @head",
+    "}",
+  ],
+  insertTail: [
+    "function insertTail(head, val) {",
+    "  let newNode = new Node(val); // @init",
+    "  if (head === null) {",
+    "    head = newNode;",
+    "    return;",
+    "  }",
+    "  let current = head; // @visit",
+    "  while (current.next !== null) { // @loop",
+    "    current = current.next; // @next",
+    "  }",
+    "  current.next = newNode; // @link",
+    "}",
+  ],
+  insertIndex: [
+    "function insertIndex(head, val, index) {",
+    "  let newNode = new Node(val); // @init",
+    "  if (index === 0) {",
+    "    newNode.next = head; // @link",
+    "    head = newNode;",
+    "    return;",
+    "  }",
+    "  let current = head; // @visit",
+    "  for (let i = 0; i < index - 1; i++) {",
+    "    current = current.next; // @next",
+    "  }",
+    "  newNode.next = current.next; // @link",
+    "  current.next = newNode; // @link2",
+    "}",
+  ],
+  deleteNode: [
+    "function deleteNode(head, val) {",
+    "  if (head === null) return null; // @init",
+    "  if (head.value === val) {",
+    "    head = head.next; // @link",
+    "    return head;",
+    "  }",
+    "  let current = head; // @visit",
+    "  while (current.next !== null && current.next.value !== val) { // @loop",
+    "    current = current.next; // @next",
+    "  }",
+    "  if (current.next !== null) {",
+    "    current.next = current.next.next; // @link",
+    "  }",
+    "}",
+  ],
+  traverseList: [
+    "function traverseList(head) {",
+    "  let current = head; // @init",
+    "  while (current !== null) { // @loop",
+    "    visit(current); // @visit",
+    "    current = current.next; // @next",
+    "  }",
+    "}",
+  ],
+};
 
 export function LinkedListWorkspace() {
   const [list, setList] = useState<NodeItem[]>([
@@ -18,15 +85,22 @@ export function LinkedListWorkspace() {
   ]);
   const [insertedNodeId, setInsertedNodeId] = useState<string | null>(null);
   const [findTarget, setFindTarget] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const [speed, setSpeed] = useState<number | "">(1);
 
-  const frames = useMemo(
-    () =>
-      findTarget !== null
-        ? generateFindFrames(list, findTarget)
-        : generateListFrames(list, insertedNodeId),
-    [list, insertedNodeId, findTarget],
-  );
+  // Collapsible code panel state
+  const [isCodeCollapsed, setIsCodeCollapsed] = useState(false);
+  const [activeCodeType, setActiveCodeType] = useState<keyof typeof CODE_SNIPPETS>("traverseList");
+
+  const frames = useMemo(() => {
+    if (findTarget !== null) {
+      return generateFindFrames(list, findTarget);
+    }
+    if (deleteTarget !== null) {
+      return generateDeleteFrames(list, deleteTarget);
+    }
+    return generateListFrames(list, insertedNodeId);
+  }, [list, insertedNodeId, findTarget, deleteTarget]);
 
   const playback = usePlayback({
     totalFrames: frames.length,
@@ -40,24 +114,76 @@ export function LinkedListWorkspace() {
     setSpeed,
   });
 
-  const handleListChange = (newList: NodeItem[], insertedId: string | null) => {
+  // Lazy commit deletion
+  useEffect(() => {
+    if (deleteTarget !== null && playback.stepIndex === frames.length - 1) {
+      const newList = list.filter((node) => node.value !== deleteTarget);
+      setList(newList);
+      setDeleteTarget(null);
+      playback.reset();
+    }
+  }, [deleteTarget, playback.stepIndex, frames.length, list, playback]);
+
+  const handleInsert = (val: string, pos: "head" | "tail" | "index", index?: number) => {
     playback.reset();
+    const newNode: NodeItem = {
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      value: val,
+      status: "inserted",
+    };
+
+    let newList: NodeItem[];
+    if (pos === "head") {
+      newList = [newNode, ...list];
+      setActiveCodeType("insertHead");
+    } else if (pos === "tail") {
+      newList = [...list, newNode];
+      setActiveCodeType("insertTail");
+    } else {
+      const idx = index ?? 0;
+      newList = [...list.slice(0, idx), newNode, ...list.slice(idx)];
+      setActiveCodeType("insertIndex");
+    }
+
     setList(newList);
-    setInsertedNodeId(insertedId);
+    setInsertedNodeId(newNode.id);
     setFindTarget(null);
+    setDeleteTarget(null);
+    setTimeout(() => playback.handlePlay(), 0);
   };
 
-  const handleFind = (target: string | null) => {
+  const handleDelete = (val: string) => {
+    playback.reset();
+    setDeleteTarget(val);
+    setFindTarget(null);
+    setInsertedNodeId(null);
+    setActiveCodeType("deleteNode");
+    setTimeout(() => playback.handlePlay(), 0);
+  };
+
+  const handleFind = (target: string) => {
     playback.reset();
     setFindTarget(target);
     setInsertedNodeId(null);
-    if (target !== null) {
-      // Auto-play the traversal so the user sees it immediately.
-      setTimeout(() => playback.handlePlay(), 0);
-    }
+    setDeleteTarget(null);
+    setActiveCodeType("traverseList");
+    setTimeout(() => playback.handlePlay(), 0);
   };
 
-  const currentFrame = frames[playback.stepIndex] || { highlightedLine: 1 };
+  const currentFrame = frames[playback.stepIndex] || { highlightedMarker: "" };
+  const codeLines = CODE_SNIPPETS[activeCodeType];
+
+  // Calculate active line for HUD
+  const activeLineIdx = useMemo(() => {
+    if (!currentFrame.highlightedMarker) return -1;
+    return codeLines.findIndex((line) => line.includes(currentFrame.highlightedMarker));
+  }, [currentFrame.highlightedMarker, codeLines]);
+
+  const activeLineNum = activeLineIdx !== -1 ? activeLineIdx + 1 : 0;
+  const activeLineCode = useMemo(() => {
+    if (activeLineIdx === -1) return '';
+    return codeLines[activeLineIdx].replace(/\s*\/\/\s*@[\w-]+/, '').trim();
+  }, [activeLineIdx, codeLines]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -75,28 +201,66 @@ export function LinkedListWorkspace() {
         totalSteps={Math.max(0, frames.length - 1)}
       />
 
-      <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
-        <div className="flex-1 w-full bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm">
-          <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
-            Visual Sandbox
-          </h3>
-          <LinkedListVisualizer
-            list={list}
-            onListChange={handleListChange}
-            onFind={handleFind}
-            currentNodesState={currentFrame.nodes || []}
-          />
+      <div className="flex flex-col lg:flex-row gap-6 lg:items-stretch">
+        <div className="flex-1 w-full min-w-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col justify-between">
+          <div>
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal mb-4">
+              Visual Sandbox
+            </h3>
+            <LinkedListVisualizer
+              list={list}
+              onInsert={handleInsert}
+              onDelete={handleDelete}
+              onFind={handleFind}
+              currentNodesState={currentFrame.nodes || []}
+            />
+          </div>
+          {isCodeCollapsed && activeLineCode && (
+            <div className="mt-6 bg-paper-dark/65 border border-coral/20 rounded-2xl px-5 py-3 shadow-inner flex items-center gap-3">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-widest bg-coral/10 text-coral px-2.5 py-1 rounded-lg">
+                Line {activeLineNum}
+              </span>
+              <span className="font-mono text-sm text-charcoal truncate flex-1 font-semibold">
+                {activeLineCode}
+              </span>
+            </div>
+          )}
         </div>
 
-        <div className="w-full lg:w-[480px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col">
-          <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
-            Implementation
-          </h3>
-          <CodeViewer
-            codeType="linked-list"
-            highlightedMarker={currentFrame.highlightedMarker}
-          />
-        </div>
+        {!isCodeCollapsed ? (
+          <div className="w-full lg:w-[390px] shrink-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col transition-all duration-300 min-w-0">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
+                Implementation
+              </h3>
+              <button
+                onClick={() => setIsCodeCollapsed(true)}
+                title="Collapse Code Panel"
+                className="p-1.5 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal transition-spring hover-spring active-spring"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+            <CodeViewer
+              codeLines={codeLines}
+              fileName={`${activeCodeType}.js`}
+              highlightedMarker={currentFrame.highlightedMarker}
+            />
+          </div>
+        ) : (
+          <div
+            onClick={() => setIsCodeCollapsed(false)}
+            title="Expand Code Panel"
+            className="hidden lg:flex w-[48px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-3 shadow-sm flex flex-col items-center justify-start cursor-pointer hover:bg-charcoal/5 group transition-all duration-300"
+          >
+            <button className="p-1 rounded-lg border border-charcoal/15 bg-paper group-hover:bg-charcoal/10 text-charcoal mb-8">
+              <ChevronLeft className="w-3.5 h-3.5" />
+            </button>
+            <div className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-charcoal/30 select-none whitespace-nowrap rotate-90 mt-16 origin-center">
+              Code Viewer
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

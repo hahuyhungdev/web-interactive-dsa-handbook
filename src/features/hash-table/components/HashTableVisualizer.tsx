@@ -74,7 +74,7 @@ export function HashTableVisualizer({ frame }: HashTableVisualizerProps) {
       </motion.div>
 
       {/* Bucket columns */}
-      <div className="flex gap-4 justify-center items-start overflow-x-auto py-4 px-2 bg-paper-light/50 rounded-2xl border border-charcoal/5 shadow-inner">
+      <div className="flex gap-4 justify-start md:justify-center items-start overflow-x-auto py-4 px-2 bg-paper-light/50 rounded-2xl border border-charcoal/5 shadow-inner">
         {frame.buckets.map((bucket) => {
           const bucketStyle = BUCKET_STYLE[bucket.status] ?? BUCKET_STYLE.default;
           return (

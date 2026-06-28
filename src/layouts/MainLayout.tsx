@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Navbar } from "@/layouts/components/Navbar";
 import { TableOfContents } from "@/layouts/components/TableOfContents";
 import { KeyboardHelpOverlay } from "@/shared/components/ui/KeyboardHelpOverlay";
-import { Heart, Keyboard } from "lucide-react";
+import { Heart, Keyboard, BookOpen } from "lucide-react";
 
 interface MainLayoutProps {
   activeLesson: string | null;
@@ -13,6 +13,16 @@ interface MainLayoutProps {
 
 export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
   const [showHelp, setShowHelp] = useState(false);
+  const [isMobileTocOpen, setIsMobileTocOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const listener = () => setIsDesktop(media.matches);
+    media.addEventListener("change", listener);
+    setIsDesktop(media.matches);
+    return () => media.removeEventListener("change", listener);
+  }, []);
 
   useHotkeys(
     "shift+slash",
@@ -23,6 +33,11 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     { enableOnFormTags: false, enableOnContentEditable: false },
   );
 
+  const handleSelectLesson = (lesson: string) => {
+    onSelectLesson(lesson);
+    setIsMobileTocOpen(false);
+  };
+
   return (
     <div className="min-h-screen bg-paper text-charcoal selection:bg-coral/20 selection:text-coral flex flex-col">
       <Navbar />
@@ -30,13 +45,35 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
       <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-12">
         {/* Left column: Sidebar TableOfContents */}
         <aside className="w-full md:w-72 shrink-0 md:pr-6 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0">
-          <div className="md:sticky md:top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2">
-            <TableOfContents
-              activeLesson={activeLesson}
-              onSelectLesson={onSelectLesson}
-              isSidebar={true}
-            />
-          </div>
+          <details
+            open={isDesktop || isMobileTocOpen}
+            onToggle={(e) => {
+              if (isDesktop) {
+                (e.target as HTMLDetailsElement).open = true;
+              } else {
+                setIsMobileTocOpen((e.target as HTMLDetailsElement).open);
+              }
+            }}
+            className="md:border-0 md:bg-transparent md:p-0 border border-charcoal/10 rounded-xl p-3 bg-paper-dark/10 mb-4"
+          >
+            <summary className="md:hidden font-sans text-base font-bold text-charcoal cursor-pointer flex items-center justify-between select-none focus:outline-none list-none [&::-webkit-details-marker]:hidden">
+              <span className="flex items-center gap-2">
+                <BookOpen className="w-5 h-5 text-coral" />
+                <span>Chapters Outline</span>
+              </span>
+              <span className="transition-transform duration-200 group-open:rotate-180 text-charcoal/60 font-sans text-xs">
+                ▼
+              </span>
+            </summary>
+            
+            <div className="mt-4 md:mt-0 md:sticky md:top-24 max-h-[calc(100vh-120px)] overflow-y-auto pr-2">
+              <TableOfContents
+                activeLesson={activeLesson}
+                onSelectLesson={handleSelectLesson}
+                isSidebar={true}
+              />
+            </div>
+          </details>
         </aside>
 
         {/* Right column: Active Route Workspace */}

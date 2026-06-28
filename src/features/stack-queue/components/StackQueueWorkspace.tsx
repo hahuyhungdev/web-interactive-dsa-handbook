@@ -80,9 +80,9 @@ export function StackQueueWorkspace() {
       />
 
       <div className="flex flex-col lg:flex-row gap-6 lg:items-stretch">
-        <div className="flex-1 w-full min-w-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
+        <div className="flex-1 w-full min-w-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col justify-between">
           <div>
-            <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
+            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal mb-4">
               Visual Sandbox
             </h3>
             <StackQueueVisualizer
@@ -92,7 +92,7 @@ export function StackQueueWorkspace() {
             />
           </div>
           {isCodeCollapsed && activeLineCode && (
-            <div className="mt-6 bg-paper-dark border border-coral/20 rounded-2xl px-5 py-3 shadow-inner flex items-center gap-3">
+            <div className="mt-6 bg-paper-dark/65 border border-coral/20 rounded-2xl px-5 py-3 shadow-inner flex items-center gap-3">
               <span className="text-[10px] font-sans font-bold uppercase tracking-widest bg-coral/10 text-coral px-2.5 py-1 rounded-lg">
                 Line {activeLineNum}
               </span>
@@ -104,15 +104,15 @@ export function StackQueueWorkspace() {
         </div>
 
         {!isCodeCollapsed ? (
-          <div className="w-full lg:w-[390px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col transition-all duration-300">
+          <div className="w-full lg:w-[390px] shrink-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col transition-all duration-300 min-w-0">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="font-editorial text-xl font-bold text-charcoal">
+              <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
                 Implementation
               </h3>
               <button
                 onClick={() => setIsCodeCollapsed(true)}
                 title="Collapse Code Panel"
-                className="p-1.5 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal transition-all"
+                className="p-1.5 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal transition-spring hover-spring active-spring"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

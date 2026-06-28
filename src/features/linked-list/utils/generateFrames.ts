@@ -22,7 +22,7 @@ export function generateListFrames(
     frames.push({
       nodes: list.map((node, idx) => ({
         ...node,
-        status: (idx === i ? "traversing" : "default") as NodeItem["status"],
+        status: (idx === i ? "active" : "default") as NodeItem["status"],
       })),
       highlightedMarker: "@visit",
     });
@@ -30,7 +30,7 @@ export function generateListFrames(
     frames.push({
       nodes: list.map((node, idx) => ({
         ...node,
-        status: (idx === i ? "traversing" : "default") as NodeItem["status"],
+        status: (idx === i ? "active" : "default") as NodeItem["status"],
       })),
       highlightedMarker: "@next",
     });
@@ -70,7 +70,7 @@ export function generateFindFrames(
     frames.push({
       nodes: list.map((node, idx) => ({
         ...node,
-        status: (idx === i ? "traversing" : "default") as NodeItem["status"],
+        status: (idx === i ? "active" : "default") as NodeItem["status"],
       })),
       highlightedMarker: "@visit",
     });
@@ -89,7 +89,7 @@ export function generateFindFrames(
     frames.push({
       nodes: list.map((node, idx) => ({
         ...node,
-        status: (idx === i ? "traversing" : "default") as NodeItem["status"],
+        status: (idx === i ? "active" : "default") as NodeItem["status"],
       })),
       highlightedMarker: "@next",
     });
@@ -102,6 +102,80 @@ export function generateFindFrames(
       status: "default" as NodeItem["status"],
     })),
     highlightedMarker: "@loop",
+  });
+
+  return frames;
+}
+
+export function generateDeleteFrames(
+  list: NodeItem[],
+  target: string,
+): VisualizerFrame[] {
+  const frames: VisualizerFrame[] = [];
+  const targetIndex = list.findIndex((node) => node.value === target);
+
+  if (targetIndex === -1) {
+    frames.push({
+      nodes: list.map((node) => ({ ...node, status: "default" as const })),
+      highlightedMarker: "@init",
+    });
+    return frames;
+  }
+
+  // 1. Initial State Frame
+  frames.push({
+    nodes: list.map((node) => ({ ...node, status: "default" as const })),
+    highlightedMarker: "@init",
+  });
+
+  // 2. Traverse up to the target node
+  for (let i = 0; i <= targetIndex; i++) {
+    frames.push({
+      nodes: list.map((node, idx) => ({
+        ...node,
+        status: (idx === i ? "active" : "default") as NodeItem["status"],
+      })),
+      highlightedMarker: i === 0 ? "@init" : "@next",
+    });
+  }
+
+  // 3. Highlight target node as "deleted"
+  // Keep targetIndex-1 node's pointer highlighted to indicate change
+  frames.push({
+    nodes: list.map((node, idx) => {
+      let status: NodeItem["status"] = "default";
+      let pointerStatus: NodeItem["pointerStatus"] = "default";
+      if (idx === targetIndex) {
+        status = "deleted";
+      } else if (idx === targetIndex - 1) {
+        status = "active";
+        pointerStatus = "highlighted";
+      }
+      return { ...node, status, pointerStatus };
+    }),
+    highlightedMarker: "@loop",
+  });
+
+  // 4. Update the pointer of targetIndex - 1 to bypass target node
+  frames.push({
+    nodes: list.map((node, idx) => {
+      let status: NodeItem["status"] = "default";
+      let pointerStatus: NodeItem["pointerStatus"] = "default";
+      if (idx === targetIndex) {
+        status = "deleted";
+      } else if (idx === targetIndex - 1) {
+        pointerStatus = "skipped";
+      }
+      return { ...node, status, pointerStatus };
+    }),
+    highlightedMarker: "@link",
+  });
+
+  // 5. Final state: the target node is removed from the DOM
+  const listAfterDelete = list.filter((_, idx) => idx !== targetIndex);
+  frames.push({
+    nodes: listAfterDelete.map((node) => ({ ...node, status: "default" as const })),
+    highlightedMarker: "@link",
   });
 
   return frames;

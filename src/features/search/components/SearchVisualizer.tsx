@@ -299,7 +299,7 @@ export function SearchVisualizer() {
 
           <div
             id="sorting-visualizer-container"
-            className="flex items-end justify-center gap-2 bg-paper-dark border border-charcoal/10 rounded-3xl p-8 h-48 min-w-[280px]"
+            className="flex items-end justify-start sm:justify-center gap-1 sm:gap-2 bg-paper-dark border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-48 min-w-[280px] overflow-x-auto"
           >
             {SEARCH_ARRAY.map((val, idx) => {
               const el = currentFrame.elements[idx] || {
@@ -318,7 +318,7 @@ export function SearchVisualizer() {
               return (
                 <div
                   key={idx}
-                  className="array-bar w-12 transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end text-base font-mono font-bold text-charcoal pb-2 h-full relative"
+                  className="array-bar w-8 sm:w-12 transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end text-sm sm:text-base font-mono font-bold text-charcoal pb-2 h-full relative"
                   style={{
                     height: `${Math.max(40, val * 1.5)}px`,
                   }}
@@ -326,7 +326,7 @@ export function SearchVisualizer() {
                   data-index={idx}
                   data-status={el.status}
                 >
-                  <span className="bg-paper px-1 py-0.5 rounded border border-charcoal/10 shadow-sm mb-1.5 font-mono text-base">
+                  <span className="bg-paper px-1 py-0.5 rounded border border-charcoal/10 shadow-sm mb-1.5 font-mono text-sm sm:text-base">
                     {val}
                   </span>
                   <div
@@ -339,7 +339,7 @@ export function SearchVisualizer() {
                       {el.pointers.map((ptr) => (
                         <span
                           key={ptr}
-                          className={`text-base font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
+                          className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
                             ptr === "mid"
                               ? "bg-amber-50 text-amber-700 border-amber-300"
                               : ptr === "low"
@@ -361,7 +361,7 @@ export function SearchVisualizer() {
         </div>
 
         {/* CodeViewer */}
-        <div className="w-full lg:w-[480px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col">
+        <div className="w-full lg:w-[480px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col min-w-0">
           <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
             Implementation
           </h3>

@@ -121,7 +121,7 @@ export function SortingArrayEditor({
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-paper border border-charcoal/10 rounded-2xl p-4 shadow-sm">
+    <div className="flex flex-col gap-3.5 glass-panel rounded-2xl p-4 sm:p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap">
           <button
@@ -129,7 +129,7 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => onChange(randomArray(size))}
             title="Shuffle"
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
           >
             <Shuffle className="w-3.5 h-3.5" /> Shuffle
           </button>
@@ -138,7 +138,7 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => onChange([...array].reverse())}
             title="Reverse"
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
           >
             <FlipHorizontal2 className="w-3.5 h-3.5" /> Reverse
           </button>
@@ -147,7 +147,7 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => onChange(sortedArray(size, false))}
             title="Sorted ascending"
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
           >
             <ArrowDownAZ className="w-3.5 h-3.5" /> Sorted
           </button>
@@ -156,7 +156,7 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => onChange(sortedArray(size, true))}
             title="Sorted descending (worst case)"
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
           >
             <ArrowUpAZ className="w-3.5 h-3.5" /> Reversed
           </button>
@@ -165,21 +165,21 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => onChange(nearlySortedArray(size))}
             title="Nearly sorted"
-            className="px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+            className="px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
           >
             Nearly Sorted
           </button>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="font-sans text-sm font-bold uppercase tracking-wider text-charcoal">
+          <span className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal/50">
             Size
           </span>
           <button
             type="button"
             onClick={() => handleSize(-1)}
             disabled={size <= MIN_SIZE}
-            className="w-7 h-7 rounded-lg border border-charcoal/20 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed"
+            className="w-7 h-7 rounded-lg border border-charcoal/15 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-spring hover-spring active-spring"
             aria-label="Decrease array size"
           >
             −
@@ -191,7 +191,7 @@ export function SortingArrayEditor({
             type="button"
             onClick={() => handleSize(1)}
             disabled={size >= MAX_SIZE}
-            className="w-7 h-7 rounded-lg border border-charcoal/20 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed"
+            className="w-7 h-7 rounded-lg border border-charcoal/15 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-spring hover-spring active-spring"
             aria-label="Increase array size"
           >
             +
@@ -203,7 +203,7 @@ export function SortingArrayEditor({
         <div className="flex flex-col gap-2">
           <label
             htmlFor="input-array-custom"
-            className="font-sans text-sm font-bold uppercase tracking-wider text-charcoal"
+            className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal/50"
           >
             Custom array (comma or space separated, {MIN_VAL}–{MAX_VAL})
           </label>
@@ -221,20 +221,20 @@ export function SortingArrayEditor({
                 if (e.key === "Escape") cancelEdit();
               }}
               autoFocus
-              className="flex-1 px-3 py-2 text-base font-mono border border-charcoal/20 bg-paper-light rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              className="flex-1 px-3 py-2 text-sm font-mono border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
               placeholder="e.g. 25, 40, 15, 55, 30, 20"
             />
             <button
               type="button"
               onClick={applyEdit}
-              className="flex items-center gap-1 px-3 py-2 bg-coral hover:bg-coral-dark text-paper rounded-xl font-sans text-sm font-bold uppercase tracking-wider shadow-sm transition-all"
+              className="flex items-center gap-1 px-3 py-2 bg-coral hover:bg-coral-dark text-paper rounded-xl font-sans text-xs font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring"
             >
               <Check className="w-3.5 h-3.5" /> Apply
             </button>
             <button
               type="button"
               onClick={cancelEdit}
-              className="flex items-center gap-1 px-3 py-2 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all"
+              className="flex items-center gap-1 px-3 py-2 border border-charcoal/15 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
             >
               <X className="w-3.5 h-3.5" /> Cancel
             </button>
@@ -242,14 +242,14 @@ export function SortingArrayEditor({
           {error && (
             <p
               id="array-validation-warning"
-              className="text-red-500 text-sm font-sans font-semibold"
+              className="text-red-500 text-xs font-sans font-semibold animate-pulse"
             >
               {error}
             </p>
           )}
         </div>
       ) : (
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-3 border-t border-charcoal/5 pt-3.5">
           <div className="font-mono text-sm text-charcoal/70 truncate">
             <span className="font-bold text-charcoal mr-2">array</span>[{" "}
             {array.join(", ")} ]
@@ -258,7 +258,7 @@ export function SortingArrayEditor({
             id="btn-array-edit"
             type="button"
             onClick={startEdit}
-            className="px-3 py-1.5 border border-charcoal/20 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-sm font-bold uppercase tracking-wider transition-all shrink-0"
+            className="px-3 py-1.5 border border-charcoal/15 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring shrink-0"
           >
             Edit
           </button>
