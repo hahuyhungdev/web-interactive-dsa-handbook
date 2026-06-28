@@ -256,12 +256,11 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     for (let step = 0; step < 10; step++) {
       await btnStepForward.click();
       await page.waitForTimeout(100);
-      const currentNodes = await listContainer.locator('.list-node').all();
-      for (const node of currentNodes) {
-        const status = await node.getAttribute('data-status');
-        if (status === 'deleted' || status === 'traversing') {
-          hasDeleteAnimationState = true;
-        }
+      const statuses = await listContainer.locator('.list-node').evaluateAll(
+        elements => elements.map(el => el.getAttribute('data-status'))
+      );
+      if (statuses.some(status => status === 'deleted' || status === 'traversing')) {
+        hasDeleteAnimationState = true;
       }
     }
     expect(hasDeleteAnimationState).toBe(true);
@@ -290,12 +289,11 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     for (let step = 0; step < 8; step++) {
       await btnStepForward.click();
       await page.waitForTimeout(100);
-      const findNodes = await listContainer.locator('.list-node').all();
-      for (const node of findNodes) {
-        const status = await node.getAttribute('data-status');
-        if (status === 'traversing' || status === 'active') {
-          hasTraversingState = true;
-        }
+      const findStatuses = await listContainer.locator('.list-node').evaluateAll(
+        elements => elements.map(el => el.getAttribute('data-status'))
+      );
+      if (findStatuses.some(status => status === 'traversing' || status === 'active')) {
+        hasTraversingState = true;
       }
     }
     expect(hasTraversingState).toBe(true);
