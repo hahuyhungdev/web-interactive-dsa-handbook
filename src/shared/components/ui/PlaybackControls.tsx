@@ -51,7 +51,7 @@ export function PlaybackControls({
   const progressPct = sliderDisabled ? 0 : (stepIndex / safeMax) * 100;
 
   return (
-    <div className="flex flex-col gap-4.5 glass-panel rounded-2xl p-4 sm:p-5 shadow-sm">
+    <div className="flex flex-col gap-4.5 glass-panel rounded-2xl p-4 sm:p-5 shadow-sm relative z-20">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
           {isPlaying ? (
@@ -167,7 +167,7 @@ export function PlaybackControls({
             </button>
             <div
               role="tooltip"
-              className="pointer-events-none absolute right-0 top-[calc(100%+8px)] z-20 w-64 origin-top-right opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100 transition-all duration-150 bg-paper border border-charcoal/10 rounded-2xl shadow-premium-hover p-4"
+              className="pointer-events-none absolute right-0 bottom-[calc(100%+8px)] z-20 w-64 origin-bottom-right opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100 transition-all duration-150 bg-paper border border-charcoal/10 rounded-2xl shadow-premium-hover p-4"
             >
               <p className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
                 Keyboard Shortcuts

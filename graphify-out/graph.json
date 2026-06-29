@@ -876,10 +876,30 @@
       "norm_label": "@codemirror/view"
     },
     {
-      "label": "@radix-ui/react-slider",
+      "label": "@mantine/core",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L15",
+      "_origin": "ast",
+      "id": "package_dependencies_mantine_core",
+      "community": 3,
+      "norm_label": "@mantine/core"
+    },
+    {
+      "label": "@mantine/hooks",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "package_dependencies_mantine_hooks",
+      "community": 3,
+      "norm_label": "@mantine/hooks"
+    },
+    {
+      "label": "@radix-ui/react-slider",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies_radix_ui_react_slider",
       "community": 3,
@@ -889,7 +909,7 @@
       "label": "@uiw/react-codemirror",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_uiw_react_codemirror",
       "community": 3,
@@ -899,7 +919,7 @@
       "label": "lucide-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_dependencies_lucide_react",
       "community": 3,
@@ -909,7 +929,7 @@
       "label": "motion",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies_motion",
       "community": 3,
@@ -919,7 +939,7 @@
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 3,
@@ -929,7 +949,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 3,
@@ -939,7 +959,7 @@
       "label": "react-hotkeys-hook",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_dependencies_react_hotkeys_hook",
       "community": 3,
@@ -949,7 +969,7 @@
       "label": "react-router-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_react_router_dom",
       "community": 3,
@@ -959,7 +979,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 3,
@@ -969,7 +989,7 @@
       "label": "@eslint/js",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_js",
       "community": 3,
@@ -979,7 +999,7 @@
       "label": "@playwright/test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_playwright_test",
       "community": 3,
@@ -989,7 +1009,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 3,
@@ -999,7 +1019,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 3,
@@ -1009,7 +1029,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 3,
@@ -1019,7 +1039,7 @@
       "label": "@vitejs/plugin-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_vitejs_plugin_react",
       "community": 3,
@@ -1029,7 +1049,7 @@
       "label": "autoprefixer",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_autoprefixer",
       "community": 3,
@@ -1039,7 +1059,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 3,
@@ -1049,7 +1069,7 @@
       "label": "eslint-plugin-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react",
       "community": 3,
@@ -1059,7 +1079,7 @@
       "label": "eslint-plugin-react-hooks",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_hooks",
       "community": 3,
@@ -1069,7 +1089,7 @@
       "label": "eslint-plugin-react-refresh",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_refresh",
       "community": 3,
@@ -1079,7 +1099,7 @@
       "label": "globals",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_globals",
       "community": 3,
@@ -1089,7 +1109,7 @@
       "label": "postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_postcss",
       "community": 3,
@@ -1099,7 +1119,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 3,
@@ -1109,7 +1129,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 3,
@@ -1119,7 +1139,7 @@
       "label": "vite",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_vite",
       "community": 3,
@@ -1592,7 +1612,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_graphworkspace",
-      "community": 36,
+      "community": 9,
       "norm_label": "graphworkspace.tsx"
     },
     {
@@ -1602,7 +1622,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_graphworkspace_algoid",
-      "community": 36,
+      "community": 9,
       "norm_label": "algoid"
     },
     {
@@ -1622,7 +1642,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_graph_index_tsx_graph_index",
-      "community": 36,
+      "community": 9,
       "norm_label": "index.tsx"
     },
     {
@@ -1632,7 +1652,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphsection",
-      "community": 36,
+      "community": 9,
       "norm_label": "graphsection()"
     },
     {
@@ -1702,7 +1722,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_generateframes_builddefaultgraph",
-      "community": 36,
+      "community": 9,
       "norm_label": "builddefaultgraph()"
     },
     {
@@ -1782,7 +1802,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode",
-      "community": 36,
+      "community": 9,
       "norm_label": "graphcode.ts"
     },
     {
@@ -1792,7 +1812,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode_bfs_code",
-      "community": 36,
+      "community": 9,
       "norm_label": "bfs_code"
     },
     {
@@ -1802,7 +1822,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_graphcode_dfs_code",
-      "community": 36,
+      "community": 9,
       "norm_label": "dfs_code"
     },
     {
@@ -2102,7 +2122,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer",
-      "community": 1,
+      "community": 36,
       "norm_label": "linkedlistvisualizer.tsx"
     },
     {
@@ -2112,7 +2132,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_insertposition",
-      "community": 1,
+      "community": 36,
       "norm_label": "insertposition"
     },
     {
@@ -2122,7 +2142,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_linkedlistvisualizerprops",
-      "community": 1,
+      "community": 36,
       "norm_label": "linkedlistvisualizerprops"
     },
     {
@@ -2132,7 +2152,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_linkedlistvisualizer",
-      "community": 1,
+      "community": 36,
       "norm_label": "linkedlistvisualizer()"
     },
     {
@@ -2192,7 +2212,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_linked_list_utils_generateframes_ts_utils_generateframes",
-      "community": 1,
+      "community": 36,
       "norm_label": "generateframes.ts"
     },
     {
@@ -2202,7 +2222,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_generateframes_generatelistframes",
-      "community": 1,
+      "community": 36,
       "norm_label": "generatelistframes()"
     },
     {
@@ -2212,7 +2232,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "utils_generateframes_generatefindframes",
-      "community": 1,
+      "community": 36,
       "norm_label": "generatefindframes()"
     },
     {
@@ -2222,7 +2242,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "src_features_linked_list_utils_generateframes_ts_utils_generateframes_generatedeleteframes",
-      "community": 1,
+      "community": 36,
       "norm_label": "generatedeleteframes()"
     },
     {
@@ -2522,7 +2542,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_search_index_tsx_search_index",
-      "community": 48,
+      "community": 15,
       "norm_label": "index.tsx"
     },
     {
@@ -2532,7 +2552,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "search_index_searchsection",
-      "community": 48,
+      "community": 15,
       "norm_label": "searchsection()"
     },
     {
@@ -2619,7 +2639,7 @@
       "label": "SortingVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/sorting/components/SortingVisualizer.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "_origin": "ast",
       "id": "components_sortingvisualizer_sortingvisualizerprops",
       "community": 1,
@@ -2629,7 +2649,7 @@
       "label": "STATUS_STYLE",
       "file_type": "code",
       "source_file": "src/features/sorting/components/SortingVisualizer.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "components_sortingvisualizer_status_style",
       "community": 1,
@@ -2639,7 +2659,7 @@
       "label": "SortingVisualizer()",
       "file_type": "code",
       "source_file": "src/features/sorting/components/SortingVisualizer.tsx",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "components_sortingvisualizer_sortingvisualizer",
       "community": 1,
@@ -3729,7 +3749,7 @@
       "label": "CHAPTER_ROUTES",
       "file_type": "code",
       "source_file": "src/layouts/components/TableOfContents.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "components_tableofcontents_chapter_routes",
       "community": 0,
@@ -3739,7 +3759,7 @@
       "label": "TableOfContents()",
       "file_type": "code",
       "source_file": "src/layouts/components/TableOfContents.tsx",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "components_tableofcontents_tableofcontents",
       "community": 0,
@@ -3759,7 +3779,7 @@
       "label": "rootElement",
       "file_type": "code",
       "source_file": "src/main.tsx",
-      "source_location": "L6",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "src_main_rootelement",
       "community": 0,
@@ -3812,7 +3832,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_graph_index_tsx_graph_index",
-      "community": 36,
+      "community": 9,
       "norm_label": "index.tsx"
     },
     {
@@ -3822,7 +3842,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphpage",
-      "community": 36,
+      "community": 9,
       "norm_label": "graphpage()"
     },
     {
@@ -3912,7 +3932,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_search_index_tsx_search_index",
-      "community": 48,
+      "community": 15,
       "norm_label": "index.tsx"
     },
     {
@@ -3922,7 +3942,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "search_index_searchpage",
-      "community": 48,
+      "community": 15,
       "norm_label": "searchpage()"
     },
     {
@@ -4262,7 +4282,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_index",
-      "community": 1,
+      "community": 36,
       "norm_label": "index.ts"
     },
     {
@@ -4282,7 +4302,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "types_index_nodeitem",
-      "community": 1,
+      "community": 36,
       "norm_label": "nodeitem"
     },
     {
@@ -4302,7 +4322,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "types_index_lesson",
-      "community": 1,
+      "community": 36,
       "norm_label": "lesson"
     },
     {
@@ -10650,6 +10670,26 @@
       "confidence_score": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_lucide_react"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_mantine_core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_mantine_hooks",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -21122,5 +21162,5 @@
       "source_file": "TEST_INFRA.md"
     }
   ],
-  "built_at_commit": "956b32d3af8fb660fd60d42dcca09555bc7dfc43"
+  "built_at_commit": "d53722b9bead3252c373ca135c252050a0ac5a03"
 }

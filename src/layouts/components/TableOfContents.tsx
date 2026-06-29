@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ChevronDown, ChevronUp, PlayCircle, Code, BookOpen, Clock } from 'lucide-react';
+import { ChevronDown, ChevronUp, PlayCircle, Code, BookOpen, Clock, PanelLeftClose } from 'lucide-react';
 import { CHAPTERS } from '@/shared/constants/chapters';
 
 interface TableOfContentsProps {
   activeLesson: string | null;
   onSelectLesson: (lesson: string) => void;
   isSidebar?: boolean;
+  onCollapse?: () => void;
 }
 
 const CHAPTER_ROUTES: Record<string, string> = {
@@ -19,7 +20,7 @@ const CHAPTER_ROUTES: Record<string, string> = {
   graph: '/graph'
 };
 
-export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = false }: TableOfContentsProps) {
+export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = false, onCollapse }: TableOfContentsProps) {
   const [expandedChapter, setExpandedChapter] = useState<string | null>(null);
   const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
@@ -82,17 +83,29 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
 
   if (isSidebar) {
     return (
-      <div className="flex flex-col gap-4 w-full" id="handbook-sidebar">
+      <div className="flex flex-col gap-3 w-full" id="handbook-sidebar">
         <div className="px-1 py-2 flex items-center justify-between border-b border-charcoal/10 mb-2">
           <span className="font-sans text-xs font-black uppercase tracking-widest text-charcoal/40">
             Syllabus Index
           </span>
-          <span className="font-mono text-[10px] text-coral font-bold bg-coral/5 px-2 py-0.5 rounded-full border border-coral/10">
-            {CHAPTERS.length} Chapters
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] text-coral font-bold bg-coral/5 px-2 py-0.5 rounded-full border border-coral/10">
+              {CHAPTERS.length} Chapters
+            </span>
+            {onCollapse && (
+              <button
+                type="button"
+                onClick={onCollapse}
+                className="p-1 rounded-lg border border-charcoal/10 bg-paper hover:bg-paper-dark text-charcoal hover:text-coral shadow-sm transition-all focus:outline-none flex items-center justify-center md:flex hidden"
+                title="Collapse Sidebar"
+              >
+                <PanelLeftClose className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-2">
           {CHAPTERS.map((chapter) => {
             const isExpanded = !!expandedChapters[chapter.id];
             const hasActiveLesson = chapter.lessons.some(l => l.title === activeLesson);
@@ -105,7 +118,7 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
             return (
               <div
                 key={chapter.id}
-                className={`transition-all duration-300 rounded-2xl border ${
+                className={`transition-all duration-300 rounded-xl border ${
                   isChapterActive
                     ? 'border-coral/25 bg-paper shadow-sm'
                     : 'border-charcoal/10 bg-transparent'
@@ -120,7 +133,7 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
                       [chapter.id]: !prev[chapter.id]
                     }));
                   }}
-                  className={`w-full flex items-center justify-between p-3.5 select-none focus:outline-none transition-colors rounded-t-2xl ${
+                  className={`w-full flex items-center justify-between p-2.5 select-none focus:outline-none transition-colors rounded-t-xl ${
                     isChapterActive 
                       ? 'bg-gradient-to-r from-coral/[0.03] to-transparent' 
                       : 'hover:bg-charcoal/[0.03]'
@@ -148,10 +161,10 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
                 {/* Chapter Lessons List */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isExpanded ? 'max-h-[800px] border-t border-charcoal/5 p-3' : 'max-h-0 p-0 pointer-events-none'
+                    isExpanded ? 'max-h-[800px] border-t border-charcoal/5 p-2' : 'max-h-0 p-0 pointer-events-none'
                   }`}
                 >
-                  <div className="relative border-l-2 border-charcoal/10 ml-5 pl-4 flex flex-col gap-2">
+                  <div className="relative border-l-2 border-charcoal/10 ml-4.5 pl-3 flex flex-col gap-1.5">
                     {chapter.lessons.map((lesson, idx) => {
                       const isActive = activeLesson === lesson.title;
                       return (
@@ -166,14 +179,14 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
                               onSelectLesson(lesson.title);
                             }
                           }}
-                          className={`group flex items-start gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
+                          className={`group flex items-start gap-2.5 p-1.5 rounded-lg transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
                             isActive
                               ? 'bg-paper border border-charcoal/10 shadow-sm text-coral -translate-x-0.5'
                               : 'border border-transparent hover:bg-charcoal/5 hover:translate-x-0.5'
                           }`}
                         >
                           {/* Lesson Icon */}
-                          <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
+                          <div className={`p-1 rounded-md transition-colors shrink-0 ${
                             isActive 
                               ? 'bg-coral/10 text-coral' 
                               : 'bg-charcoal/5 text-charcoal/45 group-hover:bg-coral/5 group-hover:text-coral/80'
@@ -212,12 +225,12 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
 
   // Full-width view (Optional fallback)
   return (
-    <section className="py-24 px-6 max-w-4xl mx-auto" id="handbook">
-      <div className="text-center mb-16">
+    <section className="py-12 px-6 max-w-4xl mx-auto" id="handbook">
+      <div className="text-center mb-10">
         <span className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20">
           Course Syllabus
         </span>
-        <h2 className="font-editorial text-4xl md:text-5xl font-bold text-charcoal tracking-tight mt-4 mb-6">
+        <h2 className="font-editorial text-4xl md:text-5xl font-bold text-charcoal tracking-tight mt-4 mb-4">
           Table of Contents
         </h2>
         <div className="h-[1px] w-24 bg-coral/30 mx-auto mb-6"></div>

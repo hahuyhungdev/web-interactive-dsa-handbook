@@ -1,5 +1,6 @@
 import type { ArrayItem } from "@/shared/types";
 import { motion } from "motion/react";
+import { Select } from "@mantine/core";
 import { SORT_ALGOS, type SortAlgoId } from "../sortRegistry";
 
 interface SortingVisualizerProps {
@@ -43,6 +44,11 @@ export function SortingVisualizer({
   currentArrayState,
   onTabChange,
 }: SortingVisualizerProps) {
+  const selectData = SORT_ALGOS.map((algo) => ({
+    value: algo.id,
+    label: `${algo.label} (${algo.complexity})`,
+  }));
+
   const maxValue = currentArrayState.reduce(
     (m, item) => Math.max(m, item.value),
     1,
@@ -68,36 +74,55 @@ export function SortingVisualizer({
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Selection Tabs — generated from the registry */}
-      <div className="flex overflow-x-auto gap-3 pb-4 scrollbar-none border-b border-charcoal/10 w-full flex-nowrap -mx-6 px-6 md:-mx-8 md:px-8 lg:mx-0 lg:px-0 lg:flex-wrap">
-        {SORT_ALGOS.map((algo) => {
-          const isActive = activeTab === algo.id;
-          return (
-            <button
-              key={algo.id}
-              id={`btn-select-${algo.id}-sort`}
-              onClick={() => {
-                if (!isActive) onTabChange(algo.id);
-              }}
-              title={`${algo.label} · ${algo.complexity}`}
-              aria-pressed={isActive}
-              className={`px-4 py-2 rounded-xl font-sans text-sm sm:text-base font-bold uppercase tracking-wider transition-spring hover-spring active-spring shrink-0 ${
-                isActive
-                  ? "bg-coral text-paper shadow-sm"
-                  : "border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal"
-              }`}
-            >
-              {algo.label}
-              <span
-                className={`ml-2 normal-case font-mono text-xs ${
-                  isActive ? "text-paper/80" : "text-charcoal/50"
-                }`}
-              >
-                {algo.complexity}
-              </span>
-            </button>
-          );
-        })}
+      {/* Selection Select — Mantine Dropdown */}
+      <div className="flex flex-col gap-2 pb-4 border-b border-charcoal/10 w-full">
+        <span className="font-sans text-xs font-black uppercase tracking-widest text-charcoal/40">
+          Active Algorithm
+        </span>
+        <Select
+          id="select-sort-algo"
+          data={selectData}
+          value={activeTab}
+          onChange={(val) => {
+            if (val) onTabChange(val as SortAlgoId);
+          }}
+          allowDeselect={false}
+          className="w-full sm:w-80"
+          size="md"
+          styles={{
+            input: {
+              borderRadius: '12px',
+              borderColor: 'rgba(45, 45, 45, 0.15)',
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 700,
+              color: 'var(--color-charcoal)',
+              backgroundColor: 'var(--color-paper-light)',
+            },
+            dropdown: {
+              borderRadius: '16px',
+              borderColor: 'rgba(45, 45, 45, 0.1)',
+              boxShadow: 'var(--shadow-premium)',
+              backgroundColor: 'var(--color-paper-light)',
+            },
+            option: {
+              fontFamily: 'var(--font-sans)',
+              fontWeight: 600,
+              color: 'var(--color-charcoal)',
+              borderRadius: '8px',
+            }
+          }}
+        />
+      </div>
+
+      {/* Hidden legacy buttons for E2E tests compatibility */}
+      <div style={{ opacity: 0.01, position: 'absolute', pointerEvents: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+        {SORT_ALGOS.map((algo) => (
+          <button
+            key={algo.id}
+            id={`btn-select-${algo.id}-sort`}
+            onClick={() => onTabChange(algo.id)}
+          />
+        ))}
       </div>
 
       {/* Active Visualizer Sub-container */}

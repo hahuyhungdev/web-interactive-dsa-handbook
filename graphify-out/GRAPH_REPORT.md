@@ -1,16 +1,16 @@
 # Graph Report - web-interactive-dsa-handbook  (2026-06-29)
 
 ## Corpus Check
-- 146 files · ~370,367 words
+- 146 files · ~370,484 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 912 nodes · 1150 edges · 96 communities (66 shown, 30 thin omitted)
+- 914 nodes · 1152 edges · 95 communities (66 shown, 29 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `956b32d3`
+- Built from commit: `d53722b9`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -63,7 +63,6 @@
 - [[_COMMUNITY_Community 45|Community 45]]
 - [[_COMMUNITY_Community 46|Community 46]]
 - [[_COMMUNITY_Community 47|Community 47]]
-- [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
 - [[_COMMUNITY_Community 50|Community 50]]
 - [[_COMMUNITY_Community 51|Community 51]]
@@ -140,15 +139,15 @@
 - **Record-then-Replay Architecture Flow** — interactive_upgrade_record_replay, interactive_upgrade_generate_frames, interactive_upgrade_sorting_workspace, interactive_upgrade_sorting_visualizer, interactive_upgrade_code_viewer [EXTRACTED 0.95]
 - **E2E Test Interface Selector Contracts** — test_infra_playback_controls, test_infra_sorting_visualizer, test_infra_linked_list_visualizer, test_infra_practice_challenges [EXTRACTED 0.90]
 
-## Communities (96 total, 30 thin omitted)
+## Communities (95 total, 29 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
 Nodes (35): App(), ChaptersPage, GraphPage, HashTablePage, HomePage, LinkedListPage, NotFoundPage, PracticePage (+27 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.07
-Nodes (34): InsertPosition, LinkedListVisualizer(), LinkedListVisualizerProps, SortingArrayEditor(), SortingArrayEditorProps, SortingVisualizer(), SortingVisualizerProps, STATUS_STYLE (+26 more)
+Cohesion: 0.09
+Nodes (27): SortingArrayEditor(), SortingArrayEditorProps, SortingVisualizer(), SortingVisualizerProps, STATUS_STYLE, SortingWorkspace(), SortingWorkspaceProps, SortingSection() (+19 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.11
@@ -156,7 +155,7 @@ Nodes (36): NODE_FILL, NODE_STROKE, TreeVisualizer(), TreeVisualizerProps, CODE_
 
 ### Community 3 - "Community 3"
 Cohesion: 0.05
-Nodes (37): dependencies, @codemirror/lang-javascript, @codemirror/view, lucide-react, motion, @radix-ui/react-slider, react, react-dom (+29 more)
+Nodes (39): dependencies, @codemirror/lang-javascript, @codemirror/view, lucide-react, @mantine/core, @mantine/hooks, motion, @radix-ui/react-slider (+31 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.12
@@ -179,8 +178,8 @@ Cohesion: 0.19
 Nodes (19): _clean_command_name(), combined_tool_content(), get_graphify_count(), graph_json_denial(), graph_report_denial(), graphify_skill_denial(), is_doc_context_file(), is_exact_file_path() (+11 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.17
-Nodes (17): EDGE_STYLES, GraphVisualizer(), GraphVisualizerProps, NODE_COLORS, NODE_IDS, cloneNodes(), makeFrame(), cloneEdges() (+9 more)
+Cohesion: 0.11
+Nodes (22): EDGE_STYLES, GraphVisualizer(), GraphVisualizerProps, NODE_COLORS, NODE_IDS, AlgoId, GraphSection(), cloneNodes() (+14 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.19
@@ -203,8 +202,8 @@ Cohesion: 0.13
 Nodes (14): 1. Smoke & Network Pass, 2. Responsive Visual Pass, 3. Accessibility (A11y) Pass, 🔍 Browser QA Checklists, 📊 E2E Test Report Template, 📦 Page Object Model (POM) Design, Phase 1: Boot & Port Check, Phase 2: Spec Execution with Observability (+6 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.20
-Nodes (6): SearchArrayEditorProps, SearchFrame, VisualFrame, PlaybackControls(), PlaybackControlsProps, SHORTCUTS
+Cohesion: 0.15
+Nodes (7): SearchArrayEditorProps, SearchFrame, VisualFrame, SearchSection(), PlaybackControls(), PlaybackControlsProps, SHORTCUTS
 
 ### Community 16 - "Community 16"
 Cohesion: 0.31
@@ -287,8 +286,8 @@ Cohesion: 0.16
 Nodes (10): BINARY_SEARCH_CODE, CodeViewer(), CodeViewerProps, LINEAR_SEARCH_CODE, LINKED_LIST_CODE, THEORY_CONTENT, TheoryContent(), TheoryContentProps (+2 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.27
-Nodes (5): AlgoId, GraphSection(), buildDefaultGraph(), BFS_CODE, DFS_CODE
+Cohesion: 0.24
+Nodes (7): InsertPosition, LinkedListVisualizer(), LinkedListVisualizerProps, Lesson, NodeItem, generateFindFrames(), generateListFrames()
 
 ### Community 37 - "Community 37"
 Cohesion: 0.22
@@ -371,24 +370,24 @@ Cohesion: 0.67
 Nodes (3): Blue-Purple Linear Gradient, Yellow-Orange Linear Gradient, Vite Logo
 
 ## Knowledge Gaps
-- **453 isolated node(s):** `consoleErrors`, `pageErrors`, `name`, `private`, `version` (+448 more)
+- **455 isolated node(s):** `consoleErrors`, `pageErrors`, `name`, `private`, `version` (+450 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **30 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `usePlaybackKeyboard()` connect `Community 16` to `Community 1`, `Community 2`, `Community 36`, `Community 4`, `Community 15`, `Community 93`, `Community 31`?**
+- **Why does `usePlaybackKeyboard()` connect `Community 16` to `Community 1`, `Community 2`, `Community 4`, `Community 9`, `Community 15`, `Community 93`, `Community 31`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `usePlayback()` connect `Community 16` to `Community 1`, `Community 2`, `Community 36`, `Community 4`, `Community 15`, `Community 31`?**
+- **Why does `usePlayback()` connect `Community 16` to `Community 1`, `Community 2`, `Community 4`, `Community 9`, `Community 15`, `Community 31`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `CodeViewer()` connect `Community 35` to `Community 1`, `Community 2`, `Community 36`, `Community 4`, `Community 15`, `Community 16`, `Community 31`?**
+- **Why does `CodeViewer()` connect `Community 35` to `Community 1`, `Community 2`, `Community 4`, `Community 9`, `Community 15`, `Community 16`, `Community 31`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `consoleErrors`, `pageErrors`, `name` to the rest of the system?**
-  _453 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _455 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.05803921568627451 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.07013574660633484 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09024390243902439 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.10570824524312897 - nodes in this community are weakly interconnected._

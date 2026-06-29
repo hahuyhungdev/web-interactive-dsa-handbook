@@ -354,7 +354,7 @@ export function TheoryContent({ lessonId }: TheoryContentProps) {
 
   if (!lesson) {
     return (
-      <section className="py-24 px-6 max-w-3xl mx-auto text-center font-sans">
+      <section className="py-12 px-6 max-w-3xl mx-auto text-center font-sans">
         <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
         <h2 className="text-xl font-bold text-charcoal mb-2">Lesson Not Found</h2>
         <p className="text-base text-charcoal">Please select a valid theory lesson from the Table of Contents syllabus.</p>
@@ -363,8 +363,8 @@ export function TheoryContent({ lessonId }: TheoryContentProps) {
   }
 
   return (
-    <article className="py-24 px-6 max-w-3xl mx-auto">
-      <div className="border border-charcoal/10 bg-paper-light rounded-3xl p-8 md:p-12 shadow-premium relative overflow-hidden">
+    <article className="py-10 px-4 md:px-6 max-w-3xl mx-auto">
+      <div className="border border-charcoal/10 bg-paper-light rounded-3xl p-6 md:p-10 shadow-premium relative overflow-hidden">
         <header className="border-b border-charcoal/10 pb-6 mb-8">
           <span className="font-sans text-base uppercase tracking-wider text-charcoal font-semibold">
             {lesson.chapter}
