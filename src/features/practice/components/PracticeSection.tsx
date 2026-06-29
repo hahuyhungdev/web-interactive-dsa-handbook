@@ -512,8 +512,14 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   }, []);
 
   const handlePlayToggle = useCallback(() => {
-    setIsPlaying((prev) => !prev);
-  }, []);
+    setIsPlaying((prev) => {
+      const nextPlaying = !prev;
+      if (nextPlaying) {
+        setStepIndex((curr) => (curr >= totalSteps ? 0 : curr));
+      }
+      return nextPlaying;
+    });
+  }, [totalSteps]);
 
   // Validation to verify if testResult corresponds to current challenge
   const isValidResultForChallenge = useMemo(() => {
@@ -532,27 +538,22 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
 
   useEffect(() => {
     if (isPlaying) {
-      if (stepIndex >= totalSteps) {
-        setStepIndex(0);
-      }
-      timerRef.current = setInterval(() => {
+      const timer = setInterval(() => {
         setStepIndex((prev) => {
           if (prev < totalSteps) {
             return prev + 1;
           } else {
             setIsPlaying(false);
-            if (timerRef.current) clearInterval(timerRef.current);
             return prev;
           }
         });
       }, speedMs);
-    } else {
-      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = timer;
+      return () => {
+        clearInterval(timer);
+      };
     }
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isPlaying, stepIndex, totalSteps, speedMs]);
+  }, [isPlaying, totalSteps, speedMs]);
 
   // Keyboard shortcut listener for scrubbing
   useEffect(() => {
@@ -842,7 +843,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between gap-4 bg-paper border border-charcoal/10 rounded-3xl p-5 shadow-sm min-h-[550px] w-full">
+    <div className="flex-1 flex flex-col justify-between gap-4 bg-paper border border-charcoal/10 rounded-3xl p-5 shadow-sm min-h-[550px] h-full w-full">
       <div>
         <h3 className="font-editorial text-xl font-bold text-charcoal mb-1">
           Execution Visualizer
@@ -1873,14 +1874,14 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       </div>
 
       {isDesktop ? (
-        <PanelGroup direction="horizontal" className="w-full lg:items-start gap-0">
-          <Panel defaultSize={50} minSize={30} className="flex flex-col gap-4 min-w-0 pr-1">
+        <PanelGroup direction="horizontal" className="w-full gap-0">
+          <Panel defaultSize={50} minSize={30} className="flex flex-col gap-4 min-w-0 pr-1 h-full self-stretch">
             {leftColumnContent}
           </Panel>
           <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
             <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
           </PanelResizeHandle>
-          <Panel defaultSize={50} minSize={30} className="flex flex-col min-w-0 pl-1">
+          <Panel defaultSize={50} minSize={30} className="flex flex-col min-w-0 pl-1 h-full self-stretch">
             <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
           </Panel>
         </PanelGroup>
