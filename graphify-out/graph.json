@@ -966,10 +966,20 @@
       "norm_label": "react-hotkeys-hook"
     },
     {
-      "label": "react-router-dom",
+      "label": "react-resizable-panels",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L24",
+      "_origin": "ast",
+      "id": "package_dependencies_react_resizable_panels",
+      "community": 3,
+      "norm_label": "react-resizable-panels"
+    },
+    {
+      "label": "react-router-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_dependencies_react_router_dom",
       "community": 3,
@@ -979,7 +989,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 3,
@@ -989,7 +999,7 @@
       "label": "@eslint/js",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_js",
       "community": 3,
@@ -999,7 +1009,7 @@
       "label": "@playwright/test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies_playwright_test",
       "community": 3,
@@ -1009,7 +1019,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 3,
@@ -1019,7 +1029,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 3,
@@ -1029,7 +1039,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 3,
@@ -1039,7 +1049,7 @@
       "label": "@vitejs/plugin-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_vitejs_plugin_react",
       "community": 3,
@@ -1049,7 +1059,7 @@
       "label": "autoprefixer",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_devdependencies_autoprefixer",
       "community": 3,
@@ -1059,7 +1069,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 3,
@@ -1069,7 +1079,7 @@
       "label": "eslint-plugin-react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react",
       "community": 3,
@@ -1079,7 +1089,7 @@
       "label": "eslint-plugin-react-hooks",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_hooks",
       "community": 3,
@@ -1089,7 +1099,7 @@
       "label": "eslint-plugin-react-refresh",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_plugin_react_refresh",
       "community": 3,
@@ -1099,7 +1109,7 @@
       "label": "globals",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_globals",
       "community": 3,
@@ -1109,7 +1119,7 @@
       "label": "postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_postcss",
       "community": 3,
@@ -1119,7 +1129,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 3,
@@ -1129,7 +1139,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 3,
@@ -1139,7 +1149,7 @@
       "label": "vite",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_devdependencies_vite",
       "community": 3,
@@ -1612,7 +1622,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_graphworkspace",
-      "community": 9,
+      "community": 16,
       "norm_label": "graphworkspace.tsx"
     },
     {
@@ -1622,7 +1632,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_graphworkspace_algoid",
-      "community": 9,
+      "community": 16,
       "norm_label": "algoid"
     },
     {
@@ -1642,7 +1652,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_graph_index_tsx_graph_index",
-      "community": 9,
+      "community": 16,
       "norm_label": "index.tsx"
     },
     {
@@ -1652,7 +1662,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphsection",
-      "community": 9,
+      "community": 16,
       "norm_label": "graphsection()"
     },
     {
@@ -1722,7 +1732,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_generateframes_builddefaultgraph",
-      "community": 9,
+      "community": 16,
       "norm_label": "builddefaultgraph()"
     },
     {
@@ -1802,7 +1812,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode",
-      "community": 9,
+      "community": 16,
       "norm_label": "graphcode.ts"
     },
     {
@@ -1812,7 +1822,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode_bfs_code",
-      "community": 9,
+      "community": 16,
       "norm_label": "bfs_code"
     },
     {
@@ -1822,7 +1832,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_graphcode_dfs_code",
-      "community": 9,
+      "community": 16,
       "norm_label": "dfs_code"
     },
     {
@@ -2162,7 +2172,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_linkedlistworkspace",
-      "community": 16,
+      "community": 36,
       "norm_label": "linkedlistworkspace.tsx"
     },
     {
@@ -2172,7 +2182,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_linkedlistworkspace_code_snippets",
-      "community": 16,
+      "community": 36,
       "norm_label": "code_snippets"
     },
     {
@@ -2182,7 +2192,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "components_linkedlistworkspace_linkedlistworkspace",
-      "community": 16,
+      "community": 36,
       "norm_label": "linkedlistworkspace()"
     },
     {
@@ -2192,7 +2202,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_linked_list_index_tsx_linked_list_index",
-      "community": 16,
+      "community": 95,
       "norm_label": "index.tsx"
     },
     {
@@ -2259,7 +2269,7 @@
       "label": "BOILERPLATES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L11",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "components_practicesection_boilerplates",
       "community": 5,
@@ -2269,7 +2279,7 @@
       "label": "TestCase",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L85",
+      "source_location": "L87",
       "_origin": "ast",
       "id": "components_practicesection_testcase",
       "community": 5,
@@ -2279,7 +2289,7 @@
       "label": "TestResult",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L90",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "components_practicesection_testresult",
       "community": 5,
@@ -2289,7 +2299,7 @@
       "label": "TEST_CASES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L99",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "components_practicesection_test_cases",
       "community": 5,
@@ -2299,7 +2309,7 @@
       "label": "isEqual()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L127",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "components_practicesection_isequal",
       "community": 5,
@@ -2309,7 +2319,7 @@
       "label": "safeStringify()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L156",
+      "source_location": "L158",
       "_origin": "ast",
       "id": "components_practicesection_safestringify",
       "community": 5,
@@ -2319,7 +2329,7 @@
       "label": "ArrayVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L166",
+      "source_location": "L168",
       "_origin": "ast",
       "id": "components_practicesection_arrayvisualizer",
       "community": 5,
@@ -2329,7 +2339,7 @@
       "label": "LinkedListVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L203",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "components_practicesection_linkedlistvisualizer",
       "community": 5,
@@ -2339,7 +2349,7 @@
       "label": "BinarySearchVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L339",
+      "source_location": "L341",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizerprops",
       "community": 5,
@@ -2349,7 +2359,7 @@
       "label": "BinarySearchVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L348",
+      "source_location": "L350",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizer",
       "community": 5,
@@ -2359,7 +2369,7 @@
       "label": "StackParenthesesVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L409",
+      "source_location": "L411",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizerprops",
       "community": 5,
@@ -2369,7 +2379,7 @@
       "label": "StackParenthesesVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L415",
+      "source_location": "L417",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizer",
       "community": 5,
@@ -2379,7 +2389,7 @@
       "label": "CodeVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L480",
+      "source_location": "L482",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizerprops",
       "community": 5,
@@ -2389,7 +2399,7 @@
       "label": "CodeVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L486",
+      "source_location": "L488",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizer",
       "community": 5,
@@ -2399,7 +2409,7 @@
       "label": "PracticeSectionProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1063",
+      "source_location": "L1065",
       "_origin": "ast",
       "id": "components_practicesection_practicesectionprops",
       "community": 5,
@@ -2409,7 +2419,7 @@
       "label": "TabId",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1067",
+      "source_location": "L1069",
       "_origin": "ast",
       "id": "components_practicesection_tabid",
       "community": 5,
@@ -2419,7 +2429,7 @@
       "label": "PracticeSection()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1069",
+      "source_location": "L1071",
       "_origin": "ast",
       "id": "components_practicesection_practicesection",
       "community": 5,
@@ -2532,7 +2542,7 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "components_searchvisualizer_searchvisualizer",
-      "community": 16,
+      "community": 15,
       "norm_label": "searchvisualizer()"
     },
     {
@@ -2552,7 +2562,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "search_index_searchsection",
-      "community": 15,
+      "community": 48,
       "norm_label": "searchsection()"
     },
     {
@@ -3012,7 +3022,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_stackqueueworkspace",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueueworkspace.tsx"
     },
     {
@@ -3022,7 +3032,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_mode",
-      "community": 31,
+      "community": 94,
       "norm_label": "mode"
     },
     {
@@ -3032,7 +3042,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_stackqueueworkspace",
-      "community": 16,
+      "community": 94,
       "norm_label": "stackqueueworkspace()"
     },
     {
@@ -3062,7 +3072,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_stack_queue_utils_generateframes_ts_utils_generateframes",
-      "community": 31,
+      "community": 94,
       "norm_label": "generateframes.ts"
     },
     {
@@ -3082,7 +3092,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "utils_generateframes_generatestackpushpopframes",
-      "community": 31,
+      "community": 94,
       "norm_label": "generatestackpushpopframes()"
     },
     {
@@ -3092,7 +3102,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "utils_generateframes_generatequeueframes",
-      "community": 31,
+      "community": 94,
       "norm_label": "generatequeueframes()"
     },
     {
@@ -3102,7 +3112,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_stackqueuecode",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueuecode.ts"
     },
     {
@@ -3112,7 +3122,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_stackqueuecode_stack_code",
-      "community": 31,
+      "community": 94,
       "norm_label": "stack_code"
     },
     {
@@ -3122,7 +3132,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_stackqueuecode_queue_code",
-      "community": 31,
+      "community": 94,
       "norm_label": "queue_code"
     },
     {
@@ -3732,7 +3742,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_tableofcontents",
-      "community": 0,
+      "community": 1,
       "norm_label": "tableofcontents.tsx"
     },
     {
@@ -3742,7 +3752,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_tableofcontents_tableofcontentsprops",
-      "community": 0,
+      "community": 1,
       "norm_label": "tableofcontentsprops"
     },
     {
@@ -3752,7 +3762,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_tableofcontents_chapter_routes",
-      "community": 0,
+      "community": 1,
       "norm_label": "chapter_routes"
     },
     {
@@ -3832,7 +3842,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_graph_index_tsx_graph_index",
-      "community": 9,
+      "community": 16,
       "norm_label": "index.tsx"
     },
     {
@@ -3842,7 +3852,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphpage",
-      "community": 9,
+      "community": 16,
       "norm_label": "graphpage()"
     },
     {
@@ -3932,7 +3942,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_search_index_tsx_search_index",
-      "community": 15,
+      "community": 48,
       "norm_label": "index.tsx"
     },
     {
@@ -3942,7 +3952,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "search_index_searchpage",
-      "community": 15,
+      "community": 48,
       "norm_label": "searchpage()"
     },
     {
@@ -4142,7 +4152,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "constants_chapters",
-      "community": 0,
+      "community": 1,
       "norm_label": "chapters.ts"
     },
     {
@@ -4152,7 +4162,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "constants_chapters_chapters",
-      "community": 0,
+      "community": 1,
       "norm_label": "chapters"
     },
     {
@@ -4232,7 +4242,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard",
-      "community": 93,
+      "community": 36,
       "norm_label": "useplaybackkeyboard.ts"
     },
     {
@@ -4242,7 +4252,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_playbackhandle",
-      "community": 93,
+      "community": 36,
       "norm_label": "playbackhandle"
     },
     {
@@ -4252,7 +4262,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_options",
-      "community": 93,
+      "community": 36,
       "norm_label": "options"
     },
     {
@@ -4262,7 +4272,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_clamp",
-      "community": 93,
+      "community": 36,
       "norm_label": "clamp()"
     },
     {
@@ -4272,7 +4282,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_useplaybackkeyboard",
-      "community": 16,
+      "community": 36,
       "norm_label": "useplaybackkeyboard()"
     },
     {
@@ -4282,7 +4292,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_index",
-      "community": 36,
+      "community": 1,
       "norm_label": "index.ts"
     },
     {
@@ -4322,7 +4332,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "types_index_lesson",
-      "community": 36,
+      "community": 1,
       "norm_label": "lesson"
     },
     {
@@ -4332,7 +4342,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "types_index_chapter",
-      "community": 0,
+      "community": 1,
       "norm_label": "chapter"
     },
     {
@@ -10740,6 +10750,16 @@
       "confidence_score": 1.0,
       "source": "package_dependencies",
       "target": "package_dependencies_react_hotkeys_hook"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_resizable_panels",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -21162,5 +21182,5 @@
       "source_file": "TEST_INFRA.md"
     }
   ],
-  "built_at_commit": "0df26a97050ea2ab657a5828df115bcbceda2360"
+  "built_at_commit": "0f8ea1515312315a97e9d99b02004469eb5b8dc7"
 }

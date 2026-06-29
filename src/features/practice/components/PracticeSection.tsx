@@ -7,6 +7,8 @@ import { Play, Pause, SkipBack, SkipForward, RotateCcw, CheckCircle, XCircle, In
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Switch } from "@mantine/core";
+import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from "react-resizable-panels";
+import { useMediaQuery } from "@mantine/hooks";
 
 const BOILERPLATES = {
   "two-sum": `function twoSum(nums, target) {
@@ -1068,6 +1070,7 @@ type TabId = "two-sum" | "reverse-list" | "find-max" | "binary-search" | "valid-
 
 export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   const navigate = useNavigate();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [selectedTab, setSelectedTab] = useState<TabId>("two-sum");
   const [code, setCode] = useState(BOILERPLATES["two-sum"]);
   const [lastSubmittedCode, setLastSubmittedCode] = useState(BOILERPLATES["two-sum"]);
@@ -1610,6 +1613,229 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     setCode(value);
   }, []);
 
+  const leftColumnContent = (
+    <>
+      <div className="relative border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden font-mono text-base shadow-sm">
+        <div className="flex items-center justify-between border-b border-charcoal/5 px-6 py-3 bg-paper-light">
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+          </div>
+          <span className="text-base text-charcoal/65 tracking-wider font-semibold">
+            {selectedTab === "two-sum"
+              ? "twoSum.js"
+              : selectedTab === "reverse-list"
+                ? "reverseList.js"
+                : selectedTab === "find-max"
+                  ? "findMax.js"
+                  : selectedTab === "binary-search"
+                    ? "binarySearch.js"
+                    : "isValid.js"}
+          </span>
+        </div>
+        <div id="code-editor" className="bg-paper">
+          <CodeMirror
+            value={code}
+            height="220px"
+            theme="light"
+            extensions={cmExtensions}
+            onChange={handleCodeChange}
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLine: true,
+              bracketMatching: true,
+              closeBrackets: true,
+              autocompletion: true,
+              indentOnInput: true,
+              tabSize: 2,
+            }}
+            className="text-base font-mono"
+          />
+        </div>
+      </div>
+
+      {/* Custom Input Configuration */}
+      <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <Switch
+            checked={useCustomInput}
+            onChange={(e) => setUseCustomInput(e.currentTarget.checked)}
+            label="Use Custom Test Case"
+            size="sm"
+            styles={{
+              track: {
+                backgroundColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                borderColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                cursor: 'pointer',
+              },
+              label: {
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 800,
+                fontSize: '13px',
+                color: 'var(--color-charcoal)',
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }
+            }}
+          />
+          <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
+            {useCustomInput ? "Custom Input Active" : "Using Default Test Cases"}
+          </span>
+        </div>
+
+        {useCustomInput && (
+          <div className="pt-3 border-t border-charcoal/5 flex flex-col gap-3 font-sans text-sm">
+            {(selectedTab === "two-sum" ||
+              selectedTab === "binary-search" ||
+              selectedTab === "reverse-list" ||
+              selectedTab === "find-max") && (
+              <div className="flex flex-col gap-1.5">
+                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                  Array / List Items:
+                </span>
+                <input
+                  type="text"
+                  value={customInputArray}
+                  onChange={(e) => setCustomInputArray(e.target.value)}
+                  placeholder="e.g. [2, 7, 11, 15]"
+                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                />
+                <span className="text-[10px] text-charcoal/40 font-mono">
+                  Must be a valid JSON array of numbers.
+                </span>
+              </div>
+            )}
+
+            {(selectedTab === "two-sum" || selectedTab === "binary-search") && (
+              <div className="flex flex-col gap-1.5">
+                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                  Target Number:
+                </span>
+                <input
+                  type="number"
+                  value={customInputTarget}
+                  onChange={(e) => setCustomInputTarget(e.target.value)}
+                  placeholder="e.g. 9"
+                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                />
+              </div>
+            )}
+
+            {selectedTab === "valid-parentheses" && (
+              <div className="flex flex-col gap-1.5">
+                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                  Parentheses String:
+                </span>
+                <input
+                  type="text"
+                  value={customInputString}
+                  onChange={(e) => setCustomInputString(e.target.value)}
+                  placeholder="e.g. ()[]{}"
+                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Action Controls */}
+      <div className="flex items-center justify-between gap-4">
+        <button
+          id="btn-run-code"
+          onClick={handleRunCode}
+          title="Run code (⌘/Ctrl + Enter)"
+          className="px-6 py-3 bg-coral text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer"
+        >
+          Run Code{" "}
+          <span className="hidden md:inline ml-2 font-mono text-xs opacity-80">⌘↵</span>
+        </button>
+
+        <div
+          id="test-summary"
+          className={`font-sans text-base font-bold tracking-wide uppercase px-3 py-1 rounded-full ${
+            summary === "All Tests Passed"
+              ? "bg-green-500/10 text-green-700 border border-green-500/20"
+              : summary === "Empty submission" ||
+                  summary === "Timeout" ||
+                  summary === "Tests Failed"
+                ? "bg-red-500/10 text-red-700 border border-red-500/20"
+                : "bg-charcoal/5 text-charcoal/60 border border-transparent"
+          }`}
+        >
+          {summary || "Not Evaluated"}
+        </div>
+      </div>
+
+      {/* Test Results Drawer */}
+      <div
+        id="test-results-drawer"
+        className="border border-charcoal/10 rounded-2xl bg-paper-dark p-5 max-h-[160px] overflow-y-auto font-mono text-base shadow-inner flex flex-col gap-3"
+      >
+        {compileError && (
+          <div className="text-red-500 font-semibold mb-2 whitespace-pre-wrap">
+            Error: {compileError}
+          </div>
+        )}
+        {testResults.length === 0 ? (
+          <div className="text-charcoal/50 italic text-sm py-4 text-center">
+            {summary === "Empty submission"
+              ? "Empty submission"
+              : "No test results yet. Write your code and click Run Code."}
+          </div>
+        ) : (
+          testResults.map((tc, idx) => {
+            const isPassed = tc.passed;
+            const isActive = idx === activeTC;
+            return (
+              <div
+                key={idx}
+                onClick={() => setActiveTC(idx)}
+                role="button"
+                tabIndex={0}
+                className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                  isActive
+                    ? "ring-2 ring-coral/50 shadow-md bg-paper border-charcoal/20"
+                    : "bg-paper/40 hover:bg-paper/70 border-charcoal/10"
+                }`}
+              >
+                <div className="flex items-center justify-between font-bold mb-2">
+                  <span className="flex items-center gap-1.5 text-sm">
+                    {isPassed ? (
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <XCircle className="w-4 h-4 text-red-500" />
+                    )}
+                    {useCustomInput ? "Custom Test Case" : `Test Case ${idx + 1}`}
+                  </span>
+                  <span
+                    className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-sans border ${
+                      isPassed
+                        ? "bg-green-500/10 text-green-700 border-green-500/20"
+                        : "bg-red-500/10 text-red-700 border-red-500/20"
+                    }`}
+                  >
+                    {useCustomInput ? (tc.error ? "Failed" : "Success") : (isPassed ? "Passed" : "Failed")}
+                  </span>
+                </div>
+                <div className="text-charcoal/70 font-mono text-[11px] truncate">
+                  Input: {safeStringify(tc.input)}
+                </div>
+                {tc.error && (
+                  <div className="text-red-500 font-mono text-[11px] mt-1.5 whitespace-pre-wrap">
+                    Error: {tc.error}
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )}
+      </div>
+    </>
+  );
+
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Tabs - Segmented Capsule style */}
@@ -1646,234 +1872,28 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
         })}
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
-        {/* Left Column: Code Editor & Runner */}
-        <div className="flex-1 min-w-0 flex flex-col gap-4">
-          <div className="relative border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden font-mono text-base shadow-sm">
-            <div className="flex items-center justify-between border-b border-charcoal/5 px-6 py-3 bg-paper-light">
-              <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-              </div>
-              <span className="text-base text-charcoal/65 tracking-wider font-semibold">
-                {selectedTab === "two-sum"
-                  ? "twoSum.js"
-                  : selectedTab === "reverse-list"
-                    ? "reverseList.js"
-                    : selectedTab === "find-max"
-                      ? "findMax.js"
-                      : selectedTab === "binary-search"
-                        ? "binarySearch.js"
-                        : "isValid.js"}
-              </span>
-            </div>
-            <div id="code-editor" className="bg-paper">
-              <CodeMirror
-                value={code}
-                height="220px"
-                theme="light"
-                extensions={cmExtensions}
-                onChange={handleCodeChange}
-                basicSetup={{
-                  lineNumbers: true,
-                  highlightActiveLine: true,
-                  bracketMatching: true,
-                  closeBrackets: true,
-                  autocompletion: true,
-                  indentOnInput: true,
-                  tabSize: 2,
-                }}
-                className="text-base font-mono"
-              />
-            </div>
+      {isDesktop ? (
+        <PanelGroup direction="horizontal" className="w-full lg:items-start gap-0">
+          <Panel defaultSize={50} minSize={30} className="flex flex-col gap-4 min-w-0 pr-1">
+            {leftColumnContent}
+          </Panel>
+          <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
+            <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
+          </PanelResizeHandle>
+          <Panel defaultSize={50} minSize={30} className="flex flex-col min-w-0 pl-1">
+            <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
+          </Panel>
+        </PanelGroup>
+      ) : (
+        <div className="flex flex-col gap-8">
+          <div className="flex-1 min-w-0 flex flex-col gap-4">
+            {leftColumnContent}
           </div>
-
-          {/* Custom Input Configuration */}
-          <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <Switch
-                checked={useCustomInput}
-                onChange={(e) => setUseCustomInput(e.currentTarget.checked)}
-                label="Use Custom Test Case"
-                size="sm"
-                styles={{
-                  track: {
-                    backgroundColor: useCustomInput ? 'var(--color-coral)' : undefined,
-                    borderColor: useCustomInput ? 'var(--color-coral)' : undefined,
-                    cursor: 'pointer',
-                  },
-                  label: {
-                    fontFamily: 'var(--font-sans)',
-                    fontWeight: 800,
-                    fontSize: '13px',
-                    color: 'var(--color-charcoal)',
-                    cursor: 'pointer',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                  }
-                }}
-              />
-              <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
-                {useCustomInput ? "Custom Input Active" : "Using Default Test Cases"}
-              </span>
-            </div>
-
-            {useCustomInput && (
-              <div className="pt-3 border-t border-charcoal/5 flex flex-col gap-3 font-sans text-sm">
-                {(selectedTab === "two-sum" ||
-                  selectedTab === "binary-search" ||
-                  selectedTab === "reverse-list" ||
-                  selectedTab === "find-max") && (
-                  <div className="flex flex-col gap-1.5">
-                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                      Array / List Items:
-                    </span>
-                    <input
-                      type="text"
-                      value={customInputArray}
-                      onChange={(e) => setCustomInputArray(e.target.value)}
-                      placeholder="e.g. [2, 7, 11, 15]"
-                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                    />
-                    <span className="text-[10px] text-charcoal/40 font-mono">
-                      Must be a valid JSON array of numbers.
-                    </span>
-                  </div>
-                )}
-
-                {(selectedTab === "two-sum" || selectedTab === "binary-search") && (
-                  <div className="flex flex-col gap-1.5">
-                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                      Target Number:
-                    </span>
-                    <input
-                      type="number"
-                      value={customInputTarget}
-                      onChange={(e) => setCustomInputTarget(e.target.value)}
-                      placeholder="e.g. 9"
-                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                    />
-                  </div>
-                )}
-
-                {selectedTab === "valid-parentheses" && (
-                  <div className="flex flex-col gap-1.5">
-                    <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                      Parentheses String:
-                    </span>
-                    <input
-                      type="text"
-                      value={customInputString}
-                      onChange={(e) => setCustomInputString(e.target.value)}
-                      placeholder="e.g. ()[]{}"
-                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                    />
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          {/* Action Controls */}
-          <div className="flex items-center justify-between gap-4">
-            <button
-              id="btn-run-code"
-              onClick={handleRunCode}
-              title="Run code (⌘/Ctrl + Enter)"
-              className="px-6 py-3 bg-coral text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer"
-            >
-              Run Code{" "}
-              <span className="hidden md:inline ml-2 font-mono text-xs opacity-80">⌘↵</span>
-            </button>
-
-            <div
-              id="test-summary"
-              className={`font-sans text-base font-bold tracking-wide uppercase px-3 py-1 rounded-full ${
-                summary === "All Tests Passed"
-                  ? "bg-green-500/10 text-green-700 border border-green-500/20"
-                  : summary === "Empty submission" ||
-                      summary === "Timeout" ||
-                      summary === "Tests Failed"
-                    ? "bg-red-500/10 text-red-700 border border-red-500/20"
-                    : "bg-charcoal/5 text-charcoal/60 border border-transparent"
-              }`}
-            >
-              {summary || "Not Evaluated"}
-            </div>
-          </div>
-
-          {/* Test Results Drawer */}
-          <div
-            id="test-results-drawer"
-            className="border border-charcoal/10 rounded-2xl bg-paper-dark p-5 max-h-[160px] overflow-y-auto font-mono text-base shadow-inner flex flex-col gap-3"
-          >
-            {compileError && (
-              <div className="text-red-500 font-semibold mb-2 whitespace-pre-wrap">
-                Error: {compileError}
-              </div>
-            )}
-            {testResults.length === 0 ? (
-              <div className="text-charcoal/50 italic text-sm py-4 text-center">
-                {summary === "Empty submission"
-                  ? "Empty submission"
-                  : "No test results yet. Write your code and click Run Code."}
-              </div>
-            ) : (
-              testResults.map((tc, idx) => {
-                const isPassed = tc.passed;
-                const isActive = idx === activeTC;
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => setActiveTC(idx)}
-                    role="button"
-                    tabIndex={0}
-                    className={`p-4 rounded-xl border transition-all cursor-pointer ${
-                      isActive
-                        ? "ring-2 ring-coral/50 shadow-md bg-paper border-charcoal/20"
-                        : "bg-paper/40 hover:bg-paper/70 border-charcoal/10"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between font-bold mb-2">
-                      <span className="flex items-center gap-1.5 text-sm">
-                        {isPassed ? (
-                          <CheckCircle className="w-4 h-4 text-green-600" />
-                        ) : (
-                          <XCircle className="w-4 h-4 text-red-500" />
-                        )}
-                        {useCustomInput ? "Custom Test Case" : `Test Case ${idx + 1}`}
-                      </span>
-                      <span
-                        className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-sans border ${
-                          isPassed
-                            ? "bg-green-500/10 text-green-700 border-green-500/20"
-                            : "bg-red-500/10 text-red-700 border-red-500/20"
-                        }`}
-                      >
-                        {useCustomInput ? (tc.error ? "Failed" : "Success") : (isPassed ? "Passed" : "Failed")}
-                      </span>
-                    </div>
-                    <div className="text-charcoal/70 font-mono text-[11px] truncate">
-                      Input: {safeStringify(tc.input)}
-                    </div>
-                    {tc.error && (
-                      <div className="text-red-500 font-mono text-[11px] mt-1.5 whitespace-pre-wrap">
-                        Error: {tc.error}
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
+          <div className="flex-1 min-w-0 flex flex-col">
+            <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
           </div>
         </div>
-
-        {/* Right Column: Visual Sandbox */}
-        <div className="flex-1 min-w-0 flex flex-col">
-          <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

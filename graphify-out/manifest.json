@@ -5,8 +5,8 @@
     "semantic_hash": "bfe13b9e25d0af7959d0396aa103d88c"
   },
   "package.json": {
-    "mtime": 1782717244.6167073,
-    "ast_hash": "4d7f41a6312bb3e967852541374dfad9",
+    "mtime": 1782722176.5186892,
+    "ast_hash": "1ec24679b72b343e72ca9cf108f3462d",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -110,8 +110,8 @@
     "semantic_hash": "35f202a381178e6376f9848c0dc51c86"
   },
   "src/features/practice/components/PracticeSection.tsx": {
-    "mtime": 1782719305.9357433,
-    "ast_hash": "5f278948495471e8b880f93d77eb5454",
+    "mtime": 1782722426.4438996,
+    "ast_hash": "02604f667b51970aed4b15af692addf2",
     "semantic_hash": ""
   },
   "src/features/practice/index.tsx": {
