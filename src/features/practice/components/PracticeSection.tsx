@@ -850,7 +850,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         </p>
 
         {/* Code Viewer Panel */}
-        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[180px] shadow-inner mb-4">
+        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[120px] shadow-inner mb-4">
           <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
             <span className="text-[10px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
               Code Viewer
@@ -906,7 +906,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
 
         {/* Step Flow List (Trace Timeline) */}
         {totalSteps > 0 && (
-          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[140px] shadow-inner">
+          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[110px] shadow-inner">
             <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
               <span className="text-[9px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
                 Execution Flow Trace
@@ -1644,7 +1644,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             <div id="code-editor" className="bg-paper">
               <CodeMirror
                 value={code}
-                height="320px"
+                height="220px"
                 theme="light"
                 extensions={cmExtensions}
                 onChange={handleCodeChange}
@@ -1779,7 +1779,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           {/* Test Results Drawer */}
           <div
             id="test-results-drawer"
-            className="border border-charcoal/10 rounded-2xl bg-paper-dark p-5 max-h-[300px] overflow-y-auto font-mono text-base shadow-inner flex flex-col gap-3"
+            className="border border-charcoal/10 rounded-2xl bg-paper-dark p-5 max-h-[160px] overflow-y-auto font-mono text-base shadow-inner flex flex-col gap-3"
           >
             {compileError && (
               <div className="text-red-500 font-semibold mb-2 whitespace-pre-wrap">
