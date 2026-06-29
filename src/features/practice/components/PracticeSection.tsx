@@ -850,7 +850,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         </p>
 
         {/* Code Viewer Panel */}
-        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[120px] shadow-inner mb-4">
+        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[180px] shadow-inner mb-4">
           <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
             <span className="text-[10px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
               Code Viewer
@@ -906,7 +906,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
 
         {/* Step Flow List (Trace Timeline) */}
         {totalSteps > 0 && (
-          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[110px] shadow-inner">
+          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[150px] shadow-inner">
             <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
               <span className="text-[9px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
                 Execution Flow Trace
