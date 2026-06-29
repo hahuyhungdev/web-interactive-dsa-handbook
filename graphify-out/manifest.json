@@ -195,9 +195,9 @@
     "semantic_hash": ""
   },
   "src/features/theory/components/TheoryContent.tsx": {
-    "mtime": 1782468199.0821114,
-    "ast_hash": "c3f423bff42302f952122c400a425492",
-    "semantic_hash": "c3f423bff42302f952122c400a425492"
+    "mtime": 1782711804.5646849,
+    "ast_hash": "59e197536ac88ec7901936194891d081",
+    "semantic_hash": ""
   },
   "src/features/theory/index.tsx": {
     "mtime": 1782462500.0662365,
@@ -230,8 +230,8 @@
     "semantic_hash": "68d8acabc668fb0ca1cad295d76efec0"
   },
   "src/layouts/MainLayout.tsx": {
-    "mtime": 1782706677.3783782,
-    "ast_hash": "3a979d080b62d9ebccd7784574b51029",
+    "mtime": 1782712440.7013683,
+    "ast_hash": "16e3c07faa2d76f2949cc47b2d8b0525",
     "semantic_hash": ""
   },
   "src/layouts/components/Navbar.tsx": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "src/layouts/components/TableOfContents.tsx": {
-    "mtime": 1782706865.3527765,
-    "ast_hash": "e88704155efd6a171bd01c2ab5cdb9c8",
+    "mtime": 1782711789.5241864,
+    "ast_hash": "5e93580453ae1f4dd35beaa2e3154d0f",
     "semantic_hash": ""
   },
   "src/main.tsx": {

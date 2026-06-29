@@ -12,55 +12,119 @@ const THEORY_CONTENT: Record<string, {
     duration: '10 min',
     content: (
       <div className="space-y-6 font-editorial text-charcoal leading-relaxed text-base md:text-lg">
-        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block">
+        <p className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold bg-coral/5 px-3 py-1 rounded-full border border-coral-dark/20 inline-block font-sans">
           Syllabus Core I.I
         </p>
         <p className="first-letter:text-5xl first-letter:font-bold first-letter:text-coral first-letter:float-left first-letter:mr-3 first-letter:mt-1">
-          Memory is fundamentally a linear tape. In modern systems, this tape is partitioned into bytes, each identified by a unique hexadecimal address. When we allocate an <strong>Array</strong>, the system guarantees a block of memory where elements are stored back-to-back—or <em>contiguously</em>.
+          Memory is fundamentally a linear tape. In modern hardware architectures, this tape is partitioned into bytes, each identified by a unique hexadecimal address. When we allocate an <strong>Array</strong>, the system guarantees a block of physical memory where elements are stored back-to-back—or <em>contiguously</em>.
         </p>
 
         <div className="bg-paper-dark border border-charcoal/10 rounded-2xl p-6 font-mono text-base my-8 shadow-inner">
-          <h4 className="font-sans font-bold text-base text-charcoal uppercase tracking-wider mb-3">Memory Map Representation</h4>
+          <h4 className="font-sans font-bold text-sm text-charcoal/60 uppercase tracking-wider mb-4 font-sans">Memory Map Layout (e.g. 32-bit Integer Array)</h4>
           <div className="flex flex-wrap gap-2 items-center justify-start">
-            <div className="border border-charcoal/20 bg-paper p-3 rounded-lg text-center shrink-0">
-              <span className="block text-base text-charcoal">Addr 0x104</span>
+            <div className="border border-charcoal/15 bg-paper p-3 rounded-lg text-center shrink-0 shadow-sm">
+              <span className="block text-xs text-charcoal/50">BaseAddress (0x104)</span>
               <strong className="text-coral text-base">Index [0]</strong>
             </div>
-            <div className="text-charcoal text-base">➔</div>
-            <div className="border border-charcoal/20 bg-paper p-3 rounded-lg text-center shrink-0">
-              <span className="block text-base text-charcoal">Addr 0x108</span>
-              <strong className="text-base">Index [1]</strong>
+            <div className="text-charcoal/30 text-base">➔</div>
+            <div className="border border-charcoal/15 bg-paper p-3 rounded-lg text-center shrink-0 shadow-sm">
+              <span className="block text-xs text-charcoal/50">Base + 4 Bytes (0x108)</span>
+              <strong className="text-charcoal text-base">Index [1]</strong>
             </div>
-            <div className="text-charcoal text-base">➔</div>
-            <div className="border border-charcoal/20 bg-paper p-3 rounded-lg text-center shrink-0">
-              <span className="block text-base text-charcoal">Addr 0x10C</span>
-              <strong className="text-base">Index [2]</strong>
+            <div className="text-charcoal/30 text-base">➔</div>
+            <div className="border border-charcoal/15 bg-paper p-3 rounded-lg text-center shrink-0 shadow-sm">
+              <span className="block text-xs text-charcoal/50">Base + 8 Bytes (0x10C)</span>
+              <strong className="text-charcoal text-base">Index [2]</strong>
             </div>
-            <div className="text-charcoal text-base">➔</div>
-            <div className="border border-charcoal/20 bg-paper p-3 rounded-lg text-center shrink-0">
-              <span className="block text-base text-charcoal">Addr 0x110</span>
-              <strong className="text-base">Index [3]</strong>
+            <div className="text-charcoal/30 text-base">➔</div>
+            <div className="border border-charcoal/15 bg-paper p-3 rounded-lg text-center shrink-0 shadow-sm">
+              <span className="block text-xs text-charcoal/50">Base + 12 Bytes (0x110)</span>
+              <strong className="text-charcoal text-base">Index [3]</strong>
             </div>
           </div>
         </div>
 
         <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">The Constant-Time Access Formula</h3>
         <p>
-          Because elements are sized uniformly and arranged contiguously, finding any index requires simple arithmetic rather than searching:
+          Because elements are sized uniformly and arranged contiguously, finding the exact memory location of any index requires simple arithmetic rather than linear search:
         </p>
-        <blockquote className="border-l-4 border-coral pl-4 italic bg-paper-dark/30 py-2 my-4 rounded-r-xl">
+        <blockquote className="border-l-4 border-coral pl-4 italic bg-paper-dark/30 py-2.5 my-4 rounded-r-xl font-mono text-sm md:text-base text-charcoal/90">
           Address(Index i) = BaseAddress + (i × ElementSize)
         </blockquote>
         <p>
-          This multiplication and addition is executed in a single CPU cycle. Thus, lookup in an array is <strong>O(1)</strong> (Constant Time).
+          This multiplication and addition is executed in a single CPU cycle. Thus, lookup in an array is <strong>O(1)</strong> (Constant Time), regardless of whether the array has 10 elements or 10 million.
         </p>
 
-        <div className="border border-coral/20 bg-coral/5 p-4 rounded-xl flex gap-3 items-start my-6">
-          <Sparkles className="w-5 h-5 text-coral shrink-0 mt-0.5" />
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">Core Array Operations & Complexities</h3>
+        <div className="overflow-x-auto my-6 border border-charcoal/10 rounded-2xl">
+          <table className="w-full text-left font-sans text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr className="bg-charcoal/5 border-b border-charcoal/10">
+                <th className="p-3 font-bold uppercase tracking-wider text-charcoal/70">Operation</th>
+                <th className="p-3 font-bold uppercase tracking-wider text-charcoal/70">Complexity</th>
+                <th className="p-3 font-bold uppercase tracking-wider text-charcoal/70">Description</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-charcoal/5">
+              <tr>
+                <td className="p-3 font-mono font-bold">Access (by index)</td>
+                <td className="p-3 text-coral font-bold font-mono">O(1)</td>
+                <td className="p-3 text-charcoal/70">Direct memory addressing via base offset lookup.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-mono font-bold">Search (by value)</td>
+                <td className="p-3 text-amber-600 font-bold font-mono">O(N)</td>
+                <td className="p-3 text-charcoal/70">Requires scanning elements sequentially (Linear Search).</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-mono font-bold">Insert at Start</td>
+                <td className="p-3 text-red-500 font-bold font-mono">O(N)</td>
+                <td className="p-3 text-charcoal/70">Every existing element must shift one index to the right.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-mono font-bold">Insert at End</td>
+                <td className="p-3 text-coral font-bold font-mono">O(1)*</td>
+                <td className="p-3 text-charcoal/70">Constant time, unless a dynamic array capacity resize occurs.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-mono font-bold">Delete (from start/mid)</td>
+                <td className="p-3 text-red-500 font-bold font-mono">O(N)</td>
+                <td className="p-3 text-charcoal/70">Must shift subsequent elements left to close the memory gap.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">Fixed-Size vs. Dynamic Arrays</h3>
+        <p>
+          Standard physical arrays are allocated with a <strong>fixed capacity</strong>. To overcome this limitation, modern languages implement <strong>Dynamic Arrays</strong> (e.g., JavaScript Arrays, Python Lists, or Java ArrayLists).
+        </p>
+        <p>
+          A dynamic array wraps a fixed-size array. When elements are appended and the array fills up:
+        </p>
+        <ol className="list-decimal pl-6 space-y-2 text-base md:text-lg font-sans text-charcoal/80">
+          <li>The system allocates a new internal array, typically <strong>doubling</strong> the capacity.</li>
+          <li>All elements are copied over to the new contiguous block (an <code>O(N)</code> operation).</li>
+          <li>The old memory block is freed.</li>
+        </ol>
+        <p>
+          Because resizing occurs infrequently (exponentially rarer as the size grows), the <code>O(N)</code> cost is distributed across many insertions, resulting in an <strong>Amortized O(1)</strong> push complexity.
+        </p>
+
+        <h3 className="font-editorial text-2xl font-bold text-charcoal pt-4">Row-Major vs. Column-Major Layouts</h3>
+        <p>
+          Multi-dimensional arrays (like matrices) are also flattened contiguously in memory. In <strong>Row-Major</strong> ordering (used by JavaScript, C, and Python), matrices are stored row-by-row sequentially. In <strong>Column-Major</strong> ordering (used by Fortran and MATLAB), they are stored column-by-column.
+        </p>
+        <p>
+          Understanding this layout is critical for nested loop optimization: walking a Row-Major array row-by-row utilizes cache correctly, whereas looping column-by-column causes constant cache misses.
+        </p>
+
+        <div className="border border-coral/20 bg-coral/5 p-5 rounded-2xl flex gap-3.5 items-start my-6 shadow-sm">
+          <Sparkles className="w-5 h-5 text-coral shrink-0 mt-0.5 animate-pulse" />
           <div>
-            <h4 className="font-sans font-bold text-base text-coral-dark">Cache Locality Benefit</h4>
-            <p className="text-base font-sans text-charcoal mt-1">
-              CPUs do not load single bytes from RAM; they load a full 64-byte block (a Cache Line). Because arrays are contiguous, loading index 0 automatically fetches indices 1, 2, and 3 into L1 Cache, resulting in blazing fast iterations.
+            <h4 className="font-sans font-bold text-base text-coral-dark uppercase tracking-wider">Cache Locality & The 64-Byte Cache Line</h4>
+            <p className="text-base font-sans text-charcoal mt-1 leading-relaxed">
+              When the CPU requests a byte from RAM, it retrieves a full <strong>64-byte block (a Cache Line)</strong> containing that byte and its neighbors. Because array elements reside back-to-back, fetching Index 0 automatically pre-loads subsequent indices into the super-fast L1 cache. This spatial locality makes iterating arrays significantly faster than traversing linked nodes dispersed across the heap.
             </p>
           </div>
         </div>

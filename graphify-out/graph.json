@@ -3189,7 +3189,7 @@
       "label": "TheoryContentProps",
       "file_type": "code",
       "source_file": "src/features/theory/components/TheoryContent.tsx",
-      "source_location": "L284",
+      "source_location": "L348",
       "_origin": "ast",
       "id": "components_theorycontent_theorycontentprops",
       "community": 35,
@@ -3199,7 +3199,7 @@
       "label": "TheoryContent()",
       "file_type": "code",
       "source_file": "src/features/theory/components/TheoryContent.tsx",
-      "source_location": "L288",
+      "source_location": "L352",
       "_origin": "ast",
       "id": "components_theorycontent_theorycontent",
       "community": 35,
@@ -17126,9 +17126,9 @@
       "source_file": "vite.config.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "vite_config",
-      "target": "vite_config_dirname",
-      "confidence_score": 1.0
+      "target": "vite_config_dirname"
     },
     {
       "relation": "contains",
@@ -17136,9 +17136,9 @@
       "source_file": "vite.config.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "vite_config",
-      "target": "vite_config_filename",
-      "confidence_score": 1.0
+      "target": "vite_config_filename"
     },
     {
       "relation": "contains",
@@ -21122,5 +21122,5 @@
       "source_file": "TEST_INFRA.md"
     }
   ],
-  "built_at_commit": "4d189db70512be2064748df625c557952467dcfc"
+  "built_at_commit": "956b32d3af8fb660fd60d42dcca09555bc7dfc43"
 }

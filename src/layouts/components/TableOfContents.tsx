@@ -21,6 +21,7 @@ const CHAPTER_ROUTES: Record<string, string> = {
 
 export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = false }: TableOfContentsProps) {
   const [expandedChapter, setExpandedChapter] = useState<string | null>(null);
+  const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,6 +34,7 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
 
     if (matchingChapterByRoute) {
       setExpandedChapter(matchingChapterByRoute.id);
+      setExpandedChapters(prev => ({ ...prev, [matchingChapterByRoute.id]: true }));
       return;
     }
 
@@ -42,6 +44,7 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
     );
     if (matchingChapter) {
       setExpandedChapter(matchingChapter.id);
+      setExpandedChapters(prev => ({ ...prev, [matchingChapter.id]: true }));
     }
   }, [activeLesson, location.pathname]);
 
@@ -78,82 +81,131 @@ export function TableOfContents({ activeLesson, onSelectLesson, isSidebar = fals
   };
 
   if (isSidebar) {
-    const activeChapter = CHAPTERS.find(chapter => {
-      const hasActiveLesson = chapter.lessons.some(l => l.title === activeLesson);
-      const hasRouteMatch = CHAPTER_ROUTES[chapter.id] && (location.pathname === CHAPTER_ROUTES[chapter.id] || location.pathname.startsWith(CHAPTER_ROUTES[chapter.id] + '/'));
-      return hasActiveLesson || hasRouteMatch;
-    });
-
-    const chaptersToRender = activeChapter ? [activeChapter] : CHAPTERS;
-
     return (
-      <div className="flex flex-col gap-3 w-full" id="handbook">
-        {chaptersToRender.map((chapter) => {
-          return (
-            <div
-              key={chapter.id}
-              className="rounded-2xl border bg-paper-dark/50 border-coral/30 shadow-sm overflow-hidden"
-            >
-              <div className="w-full flex items-center justify-between text-left p-3 select-none border-b border-charcoal/5 bg-paper-dark/30">
-                <div className="flex items-center gap-2.5">
-                  <span className="font-editorial italic text-lg font-extrabold text-coral w-5 text-right shrink-0">
-                    {chapter.number}
-                  </span>
-                  <h3 className="font-editorial text-sm md:text-base font-bold text-charcoal leading-snug">
-                    {chapter.title}
-                  </h3>
-                </div>
-              </div>
+      <div className="flex flex-col gap-4 w-full" id="handbook-sidebar">
+        <div className="px-1 py-2 flex items-center justify-between border-b border-charcoal/10 mb-2">
+          <span className="font-sans text-xs font-black uppercase tracking-widest text-charcoal/40">
+            Syllabus Index
+          </span>
+          <span className="font-mono text-[10px] text-coral font-bold bg-coral/5 px-2 py-0.5 rounded-full border border-coral/10">
+            {CHAPTERS.length} Chapters
+          </span>
+        </div>
 
-              <div className="p-2 pl-3 bg-paper-light/10 flex flex-col gap-1">
-                {chapter.lessons.map((lesson, idx) => {
-                  const isActive = activeLesson === lesson.title;
-                  return (
-                    <div
-                      key={idx}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => onSelectLesson(lesson.title)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          onSelectLesson(lesson.title);
-                        }
-                      }}
-                      className={`flex items-start gap-2.5 p-2 px-2.5 rounded-xl border transition-all group cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
-                        isActive
-                          ? 'bg-paper border-charcoal/10 shadow-sm text-coral'
-                          : 'border-transparent hover:border-charcoal/10 hover:bg-paper hover:shadow-xs'
-                      }`}
-                    >
-                      <div className={`p-1 rounded-lg transition-colors shrink-0 ${
-                        isActive ? 'bg-coral/5 text-coral' : 'bg-charcoal/5 group-hover:bg-coral/5'
-                      }`}>
-                         {getIcon(lesson.type)}
-                      </div>
+        <div className="flex flex-col gap-2.5">
+          {CHAPTERS.map((chapter) => {
+            const isExpanded = !!expandedChapters[chapter.id];
+            const hasActiveLesson = chapter.lessons.some(l => l.title === activeLesson);
+            const isCurrentChapterRoute = CHAPTER_ROUTES[chapter.id] && (
+              location.pathname === CHAPTER_ROUTES[chapter.id] || 
+              location.pathname.startsWith(CHAPTER_ROUTES[chapter.id] + '/')
+            );
+            const isChapterActive = hasActiveLesson || isCurrentChapterRoute;
 
-                      <div className="flex-1 min-w-0 flex flex-col gap-1">
-                        <p className={`font-sans text-xs md:text-sm font-bold leading-snug transition-colors ${
-                          isActive ? 'text-charcoal' : 'text-charcoal group-hover:text-charcoal'
-                        }`}>
-                          {lesson.title}
-                        </p>
+            return (
+              <div
+                key={chapter.id}
+                className={`transition-all duration-300 rounded-2xl border ${
+                  isChapterActive
+                    ? 'border-coral/25 bg-paper shadow-sm'
+                    : 'border-charcoal/10 bg-transparent'
+                }`}
+              >
+                {/* Chapter Header Button */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setExpandedChapters(prev => ({
+                      ...prev,
+                      [chapter.id]: !prev[chapter.id]
+                    }));
+                  }}
+                  className={`w-full flex items-center justify-between p-3.5 select-none focus:outline-none transition-colors rounded-t-2xl ${
+                    isChapterActive 
+                      ? 'bg-gradient-to-r from-coral/[0.03] to-transparent' 
+                      : 'hover:bg-charcoal/[0.03]'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`font-editorial italic text-base font-extrabold shrink-0 w-6 text-right transition-colors ${
+                      isChapterActive ? 'text-coral' : 'text-charcoal/40'
+                    }`}>
+                      {chapter.number}
+                    </span>
+                    <h3 className={`font-sans text-[13px] font-extrabold uppercase tracking-wide leading-tight transition-colors ${
+                      isChapterActive ? 'text-charcoal' : 'text-charcoal/70'
+                    }`}>
+                      {chapter.title}
+                    </h3>
+                  </div>
+                  <ChevronDown
+                    className={`w-4 h-4 text-charcoal/40 transition-transform duration-300 shrink-0 ${
+                      isExpanded ? 'rotate-180 text-coral' : ''
+                    }`}
+                  />
+                </button>
 
-                        <div className="flex items-center gap-2 flex-wrap mt-0.5">
-                          {getBadge(lesson.type)}
-                          <div className="flex items-center gap-0.5 text-charcoal/60 font-mono text-[10px]">
-                            <Clock className="w-3 h-3 text-charcoal/55" />
-                            <span>{lesson.duration}</span>
+                {/* Chapter Lessons List */}
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    isExpanded ? 'max-h-[800px] border-t border-charcoal/5 p-3' : 'max-h-0 p-0 pointer-events-none'
+                  }`}
+                >
+                  <div className="relative border-l-2 border-charcoal/10 ml-5 pl-4 flex flex-col gap-2">
+                    {chapter.lessons.map((lesson, idx) => {
+                      const isActive = activeLesson === lesson.title;
+                      return (
+                        <div
+                          key={idx}
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => onSelectLesson(lesson.title)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onSelectLesson(lesson.title);
+                            }
+                          }}
+                          className={`group flex items-start gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
+                            isActive
+                              ? 'bg-paper border border-charcoal/10 shadow-sm text-coral -translate-x-0.5'
+                              : 'border border-transparent hover:bg-charcoal/5 hover:translate-x-0.5'
+                          }`}
+                        >
+                          {/* Lesson Icon */}
+                          <div className={`p-1.5 rounded-lg transition-colors shrink-0 ${
+                            isActive 
+                              ? 'bg-coral/10 text-coral' 
+                              : 'bg-charcoal/5 text-charcoal/45 group-hover:bg-coral/5 group-hover:text-coral/80'
+                          }`}>
+                            {getIcon(lesson.type)}
+                          </div>
+
+                          {/* Lesson Title & Meta */}
+                          <div className="flex-1 min-w-0 flex flex-col justify-center">
+                            <p className={`font-sans text-[13px] font-bold leading-snug transition-colors ${
+                              isActive ? 'text-charcoal' : 'text-charcoal/70 group-hover:text-charcoal'
+                            }`}>
+                              {lesson.title}
+                            </p>
+
+                            <div className="flex items-center gap-2 mt-1">
+                              {getBadge(lesson.type)}
+                              <div className="flex items-center gap-0.5 text-charcoal/50 font-mono text-[9px]">
+                                <Clock className="w-2.5 h-2.5" />
+                                <span>{lesson.duration}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }

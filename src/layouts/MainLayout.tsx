@@ -50,7 +50,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
       <div className="pt-20 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-8">
         {/* Left column: Sidebar TableOfContents */}
         {!hideSidebar && (
-          <aside className={`shrink-0 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-120px)] md:overflow-y-auto scrollbar-none transition-all duration-300 relative ${
+          <aside className={`shrink-0 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-120px)] md:overflow-y-auto scrollbar-none transition-[width,padding,border-color,opacity] duration-300 relative ${
             isSidebarCollapsed ? 'w-full md:w-0 md:pr-0 md:border-r-0 overflow-hidden' : 'w-full md:w-72 md:pr-6'
           }`}>
             <div className="relative w-full">
@@ -107,7 +107,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
         )}
 
         {/* Right column: Active Route Workspace */}
-        <main className={`flex-1 min-w-0 py-6 md:py-0 transition-all duration-300 ${hideSidebar || isSidebarCollapsed ? "" : "md:pl-6"}`}>
+        <main className={`flex-1 min-w-0 py-6 md:py-0 transition-[padding] duration-300 ${hideSidebar || isSidebarCollapsed ? "" : "md:pl-6"}`}>
           <Outlet />
         </main>
       </div>
