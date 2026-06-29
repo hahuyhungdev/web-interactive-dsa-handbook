@@ -6,6 +6,7 @@ import { Prec } from "@codemirror/state";
 import { Play, Pause, SkipBack, SkipForward, RotateCcw, CheckCircle, XCircle, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
+import { Switch } from "@mantine/core";
 
 const BOILERPLATES = {
   "two-sum": `function twoSum(nums, target) {
@@ -1584,8 +1585,8 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Tabs */}
-      <div className="flex border-b border-charcoal/10 gap-5 pb-1 relative">
+      {/* Tabs - Segmented Capsule style */}
+      <div className="flex p-1 bg-paper-dark border border-charcoal/10 rounded-2xl w-full md:w-max overflow-x-auto scrollbar-none flex-nowrap mb-2 gap-1.5">
         {(
           [
             ["two-sum", "Two Sum"],
@@ -1601,15 +1602,15 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               key={tabId}
               id={`challenge-tab-${tabId}`}
               onClick={() => handleTabClick(tabId)}
-              className={`pb-2.5 text-base font-sans font-bold tracking-wider uppercase relative transition-all duration-300 ${
-                isActive ? "text-coral font-extrabold" : "text-charcoal/55 hover:text-charcoal"
+              className={`px-4 py-2 rounded-xl font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider transition-all duration-200 shrink-0 select-none relative focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
+                isActive ? "text-paper font-black z-10 animate-fade-in" : "text-charcoal/60 hover:text-charcoal z-10"
               }`}
             >
               {label}
               {isActive && (
                 <motion.div
-                  layoutId="activeTabUnderline"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-coral"
+                  layoutId="activeTabBackground"
+                  className="absolute inset-0 bg-coral rounded-xl shadow-sm -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -1664,15 +1665,28 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           {/* Custom Input Configuration */}
           <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm flex flex-col gap-3">
             <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={useCustomInput}
-                  onChange={(e) => setUseCustomInput(e.target.checked)}
-                  className="rounded border-charcoal/20 text-coral focus:ring-coral w-4 h-4"
-                />
-                <span className="font-sans text-sm font-bold text-charcoal">Use Custom Test Case</span>
-              </label>
+              <Switch
+                checked={useCustomInput}
+                onChange={(e) => setUseCustomInput(e.currentTarget.checked)}
+                label="Use Custom Test Case"
+                size="sm"
+                styles={{
+                  track: {
+                    backgroundColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                    borderColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                    cursor: 'pointer',
+                  },
+                  label: {
+                    fontFamily: 'var(--font-sans)',
+                    fontWeight: 800,
+                    fontSize: '13px',
+                    color: 'var(--color-charcoal)',
+                    cursor: 'pointer',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                  }
+                }}
+              />
               <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
                 {useCustomInput ? "Custom Input Active" : "Using Default Test Cases"}
               </span>
@@ -1693,7 +1707,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                       value={customInputArray}
                       onChange={(e) => setCustomInputArray(e.target.value)}
                       placeholder="e.g. [2, 7, 11, 15]"
-                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
                     />
                     <span className="text-[10px] text-charcoal/40 font-mono">
                       Must be a valid JSON array of numbers.
@@ -1711,7 +1725,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                       value={customInputTarget}
                       onChange={(e) => setCustomInputTarget(e.target.value)}
                       placeholder="e.g. 9"
-                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
                     />
                   </div>
                 )}
@@ -1726,7 +1740,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
                       value={customInputString}
                       onChange={(e) => setCustomInputString(e.target.value)}
                       placeholder="e.g. ()[]{}"
-                      className="px-3 py-2 border border-charcoal/15 rounded-xl bg-paper-dark font-mono text-xs focus:ring-1 focus:ring-coral focus:outline-none w-full"
+                      className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
                     />
                   </div>
                 )}
@@ -1740,7 +1754,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               id="btn-run-code"
               onClick={handleRunCode}
               title="Run code (⌘/Ctrl + Enter)"
-              className="px-6 py-3 bg-coral text-paper hover:bg-coral-dark rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-all duration-300 transform active:scale-[0.98]"
+              className="px-6 py-3 bg-coral text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer"
             >
               Run Code{" "}
               <span className="hidden md:inline ml-2 font-mono text-xs opacity-80">⌘↵</span>

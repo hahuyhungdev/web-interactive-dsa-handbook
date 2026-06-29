@@ -110,9 +110,9 @@
     "semantic_hash": "35f202a381178e6376f9848c0dc51c86"
   },
   "src/features/practice/components/PracticeSection.tsx": {
-    "mtime": 1782698508.7025366,
-    "ast_hash": "519e2142266e178033fdd4350ec391fa",
-    "semantic_hash": "519e2142266e178033fdd4350ec391fa"
+    "mtime": 1782718145.4450364,
+    "ast_hash": "01fd67042e4e3468c0204091a6fb41b3",
+    "semantic_hash": ""
   },
   "src/features/practice/index.tsx": {
     "mtime": 1782462497.534228,
