@@ -47,10 +47,10 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     <div className="min-h-screen bg-paper text-charcoal selection:bg-coral/20 selection:text-coral flex flex-col">
       <Navbar />
 
-      <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-8">
+      <div className="pt-32 flex-1 flex flex-col md:flex-row max-w-[95rem] w-full mx-auto relative px-4 md:px-6 mb-8">
         {/* Left column: Sidebar TableOfContents */}
         {!hideSidebar && (
-          <aside className={`shrink-0 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-120px)] md:overflow-y-auto scrollbar-none transition-[width,padding,border-color,opacity] duration-300 relative ${
+          <aside className={`shrink-0 border-b md:border-b-0 md:border-r border-charcoal/10 py-6 md:py-0 md:sticky md:top-32 md:self-start md:max-h-[calc(100vh-160px)] md:overflow-y-auto scrollbar-none transition-[width,padding,border-color,opacity] duration-300 relative ${
             isSidebarCollapsed ? 'w-full md:w-0 md:pr-0 md:border-r-0 overflow-hidden' : 'w-full md:w-72 md:pr-6'
           }`}>
             <div className="relative w-full">
