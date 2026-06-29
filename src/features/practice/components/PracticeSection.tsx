@@ -1563,6 +1563,33 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     () => [
       javascript(),
       EditorView.lineWrapping,
+      EditorView.theme({
+        "&": {
+          backgroundColor: "#fdfbf7",
+        },
+        ".cm-scroller": {
+          fontFamily: "var(--font-mono)",
+          fontSize: "14px",
+        },
+        ".cm-gutters": {
+          backgroundColor: "#f4f1ea",
+          color: "rgba(45, 45, 45, 0.4)",
+          borderRight: "1px solid rgba(45, 45, 45, 0.05)",
+        },
+        "&.cm-focused .cm-cursor": {
+          borderLeftColor: "var(--color-coral)",
+        },
+        "&.cm-focused .cm-selectionBackground, ::selection": {
+          backgroundColor: "rgba(224, 83, 66, 0.15) !important",
+        },
+        ".cm-activeLine": {
+          backgroundColor: "rgba(45, 45, 45, 0.02)",
+        },
+        ".cm-activeLineGutter": {
+          backgroundColor: "rgba(45, 45, 45, 0.04)",
+          color: "var(--color-coral)",
+        }
+      }),
       Prec.highest(
         keymap.of([
           {
