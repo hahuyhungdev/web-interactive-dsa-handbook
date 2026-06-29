@@ -1843,7 +1843,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
         </div>
 
         {/* Right Column: Visual Sandbox */}
-        <div className="w-full lg:w-[500px] shrink-0 flex flex-col">
+        <div className="flex-1 min-w-0 flex flex-col">
           <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
         </div>
       </div>
