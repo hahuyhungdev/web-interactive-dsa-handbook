@@ -3,8 +3,207 @@ import { CodeViewer } from "@/features/theory/components/CodeViewer";
 import { PlaybackControls } from "@/shared/components/ui/PlaybackControls";
 import { usePlayback } from "@/shared/hooks/usePlayback";
 import { usePlaybackKeyboard } from "@/shared/hooks/usePlaybackKeyboard";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
-const SEARCH_ARRAY = [12, 24, 35, 45, 52, 60, 75, 88, 93];
+const MIN_SIZE = 3;
+const MAX_SIZE = 15;
+const MIN_VAL = 1;
+const MAX_VAL = 99;
+
+function randomSortedArray(size: number): number[] {
+  const arr = Array.from(
+    { length: size },
+    () => Math.floor(Math.random() * (MAX_VAL - MIN_VAL + 1)) + MIN_VAL,
+  );
+  return arr.sort((a, b) => a - b);
+}
+
+function parseCustom(input: string): {
+  values: number[] | null;
+  error: string | null;
+} {
+  const tokens = input
+    .split(/[\s,]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (tokens.length === 0)
+    return { values: null, error: "Enter at least one number." };
+  if (tokens.length < MIN_SIZE)
+    return { values: null, error: `Need at least ${MIN_SIZE} numbers.` };
+  if (tokens.length > MAX_SIZE)
+    return { values: null, error: `Max ${MAX_SIZE} numbers.` };
+  const values: number[] = [];
+  for (const t of tokens) {
+    const n = Number(t);
+    if (!Number.isFinite(n) || !Number.isInteger(n)) {
+      return { values: null, error: `"${t}" is not a whole number.` };
+    }
+    if (n < MIN_VAL || n > MAX_VAL) {
+      return {
+        values: null,
+        error: `${n} is out of range (${MIN_VAL}–${MAX_VAL}).`,
+      };
+    }
+    values.push(n);
+  }
+  return { values: values.sort((a, b) => a - b), error: null };
+}
+
+interface SearchArrayEditorProps {
+  array: number[];
+  onChange: (next: number[]) => void;
+}
+
+export function SearchArrayEditor({ array, onChange }: SearchArrayEditorProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [draft, setDraft] = useState(array.join(", "));
+  const [error, setError] = useState<string | null>(null);
+
+  const size = array.length;
+
+  const startEdit = () => {
+    setDraft(array.join(", "));
+    setError(null);
+    setIsEditing(true);
+  };
+
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setError(null);
+  };
+
+  const applyEdit = () => {
+    const { values, error: err } = parseCustom(draft);
+    if (!values) {
+      setError(err);
+      return;
+    }
+    onChange(values);
+    setIsEditing(false);
+    setError(null);
+  };
+
+  const handleSize = (delta: number) => {
+    const nextSize = Math.min(MAX_SIZE, Math.max(MIN_SIZE, size + delta));
+    if (nextSize === size) return;
+    if (nextSize > size) {
+      const added = Array.from(
+        { length: nextSize - size },
+        () => Math.floor(Math.random() * (MAX_VAL - MIN_VAL + 1)) + MIN_VAL
+      );
+      onChange([...array, ...added].sort((a, b) => a - b));
+    } else {
+      onChange(array.slice(0, nextSize));
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-3.5 glass-panel rounded-2xl p-4 sm:p-5 shadow-sm">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            id="btn-search-array-random"
+            type="button"
+            onClick={() => onChange(randomSortedArray(size))}
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
+          >
+            Randomize Array
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal/50">
+            Array Size
+          </span>
+          <button
+            type="button"
+            onClick={() => handleSize(-1)}
+            disabled={size <= MIN_SIZE}
+            className="w-7 h-7 rounded-lg border border-charcoal/15 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-spring hover-spring active-spring"
+            aria-label="Decrease array size"
+          >
+            −
+          </button>
+          <span className="font-mono text-base font-bold tabular-nums w-6 text-center">
+            {size}
+          </span>
+          <button
+            type="button"
+            onClick={() => handleSize(1)}
+            disabled={size >= MAX_SIZE}
+            className="w-7 h-7 rounded-lg border border-charcoal/15 hover:bg-charcoal/5 text-charcoal font-mono disabled:opacity-30 disabled:cursor-not-allowed transition-spring hover-spring active-spring"
+            aria-label="Increase array size"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      {isEditing ? (
+        <div className="flex flex-col gap-2">
+          <label
+            htmlFor="input-search-array-custom"
+            className="font-sans text-xs font-bold uppercase tracking-wider text-charcoal/50"
+          >
+            Custom search array (comma or space separated, will be sorted automatically)
+          </label>
+          <div className="flex gap-2">
+            <input
+              id="input-search-array-custom"
+              type="text"
+              value={draft}
+              onChange={(e) => {
+                setDraft(e.target.value);
+                if (error) setError(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") applyEdit();
+                if (e.key === "Escape") cancelEdit();
+              }}
+              autoFocus
+              className="flex-1 px-3 py-2 text-sm font-mono border border-charcoal/15 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+              placeholder="e.g. 12, 24, 35, 45, 52, 60, 75"
+            />
+            <button
+              type="button"
+              onClick={applyEdit}
+              className="px-3 py-2 bg-coral hover:bg-coral-dark text-paper rounded-xl font-sans text-xs font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring"
+            >
+              Apply
+            </button>
+            <button
+              type="button"
+              onClick={cancelEdit}
+              className="px-3 py-2 border border-charcoal/15 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring"
+            >
+              Cancel
+            </button>
+          </div>
+          {error && (
+            <p className="text-red-500 text-xs font-sans font-semibold animate-pulse">
+              {error}
+            </p>
+          )}
+        </div>
+      ) : (
+        <div className="flex items-center justify-between gap-3 border-t border-charcoal/5 pt-3.5">
+          <div className="font-mono text-sm text-charcoal/70 truncate">
+            <span className="font-bold text-charcoal mr-2">search array</span>[{" "}
+            {array.join(", ")} ]
+          </div>
+          <button
+            id="btn-search-array-edit"
+            type="button"
+            onClick={startEdit}
+            className="px-3 py-1.5 border border-charcoal/15 hover:bg-charcoal/5 text-charcoal rounded-xl font-sans text-xs font-bold uppercase tracking-wider transition-spring hover-spring active-spring shrink-0"
+          >
+            Edit Array
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 interface SearchFrame {
   index: number;
@@ -20,13 +219,14 @@ interface VisualFrame {
 
 export function SearchVisualizer() {
   const [activeTab, setActiveTab] = useState<"linear" | "binary">("linear");
-  const [targetVal, setTargetVal] = useState<number>(75);
+  const [array, setArray] = useState<number[]>([12, 24, 35, 45, 52, 60, 75, 88, 93]);
+  const [targetVal, setTargetVal] = useState<number | "">(75);
   const [speed, setSpeed] = useState<number | "">(1);
 
   // Generate linear search steps
   const linearSearchFrames = useMemo((): VisualFrame[] => {
-    const arr = SEARCH_ARRAY;
-    const target = targetVal;
+    const arr = array;
+    const target = typeof targetVal === "number" ? targetVal : 0;
     const frames: VisualFrame[] = [];
 
     frames.push({
@@ -93,12 +293,12 @@ export function SearchVisualizer() {
     });
 
     return frames;
-  }, [targetVal]);
+  }, [targetVal, array]);
 
   // Generate binary search steps
   const binarySearchFrames = useMemo((): VisualFrame[] => {
-    const arr = SEARCH_ARRAY;
-    const target = targetVal;
+    const arr = array;
+    const target = typeof targetVal === "number" ? targetVal : 0;
     const frames: VisualFrame[] = [];
 
     let low = 0;
@@ -187,7 +387,7 @@ export function SearchVisualizer() {
     });
 
     return frames;
-  }, [targetVal]);
+  }, [targetVal, array]);
 
   const frames =
     activeTab === "linear" ? linearSearchFrames : binarySearchFrames;
@@ -204,10 +404,10 @@ export function SearchVisualizer() {
     setSpeed,
   });
 
-  // Reset on tab or target change
+  // Reset on tab, target, or array change
   useEffect(() => {
     playback.reset();
-  }, [activeTab, targetVal]);
+  }, [activeTab, targetVal, array]);
 
   const currentFrame = frames[playback.stepIndex] || {
     elements: [],
@@ -215,8 +415,24 @@ export function SearchVisualizer() {
     message: "",
   };
 
+  const searchBarCount = array.length;
+  let barWidthClass = "w-8 sm:w-12";
+  let labelTextClass = "text-sm sm:text-base";
+  let containerGapClass = "gap-1 sm:gap-2";
+
+  if (searchBarCount > 15) {
+    barWidthClass = "w-4 sm:w-6";
+    labelTextClass = "text-[10px] sm:text-xs";
+    containerGapClass = "gap-0.5 sm:gap-1";
+  } else if (searchBarCount > 9) {
+    barWidthClass = "w-5 sm:w-8";
+    labelTextClass = "text-xs sm:text-sm";
+    containerGapClass = "gap-0.5 sm:gap-1.5";
+  }
+
   return (
     <div className="flex flex-col gap-8 w-full">
+      <SearchArrayEditor array={array} onChange={setArray} />
       {/* Target input and Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-paper-light border border-charcoal/10 rounded-2xl p-4 shadow-sm">
         <div className="flex gap-3">
@@ -251,23 +467,59 @@ export function SearchVisualizer() {
           >
             Search Target:
           </label>
-          <input
-            id="input-search-target"
-            type="number"
-            inputMode="numeric"
-            value={targetVal}
-            min={-9999}
-            max={9999}
-            onChange={(e) => {
-              const raw = e.target.value;
-              if (raw === "" || raw === "-") return;
-              const n = Number(raw);
-              if (Number.isFinite(n)) setTargetVal(n);
-            }}
-            className="w-24 px-3 py-1.5 text-base font-mono border border-charcoal/20 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
-          />
+          <div className="relative flex items-center">
+            <input
+              id="input-search-target"
+              type="text"
+              inputMode="numeric"
+              value={targetVal}
+              onChange={(e) => {
+                const raw = e.target.value;
+                if (raw === "" || raw === "-") {
+                  setTargetVal(raw as any);
+                  return;
+                }
+                const n = Number(raw);
+                if (Number.isFinite(n)) setTargetVal(n);
+              }}
+              onBlur={() => {
+                if (targetVal === "" || targetVal === "-") {
+                  setTargetVal(0);
+                }
+              }}
+              className="w-24 pl-3 pr-8 py-1.5 text-base font-mono border border-charcoal/20 bg-paper rounded-xl focus:outline-none focus:ring-1 focus:ring-coral text-charcoal"
+            />
+            <div className="absolute right-1.5 flex flex-col gap-0.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setTargetVal((prev) => {
+                    const val = typeof prev === "number" ? prev : 0;
+                    return Math.min(9999, val + 1);
+                  });
+                }}
+                className="p-0.5 hover:bg-charcoal/5 rounded text-charcoal/60 hover:text-coral transition-colors"
+                aria-label="Increment"
+              >
+                <ChevronUp className="w-3 h-3" />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setTargetVal((prev) => {
+                    const val = typeof prev === "number" ? prev : 0;
+                    return Math.max(-9999, val - 1);
+                  });
+                }}
+                className="p-0.5 hover:bg-charcoal/5 rounded text-charcoal/60 hover:text-coral transition-colors"
+                aria-label="Decrement"
+              >
+                <ChevronDown className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
           <span className="font-mono text-xs text-charcoal/60 hidden md:inline">
-            in [{SEARCH_ARRAY.join(", ")}]
+            in [{array.join(", ")}]
           </span>
         </div>
       </div>
@@ -299,9 +551,9 @@ export function SearchVisualizer() {
 
           <div
             id="sorting-visualizer-container"
-            className="flex items-end justify-start sm:justify-center gap-1 sm:gap-2 bg-paper-dark border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-48 min-w-[280px] overflow-x-auto"
+            className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-paper-dark border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
           >
-            {SEARCH_ARRAY.map((val, idx) => {
+            {array.map((val, idx) => {
               const el = currentFrame.elements[idx] || {
                 status: "default",
                 pointers: [],
@@ -316,44 +568,46 @@ export function SearchVisualizer() {
               }
 
               return (
-                <div
-                  key={idx}
-                  className="array-bar w-8 sm:w-12 transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end text-sm sm:text-base font-mono font-bold text-charcoal pb-2 h-full relative"
-                  style={{
-                    height: `${Math.max(40, val * 1.5)}px`,
-                  }}
-                  data-value={val}
-                  data-index={idx}
-                  data-status={el.status}
-                >
-                  <span className="bg-paper px-1 py-0.5 rounded border border-charcoal/10 shadow-sm mb-1.5 font-mono text-sm sm:text-base">
-                    {val}
-                  </span>
+                <div key={idx} className="flex flex-col items-center justify-end h-full">
                   <div
-                    className={`w-full h-full rounded-t-md border transition-all duration-200 ${barColor}`}
-                  ></div>
+                    className={`array-bar ${barWidthClass} transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end font-mono font-bold text-charcoal pb-2 h-full`}
+                    style={{
+                      height: `${Math.max(40, val * 1.5)}px`,
+                    }}
+                    data-value={val}
+                    data-index={idx}
+                    data-status={el.status}
+                  >
+                    <span className={`bg-paper px-1 py-0.5 rounded border border-charcoal/10 shadow-sm mb-1.5 font-mono ${labelTextClass}`}>
+                      {val}
+                    </span>
+                    <div
+                      className={`w-full h-full rounded-t-md border transition-all duration-200 ${barColor}`}
+                    ></div>
+                  </div>
+                  <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">
+                    {idx}
+                  </span>
 
-                  {/* Pointers Overlay */}
-                  {el.pointers && el.pointers.length > 0 && (
-                    <div className="absolute top-[105%] left-1/2 -translate-x-1/2 flex flex-col gap-1 items-center shrink-0">
-                      {el.pointers.map((ptr) => (
-                        <span
-                          key={ptr}
-                          className={`text-xs sm:text-sm font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
-                            ptr === "mid"
-                              ? "bg-amber-50 text-amber-700 border-amber-300"
-                              : ptr === "low"
-                                ? "bg-blue-50 text-blue-700 border-blue-300"
-                                : ptr === "high"
-                                  ? "bg-red-50 text-red-700 border-red-300"
-                                  : "bg-charcoal text-paper border-charcoal"
-                          }`}
-                        >
-                          {ptr}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {/* Pointers Overlay — Rendered in flow with a fixed height container to preserve baseline alignment */}
+                  <div className="flex flex-col gap-0.5 items-center mt-1 shrink-0 z-10 h-[56px] justify-start w-full">
+                    {el.pointers && el.pointers.length > 0 && el.pointers.map((ptr) => (
+                      <span
+                        key={ptr}
+                        className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
+                          ptr === "mid"
+                            ? "bg-amber-50 text-amber-700 border-amber-300"
+                            : ptr === "low"
+                              ? "bg-blue-50 text-blue-700 border-blue-300"
+                              : ptr === "high"
+                                ? "bg-red-50 text-red-700 border-red-300"
+                                : "bg-charcoal text-paper border-charcoal"
+                        }`}
+                      >
+                        {ptr}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               );
             })}
@@ -361,7 +615,7 @@ export function SearchVisualizer() {
         </div>
 
         {/* CodeViewer */}
-        <div className="w-full lg:w-[480px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col min-w-0">
+        <div className="w-full lg:w-[500px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-sm flex flex-col min-w-0">
           <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
             Implementation
           </h3>

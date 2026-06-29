@@ -106,7 +106,7 @@ export function SortingWorkspace({
         </div>
 
         {!isCodeCollapsed ? (
-          <div className="w-full lg:w-[390px] shrink-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col transition-all duration-300 min-w-0">
+          <div className="w-full lg:w-[460px] shrink-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-premium flex flex-col transition-all duration-300 min-w-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
                 Implementation

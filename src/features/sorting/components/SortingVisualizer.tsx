@@ -48,8 +48,23 @@ export function SortingVisualizer({
     1,
   );
   // Reserve headroom for the numeric label above each bar.
-  const usableHeight = 168;
+  const usableHeight = 220;
   const scale = usableHeight / maxValue;
+
+  const barCount = currentArrayState.length;
+  let barWidthClass = "w-7 sm:w-11";
+  let labelTextClass = "text-xs sm:text-sm";
+  let containerGapClass = "gap-1.5 sm:gap-2.5";
+
+  if (barCount > 15) {
+    barWidthClass = "w-3 sm:w-5";
+    labelTextClass = "text-[9px] sm:text-xs";
+    containerGapClass = "gap-0.5 sm:gap-1";
+  } else if (barCount > 8) {
+    barWidthClass = "w-5 sm:w-8";
+    labelTextClass = "text-[10px] sm:text-xs";
+    containerGapClass = "gap-1 sm:gap-1.5";
+  }
 
   return (
     <div className="flex flex-col gap-6 w-full">
@@ -89,7 +104,7 @@ export function SortingVisualizer({
       <div id={`sorting-visualizer-${activeTab}`} className="w-full mt-2">
         <div
           id="sorting-visualizer-container"
-          className="flex items-end justify-start sm:justify-center gap-1.5 sm:gap-2.5 glass-panel-dark border border-charcoal/10 rounded-3xl p-8 h-64 min-w-[280px] overflow-x-auto shadow-inner"
+          className={`flex items-end justify-start sm:justify-center ${containerGapClass} glass-panel-dark border border-charcoal/10 rounded-3xl pt-8 pb-12 px-6 sm:px-8 h-[340px] min-w-[280px] overflow-x-auto shadow-inner`}
         >
           {currentArrayState.map((item, idx) => {
             const style = STATUS_STYLE[item.status] ?? STATUS_STYLE.default;
@@ -112,14 +127,17 @@ export function SortingVisualizer({
                 data-status={item.status}
               >
                 <span
-                  className={`font-mono text-xs sm:text-sm font-bold tabular-nums transition-colors duration-200 ${style.label}`}
+                  className={`font-mono font-bold tabular-nums transition-colors duration-200 ${labelTextClass} ${style.label}`}
                 >
                   {item.value}
                 </span>
                 <div
-                  className={`w-7 sm:w-11 rounded-t-lg transition-all duration-300 ${style.bar}`}
+                  className={`rounded-t-lg transition-all duration-300 ${barWidthClass} ${style.bar}`}
                   style={{ height: `${barHeight}px` }}
                 />
+                <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">
+                  {idx}
+                </span>
               </motion.div>
             );
           })}

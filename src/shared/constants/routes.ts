@@ -4,6 +4,7 @@
  */
 export const ROUTES = {
   HOME: "/",
+  CHAPTERS: "/chapters",
   SORTING: "/sorting",
   /** Deep-link to a specific sort algorithm tab. */
   SORTING_ALGO: (algoId: string) => `/sorting?algo=${algoId}`,

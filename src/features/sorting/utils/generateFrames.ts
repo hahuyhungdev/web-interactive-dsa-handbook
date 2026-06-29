@@ -1,6 +1,6 @@
 import type { ArrayItem, VisualizerFrame } from "@/shared/types";
 
-const DEFAULT_SORTING_ARRAY = [25, 40, 15, 55, 30, 20];
+const DEFAULT_SORTING_ARRAY = [25, 40, 15, 55, 30, 20, 45, 10, 62, 35, 50, 8, 12, 58, 22];
 
 export function generateBubbleSortFrames(arr: number[]): VisualizerFrame[] {
   const frames: VisualizerFrame[] = [];

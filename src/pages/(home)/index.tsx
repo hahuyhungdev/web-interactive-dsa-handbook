@@ -90,17 +90,19 @@ export function HomePage() {
         </div>
 
         {/* Code Visualizer Mockup Display */}
-        <div className="bg-paper-light border border-charcoal/10 rounded-2xl p-5 shadow-sm font-mono text-[11px] sm:text-xs relative">
-          <div className="absolute top-2 right-3 flex items-center gap-1 bg-coral/10 text-coral text-[9px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded border border-coral/20 animate-pulse">
-            Executing Line 3
-          </div>
+        <div className="bg-paper-light border border-charcoal/10 rounded-2xl p-5 shadow-sm font-mono text-[11px] sm:text-xs">
           <div className="flex items-center justify-between border-b border-charcoal/5 pb-3 mb-4">
             <div className="flex gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
               <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
             </div>
-            <span className="text-charcoal/50 font-mono tracking-wider">bubbleSort.js</span>
+            <div className="flex items-center gap-2 select-none">
+              <span className="flex items-center gap-1 bg-coral/10 text-coral text-[9px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded border border-coral/20 animate-pulse">
+                Executing Line 3
+              </span>
+              <span className="text-charcoal/50 font-mono tracking-wider">bubbleSort.js</span>
+            </div>
           </div>
 
           <div className="space-y-1.5 text-charcoal font-mono leading-relaxed select-none">
@@ -131,14 +133,14 @@ export function HomePage() {
           <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
             Engineered for Visual Mastery
           </h3>
-          <p className="font-editorial text-xs text-charcoal/60">
+          <p className="font-sans text-xs sm:text-sm font-semibold text-charcoal/70">
             A state-of-the-art interactive lab running directly in your browser.
           </p>
         </div>
         
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
           {/* Card 1 */}
-          <div className="glass-panel border border-charcoal/10 rounded-xl p-5 flex flex-col gap-2.5 hover:border-coral/20 transition-all duration-300 shadow-sm relative group">
+          <div className="glass-panel border border-charcoal/10 rounded-2xl p-5 flex flex-col gap-2.5 hover:border-coral/20 hover:shadow-premium-hover transition-spring hover-spring relative group">
             <div className="absolute top-4 right-4 text-charcoal/10 group-hover:text-coral/20 transition-colors">
               <Terminal className="w-6 h-6" />
             </div>
@@ -148,14 +150,14 @@ export function HomePage() {
             <h4 className="font-editorial text-base font-bold text-charcoal">
               Web Worker Sandbox
             </h4>
-            <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
               We compile and evaluate code dynamically in isolated browser contexts. 
               ES6 Proxies intercept memory changes with zero lag.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="glass-panel border border-charcoal/10 rounded-xl p-5 flex flex-col gap-2.5 hover:border-coral/20 transition-all duration-300 shadow-sm relative group">
+          <div className="glass-panel border border-charcoal/10 rounded-2xl p-5 flex flex-col gap-2.5 hover:border-coral/20 hover:shadow-premium-hover transition-spring hover-spring relative group">
             <div className="absolute top-4 right-4 text-charcoal/10 group-hover:text-coral/20 transition-colors">
               <Compass className="w-6 h-6" />
             </div>
@@ -165,14 +167,14 @@ export function HomePage() {
             <h4 className="font-editorial text-base font-bold text-charcoal">
               Dual-Panel Execution
             </h4>
-            <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
               See the code line-by-line highlight on the left while watching indices, 
               pointers, and arrays re-render dynamically on the right.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="glass-panel border border-charcoal/10 rounded-xl p-5 flex flex-col gap-2.5 hover:border-coral/20 transition-all duration-300 shadow-sm relative group">
+          <div className="glass-panel border border-charcoal/10 rounded-2xl p-5 flex flex-col gap-2.5 hover:border-coral/20 hover:shadow-premium-hover transition-spring hover-spring relative group">
             <div className="absolute top-4 right-4 text-charcoal/10 group-hover:text-coral/20 transition-colors">
               <Sparkles className="w-6 h-6" />
             </div>
@@ -182,7 +184,7 @@ export function HomePage() {
             <h4 className="font-editorial text-base font-bold text-charcoal">
               Custom Input Engine
             </h4>
-            <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+            <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
               Don&apos;t just watch pre-made traces. Enable Custom Test Cases and feed 
               your own data parameters directly into the sandbox.
             </p>
@@ -196,7 +198,7 @@ export function HomePage() {
           <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
             Explore the Workspaces
           </h3>
-          <p className="font-editorial text-xs text-charcoal/60 max-w-xl mx-auto">
+          <p className="font-sans text-xs sm:text-sm font-semibold text-charcoal/70 max-w-xl mx-auto">
             Choose a chapter to enter the interactive workspace. Every route features 
             theory explanations and playbacks.
           </p>
@@ -206,7 +208,7 @@ export function HomePage() {
           {/* Chapter I: Sorting */}
           <a
             href="/sorting"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -219,7 +221,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Contiguous Memory & Sorting
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Analyze cache locality, pivot splits, and index swaps. Visualizes Bubble, 
                 Insertion, Selection, and Quick Sort algorithms.
               </p>
@@ -232,7 +234,7 @@ export function HomePage() {
           {/* Chapter II: LinkedList */}
           <a
             href="/linked-list"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -245,7 +247,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Pointers & Linked Lists
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Interact with nodes, dynamic link references, and traverse list indices. 
                 Visualize insertion, head/tail manipulation, and item removal.
               </p>
@@ -258,7 +260,7 @@ export function HomePage() {
           {/* Chapter III: Stack & Queue */}
           <a
             href="/stack-queue"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -271,7 +273,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Linear Buffers (Stack & Queue)
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Master push/pop and enqueue/dequeue operations. Visualizes frame buffers, 
                 spills, and dynamic storage operations.
               </p>
@@ -284,7 +286,7 @@ export function HomePage() {
           {/* Chapter IV: Trees */}
           <a
             href="/tree"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -297,7 +299,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Hierarchical Nodes (Trees)
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Visualize Binary Search Trees (BST), node insertions, parent-child relationships, 
                 and branch traversal.
               </p>
@@ -310,7 +312,7 @@ export function HomePage() {
           {/* Chapter V: Search */}
           <a
             href="/search"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -323,7 +325,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Search Mechanics
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Compare linear search algorithms with binary lookups, analyzing low/high index 
                 pointers and partitioning midpoints.
               </p>
@@ -336,7 +338,7 @@ export function HomePage() {
           {/* Chapter VI: Hash Slots */}
           <a
             href="/hash-table"
-            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium hover:border-coral/30 transition-all duration-300 relative overflow-hidden"
+            className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <div className="flex flex-col gap-2">
@@ -349,7 +351,7 @@ export function HomePage() {
               <h4 className="font-editorial text-lg font-bold text-charcoal group-hover:text-coral transition-colors">
                 Hash Tables & Graphs
               </h4>
-              <p className="font-editorial text-xs text-charcoal/60 leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm font-medium text-charcoal/70 leading-relaxed">
                 Analyze hash slot mappings, dynamic graph edge linkages, and node traversals 
                 using interactive layouts.
               </p>

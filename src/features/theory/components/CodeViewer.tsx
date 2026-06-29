@@ -82,7 +82,7 @@ export function CodeViewer({
   return (
     <div
       id="code-viewer"
-      className="font-mono text-sm sm:text-base glass-panel-dark rounded-2xl p-5 sm:p-6 shadow-sm overflow-x-auto w-full max-w-full min-h-[340px] flex flex-col flex-1"
+      className="font-mono text-xs sm:text-sm glass-panel-dark rounded-2xl p-4 sm:p-5 shadow-sm overflow-x-auto w-full max-w-full min-h-[340px] flex flex-col flex-1"
     >
       <div className="flex items-center justify-between border-b border-charcoal/5 pb-3 mb-4 shrink-0">
         <div className="flex gap-1.5">

@@ -5,6 +5,7 @@ import { LessonSync } from './lesson-sync';
 
 // ── Lazy-loaded pages ────────────────────────────────────────
 const HomePage = lazy(() => import('@/pages/(home)').then(m => ({ default: m.HomePage })));
+const ChaptersPage = lazy(() => import('@/pages/chapters').then(m => ({ default: m.ChaptersPage })));
 const SortingPage = lazy(() => import('@/pages/sorting').then(m => ({ default: m.SortingPage })));
 const LinkedListPage = lazy(() => import('@/pages/linked-list').then(m => ({ default: m.LinkedListPage })));
 const StackQueuePage = lazy(() => import('@/pages/stack-queue').then(m => ({ default: m.StackQueuePage })));
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: withSuspense(HomePage) },
+      { path: '/chapters', element: withSuspense(ChaptersPage) },
       { path: '/sorting', element: withSuspense(SortingPage) },
       { path: '/linked-list', element: withSuspense(LinkedListPage) },
       { path: '/stack-queue', element: withSuspense(StackQueuePage) },

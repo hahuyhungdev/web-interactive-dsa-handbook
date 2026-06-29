@@ -35,7 +35,7 @@ export function usePlayback({
           return prev + 1;
         });
       },
-      100 / (typeof speed === "number" ? speed : 1),
+      800 / (typeof speed === "number" ? speed : 1),
     );
 
     return () => clearInterval(intervalId);

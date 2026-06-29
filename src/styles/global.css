@@ -78,15 +78,4 @@
   .text-charcoal\/80 {
     color: rgb(45 45 45 / 0.95) !important;
   }
-
-  /* Force all font sizes below 14px (0.875rem) to be at least 14px */
-  .text-xs,
-  .text-\[8px\],
-  .text-\[9px\],
-  .text-\[10px\],
-  .text-\[11px\],
-  .text-\[12px\],
-  .text-\[13px\] {
-    font-size: 0.875rem !important; /* 14px */
-  }
 }

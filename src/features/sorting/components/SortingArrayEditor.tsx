@@ -14,7 +14,7 @@ interface SortingArrayEditorProps {
 }
 
 const MIN_SIZE = 3;
-const MAX_SIZE = 12;
+const MAX_SIZE = 30;
 const MIN_VAL = 1;
 const MAX_VAL = 99;
 
