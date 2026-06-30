@@ -62,7 +62,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     <div className="min-h-screen bg-paper text-charcoal selection:bg-coral/20 selection:text-coral flex flex-col">
       <Navbar />
 
-      <div className="pt-24 flex-1 flex flex-col md:flex-row max-w-[110rem] w-full mx-auto relative px-4 md:px-6 mb-8">
+      <div className={`${location.pathname.includes('/practice/') ? 'pt-16' : 'pt-24'} flex-1 flex flex-col md:flex-row max-w-[110rem] w-full mx-auto relative px-4 md:px-6 mb-8`}>
         {/* Left column: Sidebar TableOfContents (Desktop version) */}
         {!hideSidebar && (
           <div 

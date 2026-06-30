@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isPracticePage = location.pathname.includes('/practice/');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,7 +17,7 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-50 transition-all duration-300">
+    <nav className={`fixed ${isPracticePage ? 'top-2' : 'top-4'} left-1/2 -translate-x-1/2 w-[92%] max-w-5xl z-50 transition-all duration-300`}>
       {/* Mobile Dropdown Panel */}
       {isOpen && (
         <div className="absolute top-[calc(100%+8px)] left-0 w-full backdrop-blur-lg bg-paper/80 border border-charcoal/10 shadow-premium-hover rounded-2xl p-6 flex flex-col gap-4 animate-fade-in md:hidden">
@@ -61,8 +63,10 @@ export function Navbar() {
       <div
         className={`backdrop-blur-md border rounded-2xl px-6 flex items-center justify-between transition-all duration-500 ${
           isScrolled
-            ? 'bg-paper/60 border-charcoal/10 shadow-premium py-3'
-            : 'bg-paper/30 border-charcoal/5 shadow-none py-4'
+            ? 'bg-paper/60 border-charcoal/10 shadow-premium py-2.5'
+            : isPracticePage
+              ? 'bg-paper/30 border-charcoal/5 shadow-none py-2.5'
+              : 'bg-paper/30 border-charcoal/5 shadow-none py-4'
         }`}
       >
         {/* Brand/Logo */}

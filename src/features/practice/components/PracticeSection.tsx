@@ -3175,9 +3175,9 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   );
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-3 w-full">
       {/* Select Dropdown Component */}
-      <div className="flex flex-col gap-1.5 mb-2 select-none">
+      <div className="flex flex-col gap-1 mb-1.5 select-none">
         <label className="font-sans text-[10px] font-black uppercase tracking-[0.2em] text-charcoal/45">
           Select Coding Challenge
         </label>
@@ -3185,7 +3185,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           <select
             value={selectedTab}
             onChange={(e) => handleTabClick(e.target.value as TabId)}
-            className="w-full bg-paper-dark border border-charcoal/15 text-charcoal font-sans text-[13px] font-extrabold uppercase tracking-wider pl-4 pr-10 py-2.5 rounded-xl cursor-pointer appearance-none focus:outline-none focus:border-coral/50 focus:ring-2 focus:ring-coral/10 transition-all duration-200 shadow-sm"
+            className="w-full bg-paper-dark border border-charcoal/15 text-charcoal font-sans text-[13px] font-extrabold uppercase tracking-wider pl-4 pr-10 py-2 rounded-xl cursor-pointer appearance-none focus:outline-none focus:border-coral/50 focus:ring-2 focus:ring-coral/10 transition-all duration-200 shadow-sm"
           >
             {filteredChallenges.map((item) => (
               <option key={item.value} value={item.value}>
@@ -3200,7 +3200,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       </div>
 
       {isDesktop ? (
-        <div className="h-[calc(100vh-140px)] min-h-[700px] max-h-[850px] w-full flex relative">
+        <div className="h-[calc(100vh-115px)] min-h-[700px] max-h-[880px] w-full flex relative">
           <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
             <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pr-1 h-full">
               {leftColumnContent}
