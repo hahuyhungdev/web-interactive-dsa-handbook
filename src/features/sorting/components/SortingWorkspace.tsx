@@ -8,6 +8,8 @@ import { usePlayback } from "@/shared/hooks/usePlayback";
 import { usePlaybackKeyboard } from "@/shared/hooks/usePlaybackKeyboard";
 import { DEFAULT_SORTING_ARRAY } from "../utils/generateFrames";
 import { getSortAlgo, type SortAlgoId } from "../sortRegistry";
+import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from "react-resizable-panels";
+import { useMediaQuery } from "@mantine/hooks";
 
 interface SortingWorkspaceProps {
   activeTab: SortAlgoId;
@@ -18,6 +20,7 @@ export function SortingWorkspace({
   activeTab,
   onTabChange,
 }: SortingWorkspaceProps) {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [speed, setSpeed] = useState<number | "">(1);
   const [array, setArray] = useState<number[]>(DEFAULT_SORTING_ARRAY);
 
@@ -63,6 +66,66 @@ export function SortingWorkspace({
     return algo.code[activeLineIdx].replace(/\s*\/\/\s*@[\w-]+/, '').trim();
   }, [activeLineIdx, algo.code]);
 
+  const leftColumnContent = (
+    <div className="flex-1 w-full bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col justify-between h-full overflow-y-auto">
+      <div>
+        <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal mb-4">
+          Visual Sandbox
+        </h3>
+        <SortingVisualizer
+          activeTab={activeTab}
+          currentArrayState={currentFrame.array || []}
+          onTabChange={handleTabChange}
+        />
+      </div>
+      {isCodeCollapsed && activeLineCode && (
+        <div className="mt-6 bg-paper-dark/65 border border-coral/20 rounded-2xl px-5 py-3 shadow-inner flex items-center gap-3">
+          <span className="text-[10px] font-sans font-bold uppercase tracking-widest bg-coral/10 text-coral px-2.5 py-1 rounded-lg">
+            Line {activeLineNum}
+          </span>
+          <span className="font-mono text-sm text-charcoal truncate flex-1 font-semibold">
+            {activeLineCode}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+
+  const rightColumnContent = !isCodeCollapsed ? (
+    <div className="w-full h-full bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-premium flex flex-col transition-all duration-300 min-w-0 overflow-y-auto">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
+          Implementation
+        </h3>
+        <button
+          onClick={() => setIsCodeCollapsed(true)}
+          title="Collapse Code Panel"
+          className="p-1.5 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal transition-spring hover-spring active-spring"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+      <CodeViewer
+        codeLines={algo.code}
+        fileName={algo.fileName}
+        highlightedMarker={currentFrame.highlightedMarker}
+      />
+    </div>
+  ) : (
+    <div
+      onClick={() => setIsCodeCollapsed(false)}
+      title="Expand Code Panel"
+      className="w-[48px] h-full bg-paper border border-charcoal/10 rounded-3xl p-3 shadow-sm flex flex-col items-center justify-start cursor-pointer hover:bg-charcoal/5 group transition-all duration-300"
+    >
+      <button className="p-1 rounded-lg border border-charcoal/15 bg-paper group-hover:bg-charcoal/10 text-charcoal mb-8">
+        <ChevronLeft className="w-3.5 h-3.5" />
+      </button>
+      <div className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-charcoal/30 select-none whitespace-nowrap rotate-90 mt-16 origin-center">
+        Code Viewer
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-6 w-full">
       <SortingArrayEditor array={array} onChange={handleArrayChange} />
@@ -81,65 +144,26 @@ export function SortingWorkspace({
         totalSteps={Math.max(0, frames.length - 1)}
       />
 
-      <div className="flex flex-col lg:flex-row gap-6 lg:items-stretch">
-        <div className="flex-1 w-full min-w-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-5 sm:p-6 md:p-8 shadow-premium flex flex-col justify-between">
-          <div>
-            <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal mb-4">
-              Visual Sandbox
-            </h3>
-            <SortingVisualizer
-              activeTab={activeTab}
-              currentArrayState={currentFrame.array || []}
-              onTabChange={handleTabChange}
-            />
-          </div>
-          {isCodeCollapsed && activeLineCode && (
-            <div className="mt-6 bg-paper-dark/65 border border-coral/20 rounded-2xl px-5 py-3 shadow-inner flex items-center gap-3">
-              <span className="text-[10px] font-sans font-bold uppercase tracking-widest bg-coral/10 text-coral px-2.5 py-1 rounded-lg">
-                Line {activeLineNum}
-              </span>
-              <span className="font-mono text-sm text-charcoal truncate flex-1 font-semibold">
-                {activeLineCode}
-              </span>
-            </div>
-          )}
+      {isDesktop ? (
+        <div className="h-[680px] w-full flex relative">
+          <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
+            <Panel defaultSize={60} minSize={35} className="flex flex-col min-w-0 pr-1 h-full">
+              {leftColumnContent}
+            </Panel>
+            <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
+              <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
+            </PanelResizeHandle>
+            <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pl-1 h-full">
+              {rightColumnContent}
+            </Panel>
+          </PanelGroup>
         </div>
-
-        {!isCodeCollapsed ? (
-          <div className="w-full lg:w-[460px] shrink-0 bg-gradient-to-br from-paper to-paper-light border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-premium flex flex-col transition-all duration-300 min-w-0">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-editorial text-xl sm:text-2xl font-bold text-charcoal">
-                Implementation
-              </h3>
-              <button
-                onClick={() => setIsCodeCollapsed(true)}
-                title="Collapse Code Panel"
-                className="p-1.5 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 text-charcoal transition-spring hover-spring active-spring"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-            <CodeViewer
-              codeLines={algo.code}
-              fileName={algo.fileName}
-              highlightedMarker={currentFrame.highlightedMarker}
-            />
-          </div>
-        ) : (
-          <div
-            onClick={() => setIsCodeCollapsed(false)}
-            title="Expand Code Panel"
-            className="hidden lg:flex w-[48px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-3 shadow-sm flex flex-col items-center justify-start cursor-pointer hover:bg-charcoal/5 group transition-all duration-300"
-          >
-            <button className="p-1 rounded-lg border border-charcoal/15 bg-paper group-hover:bg-charcoal/10 text-charcoal mb-8">
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <div className="text-[10px] font-sans font-extrabold uppercase tracking-widest text-charcoal/30 select-none whitespace-nowrap rotate-90 mt-16 origin-center">
-              Code Viewer
-            </div>
-          </div>
-        )}
-      </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          <div className="h-[600px]">{leftColumnContent}</div>
+          <div>{rightColumnContent}</div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { PlaybackControls } from "@/shared/components/ui/PlaybackControls";
 import { usePlayback } from "@/shared/hooks/usePlayback";
 import { usePlaybackKeyboard } from "@/shared/hooks/usePlaybackKeyboard";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from "react-resizable-panels";
+import { useMediaQuery } from "@mantine/hooks";
 
 const MIN_SIZE = 3;
 const MAX_SIZE = 15;
@@ -218,6 +220,7 @@ interface VisualFrame {
 }
 
 export function SearchVisualizer() {
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const [activeTab, setActiveTab] = useState<"linear" | "binary">("linear");
   const [array, setArray] = useState<number[]>([12, 24, 35, 45, 52, 60, 75, 88, 93]);
   const [targetVal, setTargetVal] = useState<number | "">(75);
@@ -539,99 +542,199 @@ export function SearchVisualizer() {
       />
 
       {/* Main layout */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:items-stretch">
-        {/* Sandbox */}
-        <div className="flex-1 w-full bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm">
-          <h3 className="font-editorial text-xl font-bold text-charcoal mb-2">
-            Visual Sandbox
-          </h3>
-          <p className="text-base font-sans text-charcoal mb-6 italic">
-            {currentFrame.message}
-          </p>
+      {isDesktop ? (
+        <div className="h-[600px] w-full flex relative">
+          <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
+            <Panel defaultSize={60} minSize={35} className="flex flex-col min-w-0 pr-1 h-full">
+              <div className="flex-1 w-full bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm h-full overflow-y-auto">
+                <h3 className="font-editorial text-xl font-bold text-charcoal mb-2">
+                  Visual Sandbox
+                </h3>
+                <p className="text-base font-sans text-charcoal mb-6 italic">
+                  {currentFrame.message}
+                </p>
 
-          <div
-            id="sorting-visualizer-container"
-            className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-gradient-to-br from-paper-dark to-charcoal/[0.02] border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
-          >
-            {array.map((val, idx) => {
-              const el = currentFrame.elements[idx] || {
-                status: "default",
-                pointers: [],
-              };
-              let barColorClass = "bg-gradient-to-t from-charcoal/15 to-charcoal/25 hover:from-charcoal/25 hover:to-charcoal/35 border border-charcoal/5 shadow-sm";
-              let labelClass = "text-charcoal/60";
+                <div
+                  id="sorting-visualizer-container"
+                  className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-gradient-to-br from-paper-dark to-charcoal/[0.02] border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
+                >
+                  {array.map((val, idx) => {
+                    const el = currentFrame.elements[idx] || {
+                      status: "default",
+                      pointers: [],
+                    };
+                    let barColorClass = "bg-gradient-to-t from-charcoal/15 to-charcoal/25 hover:from-charcoal/25 hover:to-charcoal/35 border border-charcoal/5 shadow-sm";
+                    let labelClass = "text-charcoal/60";
 
-              if (el.status === "comparing") {
-                barColorClass = "bg-gradient-to-t from-amber-400 to-amber-300 shadow-[0_4px_12px_rgba(251,191,36,0.3)] border border-amber-500/20";
-                labelClass = "text-amber-600 font-extrabold";
-              } else if (el.status === "found") {
-                barColorClass = "bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-[0_4px_12px_rgba(16,185,129,0.25)] border border-emerald-700/20 text-paper";
-                labelClass = "text-emerald-600 font-extrabold";
-              } else if (el.status === "excluded") {
-                barColorClass = "bg-charcoal/10 border border-charcoal/5 opacity-40";
-                labelClass = "text-charcoal/30 font-light opacity-50";
-              }
+                    if (el.status === "comparing") {
+                      barColorClass = "bg-gradient-to-t from-amber-400 to-amber-300 shadow-[0_4px_12px_rgba(251,191,36,0.3)] border border-amber-500/20";
+                      labelClass = "text-amber-600 font-extrabold";
+                    } else if (el.status === "found") {
+                      barColorClass = "bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-[0_4px_12px_rgba(16,185,129,0.25)] border border-emerald-700/20 text-paper";
+                      labelClass = "text-emerald-600 font-extrabold";
+                    } else if (el.status === "excluded") {
+                      barColorClass = "bg-charcoal/10 border border-charcoal/5 opacity-40";
+                      labelClass = "text-charcoal/30 font-light opacity-50";
+                    }
 
-              return (
-                <div key={idx} className="flex flex-col items-center justify-end h-full">
-                  <div
-                    className={`array-bar ${barWidthClass} transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end font-mono font-bold text-charcoal pb-2 h-full`}
-                    style={{
-                      height: `${Math.max(40, val * 1.5)}px`,
-                    }}
-                    data-value={val}
-                    data-index={idx}
-                    data-status={el.status}
-                  >
-                    <span className={`font-mono font-bold tabular-nums transition-colors duration-200 mb-1.5 ${labelTextClass} ${labelClass}`}>
-                      {val}
-                    </span>
-                    <div
-                      className={`w-full h-full rounded-t-md transition-all duration-200 ${barColorClass}`}
-                    ></div>
-                  </div>
-                  <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">
-                    {idx}
-                  </span>
+                    return (
+                      <div key={idx} className="flex flex-col items-center justify-end h-full">
+                        <div
+                          className={`array-bar ${barWidthClass} transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end font-mono font-bold text-charcoal pb-2 h-full`}
+                          style={{
+                            height: `${Math.max(40, val * 1.5)}px`,
+                          }}
+                          data-value={val}
+                          data-index={idx}
+                          data-status={el.status}
+                        >
+                          <span className={`font-mono font-bold tabular-nums transition-colors duration-200 mb-1.5 ${labelTextClass} ${labelClass}`}>
+                            {val}
+                          </span>
+                          <div
+                            className={`w-full h-full rounded-t-md transition-all duration-200 ${barColorClass}`}
+                          ></div>
+                        </div>
+                        <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">
+                          {idx}
+                        </span>
 
-                  {/* Pointers Overlay — Rendered in flow with a fixed height container to preserve baseline alignment */}
-                  <div className="flex flex-col gap-0.5 items-center mt-1 shrink-0 z-10 h-[56px] justify-start w-full">
-                    {el.pointers && el.pointers.length > 0 && el.pointers.map((ptr) => (
-                      <span
-                        key={ptr}
-                        className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
-                          ptr === "mid"
-                            ? "bg-amber-50 text-amber-700 border-amber-300"
-                            : ptr === "low"
-                              ? "bg-blue-50 text-blue-700 border-blue-300"
-                              : ptr === "high"
-                                ? "bg-red-50 text-red-700 border-red-300"
-                                : "bg-charcoal text-paper border-charcoal"
-                        }`}
-                      >
-                        {ptr}
-                      </span>
-                    ))}
-                  </div>
+                        {/* Pointers Overlay */}
+                        <div className="flex flex-col gap-0.5 items-center mt-1 shrink-0 z-10 h-[56px] justify-start w-full">
+                          {el.pointers && el.pointers.length > 0 && el.pointers.map((ptr) => (
+                            <span
+                              key={ptr}
+                              className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
+                                ptr === "mid"
+                                  ? "bg-amber-50 text-amber-700 border-amber-300"
+                                  : ptr === "low"
+                                    ? "bg-blue-50 text-blue-700 border-blue-300"
+                                    : ptr === "high"
+                                      ? "bg-red-50 text-red-700 border-red-300"
+                                      : "bg-charcoal text-paper border-charcoal"
+                              }`}
+                            >
+                              {ptr}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              </div>
+            </Panel>
+            <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
+              <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
+            </PanelResizeHandle>
+            <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pl-1 h-full">
+              <div className="w-full h-full bg-paper border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-sm flex flex-col min-w-0 overflow-y-auto">
+                <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
+                  Implementation
+                </h3>
+                <CodeViewer
+                  codeType={
+                    activeTab === "linear" ? "linear-search" : "binary-search"
+                  }
+                  highlightedMarker={currentFrame.highlightedMarker}
+                />
+              </div>
+            </Panel>
+          </PanelGroup>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-8">
+          <div className="w-full bg-paper border border-charcoal/10 rounded-3xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-editorial text-xl font-bold text-charcoal mb-2">
+              Visual Sandbox
+            </h3>
+            <p className="text-base font-sans text-charcoal mb-6 italic">
+              {currentFrame.message}
+            </p>
+
+            <div
+              id="sorting-visualizer-container"
+              className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-gradient-to-br from-paper-dark to-charcoal/[0.02] border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
+            >
+              {array.map((val, idx) => {
+                const el = currentFrame.elements[idx] || {
+                  status: "default",
+                  pointers: [],
+                };
+                let barColorClass = "bg-gradient-to-t from-charcoal/15 to-charcoal/25 hover:from-charcoal/25 hover:to-charcoal/35 border border-charcoal/5 shadow-sm";
+                let labelClass = "text-charcoal/60";
+
+                if (el.status === "comparing") {
+                  barColorClass = "bg-gradient-to-t from-amber-400 to-amber-300 shadow-[0_4px_12px_rgba(251,191,36,0.3)] border border-amber-500/20";
+                  labelClass = "text-amber-600 font-extrabold";
+                } else if (el.status === "found") {
+                  barColorClass = "bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-[0_4px_12px_rgba(16,185,129,0.25)] border border-emerald-700/20 text-paper";
+                  labelClass = "text-emerald-600 font-extrabold";
+                } else if (el.status === "excluded") {
+                  barColorClass = "bg-charcoal/10 border border-charcoal/5 opacity-40";
+                  labelClass = "text-charcoal/30 font-light opacity-50";
+                }
+
+                return (
+                  <div key={idx} className="flex flex-col items-center justify-end h-full">
+                    <div
+                      className={`array-bar ${barWidthClass} transition-all duration-200 rounded-t-lg flex flex-col items-center justify-end font-mono font-bold text-charcoal pb-2 h-full`}
+                      style={{
+                        height: `${Math.max(40, val * 1.5)}px`,
+                      }}
+                      data-value={val}
+                      data-index={idx}
+                      data-status={el.status}
+                    >
+                      <span className={`font-mono font-bold tabular-nums transition-colors duration-200 mb-1.5 ${labelTextClass} ${labelClass}`}>
+                        {val}
+                      </span>
+                      <div
+                        className={`w-full h-full rounded-t-md transition-all duration-200 ${barColorClass}`}
+                      ></div>
+                    </div>
+                    <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">
+                      {idx}
+                    </span>
+
+                    {/* Pointers Overlay */}
+                    <div className="flex flex-col gap-0.5 items-center mt-1 shrink-0 z-10 h-[56px] justify-start w-full">
+                      {el.pointers && el.pointers.length > 0 && el.pointers.map((ptr) => (
+                        <span
+                          key={ptr}
+                          className={`text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded border uppercase tracking-wider font-mono ${
+                            ptr === "mid"
+                              ? "bg-amber-50 text-amber-700 border-amber-300"
+                              : ptr === "low"
+                                ? "bg-blue-50 text-blue-700 border-blue-300"
+                                : ptr === "high"
+                                  ? "bg-red-50 text-red-700 border-red-300"
+                                  : "bg-charcoal text-paper border-charcoal"
+                          }`}
+                        >
+                          {ptr}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="w-full bg-paper border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-sm flex flex-col min-w-0">
+            <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
+              Implementation
+            </h3>
+            <CodeViewer
+              codeType={
+                activeTab === "linear" ? "linear-search" : "binary-search"
+              }
+              highlightedMarker={currentFrame.highlightedMarker}
+            />
           </div>
         </div>
-
-        {/* CodeViewer */}
-        <div className="w-full lg:w-[500px] shrink-0 bg-paper border border-charcoal/10 rounded-3xl p-4 sm:p-5 shadow-sm flex flex-col min-w-0">
-          <h3 className="font-editorial text-xl font-bold text-charcoal mb-4">
-            Implementation
-          </h3>
-          <CodeViewer
-            codeType={
-              activeTab === "linear" ? "linear-search" : "binary-search"
-            }
-            highlightedMarker={currentFrame.highlightedMarker}
-          />
-        </div>
-      </div>
+      )}
     </div>
   );
 }
