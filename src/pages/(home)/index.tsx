@@ -14,6 +14,7 @@ import {
   Terminal,
   Compass
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function HomePage() {
   return (
@@ -45,23 +46,23 @@ export function HomePage() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-          <a
-            href="/sorting"
+          <Link
+            to="/sorting"
             className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-coral hover:bg-coral-dark text-paper border border-transparent px-8 py-2.5 rounded-2xl font-sans text-sm sm:text-base font-bold tracking-wider uppercase shadow-md transition-spring hover-spring active-spring"
           >
             Enter the Lab <ArrowRight className="w-4 h-4" />
-          </a>
-          <a
-            href="/practice/two-sum"
+          </Link>
+          <Link
+            to="/practice/two-sum"
             className="w-full sm:w-auto flex items-center justify-center gap-2 border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal px-8 py-2.5 rounded-2xl font-sans text-sm sm:text-base font-bold tracking-wider uppercase transition-spring hover-spring active-spring"
           >
             Try Practice
-          </a>
+          </Link>
         </div>
       </header>
 
       {/* 🔮 THE COGNITIVE REVOLUTION (editorial bento element) */}
-      <section className="grid md:grid-cols-2 gap-6 items-center bg-paper-dark/45 border border-charcoal/10 rounded-2xl p-4 sm:p-6 md:p-8 shadow-premium relative overflow-hidden">
+      <section id="about" className="grid md:grid-cols-2 gap-6 items-center bg-paper-dark/45 border border-charcoal/10 rounded-2xl p-4 sm:p-6 md:p-8 shadow-premium relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-coral/5 rounded-full filter blur-3xl -z-10"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-violet-500/5 rounded-full filter blur-2xl -z-10"></div>
 
@@ -206,8 +207,8 @@ export function HomePage() {
 
         <div className="grid sm:grid-cols-2 gap-4">
           {/* Chapter I: Sorting */}
-          <a
-            href="/sorting"
+          <Link
+            to="/sorting"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -229,11 +230,11 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
 
           {/* Chapter II: LinkedList */}
-          <a
-            href="/linked-list"
+          <Link
+            to="/linked-list"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -255,11 +256,11 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
 
           {/* Chapter III: Stack & Queue */}
-          <a
-            href="/stack-queue"
+          <Link
+            to="/stack-queue"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -281,11 +282,11 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
 
           {/* Chapter IV: Trees */}
-          <a
-            href="/tree"
+          <Link
+            to="/tree"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -307,11 +308,11 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
 
           {/* Chapter V: Search */}
-          <a
-            href="/search"
+          <Link
+            to="/search"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -333,11 +334,11 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
 
           {/* Chapter VI: Hash Slots */}
-          <a
-            href="/hash-table"
+          <Link
+            to="/hash-table"
             className="group flex flex-col justify-between p-5 bg-paper border border-charcoal/10 rounded-2xl shadow-sm hover:shadow-premium-hover hover:border-coral/30 transition-spring hover-spring active-spring relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-24 h-24 bg-coral/5 rounded-full filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -359,7 +360,7 @@ export function HomePage() {
             <div className="mt-4 flex items-center gap-1.5 text-[10px] font-sans font-bold uppercase tracking-wider text-coral-dark opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-4px] group-hover:translate-x-0">
               Launch Sandbox <ArrowRight className="w-3 h-3" />
             </div>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -375,12 +376,12 @@ export function HomePage() {
           Dive into our interactive modules, try solving practice challenges with live 
           trace highlights, and watch data structures materialize in real-time.
         </p>
-        <a
-          href="/sorting"
+        <Link
+          to="/sorting"
           className="mt-1 flex items-center gap-2 bg-coral hover:bg-coral-dark text-paper border border-transparent px-8 py-2.5 rounded-2xl font-sans text-sm sm:text-base font-bold tracking-wider uppercase shadow-md transition-spring hover-spring active-spring"
         >
           Enter the Lab <ArrowRight className="w-4 h-4" />
-        </a>
+        </Link>
       </section>
     </div>
   );

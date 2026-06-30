@@ -20,6 +20,9 @@ export const CHAPTERS: Chapter[] = [
       },
       { title: "Challenge: Two Sum", type: "practice", duration: "20 min" },
       { title: "Challenge: Binary Search", type: "practice", duration: "20 min" },
+      { title: "Challenge: Remove Duplicates", type: "practice", duration: "18 min" },
+      { title: "Challenge: Merge Sorted Array", type: "practice", duration: "22 min" },
+      { title: "Challenge: Maximum Subarray", type: "practice", duration: "25 min" },
     ],
   },
   {
@@ -64,6 +67,26 @@ export const CHAPTERS: Chapter[] = [
         type: "practice",
         duration: "15 min",
       },
+      {
+        title: "Challenge: Sort Colors",
+        type: "practice",
+        duration: "18 min",
+      },
+      {
+        title: "Challenge: Kth Largest Element",
+        type: "practice",
+        duration: "20 min",
+      },
+      {
+        title: "Challenge: Top K Frequent Elements",
+        type: "practice",
+        duration: "22 min",
+      },
+      {
+        title: "Challenge: Intersection of Two Arrays",
+        type: "practice",
+        duration: "15 min",
+      },
     ],
   },
   {
@@ -87,6 +110,26 @@ export const CHAPTERS: Chapter[] = [
         title: "Challenge: Reverse Linked List",
         type: "practice",
         duration: "25 min",
+      },
+      {
+        title: "Challenge: Merge Two Sorted Lists",
+        type: "practice",
+        duration: "24 min",
+      },
+      {
+        title: "Challenge: Linked List Cycle",
+        type: "practice",
+        duration: "20 min",
+      },
+      {
+        title: "Challenge: Middle of the Linked List",
+        type: "practice",
+        duration: "18 min",
+      },
+      {
+        title: "Challenge: Remove Nth Node From End",
+        type: "practice",
+        duration: "22 min",
       },
     ],
   },

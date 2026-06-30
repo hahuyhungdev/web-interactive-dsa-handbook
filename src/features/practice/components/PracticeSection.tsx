@@ -3,12 +3,13 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { keymap, EditorView } from "@codemirror/view";
 import { Prec } from "@codemirror/state";
-import { Play, Pause, SkipBack, SkipForward, RotateCcw, CheckCircle, XCircle, Info } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, RotateCcw, CheckCircle, XCircle, Info, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Switch } from "@mantine/core";
 import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from "react-resizable-panels";
 import { useMediaQuery } from "@mantine/hooks";
+import { CHAPTERS } from "@/shared/constants/chapters";
 
 const BOILERPLATES = {
   "two-sum": `function twoSum(nums, target) {
@@ -82,6 +83,145 @@ const BOILERPLATES = {
   }
   return stack.length === 0;
 }`,
+  "remove-duplicates": `function removeDuplicates(nums) {
+  // Write your code here
+  if (nums.length === 0) return 0;
+  let i = 0;
+  for (let j = 1; j < nums.length; j++) {
+    if (nums[j] !== nums[i]) {
+      i++;
+      nums[i] = nums[j];
+    }
+  }
+  return i + 1;
+}`,
+  "merge-sorted-array": `function merge(nums1, m, nums2, n) {
+  // Write your code here
+  let i = m - 1;
+  let j = n - 1;
+  let k = m + n - 1;
+  while (j >= 0) {
+    if (i >= 0 && nums1[i] > nums2[j]) {
+      nums1[k] = nums1[i];
+      i--;
+    } else {
+      nums1[k] = nums2[j];
+      j--;
+    }
+    k--;
+  }
+}`,
+  "max-subarray": `function maxSubArray(nums) {
+  // Write your code here
+  let maxSoFar = nums[0];
+  let currMax = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    currMax = Math.max(nums[i], currMax + nums[i]);
+    maxSoFar = Math.max(maxSoFar, currMax);
+  }
+  return maxSoFar;
+}`,
+  "sort-colors": `function sortColors(nums) {
+  // Write your code here
+  let low = 0, mid = 0, high = nums.length - 1;
+  while (mid <= high) {
+    if (nums[mid] === 0) {
+      let temp = nums[low];
+      nums[low] = nums[mid];
+      nums[mid] = temp;
+      low++;
+      mid++;
+    } else if (nums[mid] === 1) {
+      mid++;
+    } else {
+      let temp = nums[mid];
+      nums[mid] = nums[high];
+      nums[high] = temp;
+      high--;
+    }
+  }
+}`,
+  "kth-largest": `function findKthLargest(nums, k) {
+  // Write your code here
+  nums.sort((a, b) => b - a);
+  return nums[k - 1];
+}`,
+  "top-k-frequent": `function topKFrequent(nums, k) {
+  // Write your code here
+  const count = {};
+  for (const num of nums) {
+    count[num] = (count[num] || 0) + 1;
+  }
+  const unique = Object.keys(count).map(Number);
+  unique.sort((a, b) => count[b] - count[a]);
+  return unique.slice(0, k);
+}`,
+  "intersection-arrays": `function intersection(nums1, nums2) {
+  // Write your code here
+  const set1 = new Set(nums1);
+  const result = [];
+  for (const num of nums2) {
+    if (set1.has(num)) {
+      result.push(num);
+      set1.delete(num);
+    }
+  }
+  return result;
+}`,
+  "merge-two-lists": `function mergeTwoLists(list1, list2) {
+  // Write your code here
+  let dummy = { val: 0, next: null };
+  let curr = dummy;
+  while (list1 !== null && list2 !== null) {
+    if (list1.val <= list2.val) {
+      curr.next = list1;
+      list1 = list1.next;
+    } else {
+      curr.next = list2;
+      list2 = list2.next;
+    }
+    curr = curr.next;
+  }
+  curr.next = list1 !== null ? list1 : list2;
+  return dummy.next;
+}`,
+  "linked-list-cycle": `function hasCycle(head) {
+  // Write your code here
+  if (!head || !head.next) return false;
+  let slow = head;
+  let fast = head.next;
+  while (slow !== fast) {
+    if (!fast || !fast.next) return false;
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return true;
+}`,
+  "middle-list": `function middleNode(head) {
+  // Write your code here
+  let slow = head;
+  let fast = head;
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+  return slow;
+}`,
+  "remove-nth-node": `function removeNthFromEnd(head, n) {
+  // Write your code here
+  let dummy = { val: 0, next: head };
+  let first = dummy;
+  let second = dummy;
+  for (let i = 1; i <= n + 1; i++) {
+    first = first.next;
+  }
+  while (first !== null) {
+    first = first.next;
+    second = second.next;
+  }
+  second.next = second.next.next;
+  return dummy.next;
+}`,
 };
 
 interface TestCase {
@@ -98,31 +238,213 @@ interface TestResult {
   steps?: any[];
 }
 
+const STEP_META: Record<
+  string,
+  { label: string; badgeClass: string; dotClass: string }
+> = {
+  access: {
+    label: "Array read",
+    badgeClass: "bg-amber-100 text-amber-800 border-amber-200",
+    dotClass: "bg-amber-400",
+  },
+  binary_window: {
+    label: "Choose mid",
+    badgeClass: "bg-charcoal/5 text-charcoal border-charcoal/10",
+    dotClass: "bg-charcoal/40",
+  },
+  binary_decision: {
+    label: "Narrow range",
+    badgeClass: "bg-coral/10 text-coral border-coral/20",
+    dotClass: "bg-coral",
+  },
+  get_next: {
+    label: "Pointer read",
+    badgeClass: "bg-charcoal/5 text-charcoal border-charcoal/10",
+    dotClass: "bg-charcoal/45",
+  },
+  set_next: {
+    label: "Pointer write",
+    badgeClass: "bg-coral/10 text-coral border-coral/20",
+    dotClass: "bg-coral",
+  },
+  string_access: {
+    label: "Character read",
+    badgeClass: "bg-amber-100 text-amber-800 border-amber-200",
+    dotClass: "bg-amber-400",
+  },
+  stack_push: {
+    label: "Stack push",
+    badgeClass: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    dotClass: "bg-emerald-500",
+  },
+  stack_pop: {
+    label: "Stack pop",
+    badgeClass: "bg-coral/10 text-coral border-coral/20",
+    dotClass: "bg-coral",
+  },
+};
+
+const DEFAULT_STEP_META = {
+  label: "Operation",
+  badgeClass: "bg-charcoal/5 text-charcoal/70 border-charcoal/10",
+  dotClass: "bg-charcoal/35",
+};
+
+const SANDBOX_LEGENDS: Record<
+  string,
+  Array<{ label: string; dotClass: string }>
+> = {
+  "two-sum": [
+    { label: "Read", dotClass: "bg-amber-400" },
+    { label: "Solution", dotClass: "bg-emerald-600" },
+  ],
+  "find-max": [
+    { label: "Current", dotClass: "bg-amber-400" },
+    { label: "Maximum", dotClass: "bg-emerald-600" },
+  ],
+  "reverse-list": [
+    { label: "Active node", dotClass: "bg-coral" },
+    { label: "Pointer", dotClass: "bg-charcoal/35" },
+  ],
+  "binary-search": [
+    { label: "Window", dotClass: "bg-paper border border-charcoal/25" },
+    { label: "Mid", dotClass: "bg-amber-400" },
+    { label: "Found", dotClass: "bg-emerald-600" },
+  ],
+  "valid-parentheses": [
+    { label: "Current char", dotClass: "bg-coral" },
+    { label: "Stack item", dotClass: "bg-emerald-600" },
+  ],
+  "remove-duplicates": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "merge-sorted-array": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "max-subarray": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "sort-colors": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "kth-largest": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "top-k-frequent": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "intersection-arrays": [
+    { label: "Access", dotClass: "bg-amber-400" },
+  ],
+  "merge-two-lists": [
+    { label: "Active node", dotClass: "bg-coral" },
+    { label: "Pointer", dotClass: "bg-charcoal/35" },
+  ],
+  "linked-list-cycle": [
+    { label: "Active node", dotClass: "bg-coral" },
+    { label: "Pointer", dotClass: "bg-charcoal/35" },
+  ],
+  "middle-list": [
+    { label: "Active node", dotClass: "bg-coral" },
+    { label: "Pointer", dotClass: "bg-charcoal/35" },
+  ],
+  "remove-nth-node": [
+    { label: "Active node", dotClass: "bg-coral" },
+    { label: "Pointer", dotClass: "bg-charcoal/35" },
+  ],
+};
+
+function getStepMeta(type: string | undefined) {
+  return type ? STEP_META[type] ?? DEFAULT_STEP_META : DEFAULT_STEP_META;
+}
+
+function buildDisplaySteps(challenge: string, rawSteps: any[]) {
+  if (challenge !== "binary-search") return rawSteps;
+
+  return rawSteps.flatMap((step, sourceIndex) => {
+    if (step.type !== "access") return [{ ...step, sourceIndex }];
+
+    return [
+      { ...step, type: "binary_window", sourceIndex },
+      { ...step, sourceIndex },
+      { ...step, type: "binary_decision", sourceIndex },
+    ];
+  });
+}
+
 const TEST_CASES: Record<string, TestCase[]> = {
   "two-sum": [
-    { input: [[2, 7, 11, 15], 9], expected: [0, 1] },
+    { input: [[1, 10, 3, 4, 20, 6], 30], expected: [1, 4] },
     { input: [[3, 2, 4], 6], expected: [1, 2] },
     { input: [[3, 3], 6], expected: [0, 1] },
   ],
   "reverse-list": [
-    { input: [[1, 2, 3, 4, 5]], expected: [5, 4, 3, 2, 1] },
+    { input: [[1, 2, 3, 4, 5, 6, 7, 8]], expected: [8, 7, 6, 5, 4, 3, 2, 1] },
     { input: [[42]], expected: [42] },
     { input: [[]], expected: [] },
   ],
   "find-max": [
-    { input: [[1, 5, 3, 9, 2]], expected: 9 },
+    { input: [[1, 2, 3, 4, 5, 6, 7, 8]], expected: 8 },
     { input: [[-10, -5, -3, -9, -2]], expected: -2 },
     { input: [[42]], expected: 42 },
   ],
   "binary-search": [
-    { input: [[1, 3, 5, 7, 9, 11, 13], 7], expected: 3 },
+    { input: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31], 31], expected: 30 },
     { input: [[1, 3, 5, 7, 9, 11, 13], 9], expected: 4 },
     { input: [[1, 3, 5, 7, 9, 11, 13], 2], expected: -1 },
   ],
   "valid-parentheses": [
-    { input: ["()[]{}"], expected: true },
+    { input: ["({[]})[]{}"], expected: true },
     { input: ["([)]"], expected: false },
     { input: ["{[]}"], expected: true },
+  ],
+  "remove-duplicates": [
+    { input: [[1, 1, 2]], expected: 2 },
+    { input: [[0, 0, 1, 1, 1, 2, 2, 3, 3, 4]], expected: 5 },
+    { input: [[1, 2, 3]], expected: 3 },
+  ],
+  "merge-sorted-array": [
+    { input: [[1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3], expected: [1, 2, 2, 3, 5, 6] },
+    { input: [[1], 1, [], 0], expected: [1] },
+    { input: [[0], 0, [1], 1], expected: [1] },
+  ],
+  "max-subarray": [
+    { input: [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], expected: 6 },
+    { input: [[1]], expected: 1 },
+    { input: [[5, 4, -1, 7, 8]], expected: 23 },
+  ],
+  "sort-colors": [
+    { input: [[2, 0, 2, 1, 1, 0]], expected: [0, 0, 1, 1, 2, 2] },
+    { input: [[2, 0, 1]], expected: [0, 1, 2] },
+  ],
+  "kth-largest": [
+    { input: [[3, 2, 1, 5, 6, 4], 2], expected: 5 },
+    { input: [[3, 2, 3, 1, 2, 4, 5, 5, 6], 4], expected: 4 },
+  ],
+  "top-k-frequent": [
+    { input: [[1, 1, 1, 2, 2, 3], 2], expected: [1, 2] },
+    { input: [[1], 1], expected: [1] },
+  ],
+  "intersection-arrays": [
+    { input: [[1, 2, 2, 1], [2, 2]], expected: [2] },
+    { input: [[4, 9, 5], [9, 4, 9, 8, 4]], expected: [9, 4] },
+  ],
+  "merge-two-lists": [
+    { input: [[1, 2, 4], [1, 3, 4]], expected: [1, 1, 2, 3, 4, 4] },
+    { input: [[], []], expected: [] },
+    { input: [[], [0]], expected: [0] },
+  ],
+  "linked-list-cycle": [
+    { input: [[3, 2, 0, -4]], expected: false },
+  ],
+  "middle-list": [
+    { input: [[1, 2, 3, 4, 5]], expected: [3, 4, 5] },
+    { input: [[1, 2, 3, 4, 5, 6]], expected: [4, 5, 6] },
+  ],
+  "remove-nth-node": [
+    { input: [[1, 2, 3, 4, 5], 2], expected: [1, 2, 3, 5] },
+    { input: [[1], 1], expected: [] },
+    { input: [[1, 2], 1], expected: [1] },
   ],
 };
 
@@ -137,7 +459,22 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
       sortedActual[1] === sortedExpected[1]
     );
   }
-  if (challenge === "reverse-list") {
+  if (challenge === "intersection-arrays") {
+    if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
+    const sortedActual = [...actual].sort((a, b) => a - b);
+    const sortedExpected = [...expected].sort((a, b) => a - b);
+    if (sortedActual.length !== sortedExpected.length) return false;
+    return sortedActual.every((val, idx) => val === sortedExpected[idx]);
+  }
+  if (
+    challenge === "reverse-list" ||
+    challenge === "merge-sorted-array" ||
+    challenge === "sort-colors" ||
+    challenge === "top-k-frequent" ||
+    challenge === "merge-two-lists" ||
+    challenge === "middle-list" ||
+    challenge === "remove-nth-node"
+  ) {
     if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
     if (actual.length !== expected.length) return false;
     for (let i = 0; i < actual.length; i++) {
@@ -148,7 +485,11 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
   if (
     challenge === "find-max" ||
     challenge === "binary-search" ||
-    challenge === "valid-parentheses"
+    challenge === "valid-parentheses" ||
+    challenge === "remove-duplicates" ||
+    challenge === "max-subarray" ||
+    challenge === "kth-largest" ||
+    challenge === "linked-list-cycle"
   ) {
     return actual === expected;
   }
@@ -175,23 +516,23 @@ function ArrayVisualizer({
   successIndices?: number[];
 }) {
   return (
-    <div className="flex gap-2 justify-center py-6 px-4 bg-paper-dark/50 rounded-2xl border border-charcoal/5 shadow-inner my-4 overflow-x-auto w-full">
+    <div className="flex gap-2.5 justify-center py-4 px-4 bg-paper-dark/50 rounded-2xl border border-charcoal/5 shadow-inner my-1 overflow-x-auto w-full">
       {values.map((val, idx) => {
         const isActive = idx === activeIndex;
         const isSuccess = successIndices?.includes(idx);
 
-        let bgClass = "bg-paper border-charcoal/10 text-charcoal";
+        let bgClass = "bg-paper border-charcoal/10 text-charcoal font-black";
         if (isActive) {
-          bgClass = "bg-amber-400 border-amber-500 text-charcoal shadow-md scale-105";
+          bgClass = "bg-gradient-to-br from-amber-400 to-amber-300 border-amber-500 text-charcoal font-black shadow-md scale-105";
         } else if (isSuccess) {
-          bgClass = "bg-emerald-600 border-emerald-700 text-paper shadow-md scale-105";
+          bgClass = "bg-gradient-to-br from-emerald-600 to-emerald-400 border-emerald-700 text-paper font-black shadow-md scale-105";
         }
 
         return (
-          <motion.div key={idx} layout className="flex flex-col items-center gap-1 min-w-[2.5rem]">
-            <span className="font-mono text-[9px] text-charcoal/40 font-bold">[{idx}]</span>
+          <motion.div key={idx} layout className="flex flex-col items-center gap-1.5 min-w-[3rem]">
+            <span className="font-mono text-[11px] text-charcoal/50 font-black">[{idx}]</span>
             <div
-              className={`w-11 h-11 rounded-xl border flex items-center justify-center font-mono text-xs font-bold transition-all duration-200 ${bgClass}`}
+              className={`w-12 h-12 rounded-xl border flex items-center justify-center font-mono text-[14px] font-black transition-all duration-200 ${bgClass}`}
             >
               {val}
             </div>
@@ -214,127 +555,132 @@ function LinkedListVisualizer({
   activeTarget: number | null;
   activeType: "get" | "set" | null;
 }) {
-  const nodeRadius = 16;
+  const nodeRadius = 18;
   const positions = new Map<number, { x: number; y: number }>();
   values.forEach((val, idx) => {
-    positions.set(val, { x: idx * 80 + 35, y: 40 });
+    positions.set(val, { x: idx * 85 + 40, y: 55 });
   });
 
-  return (
-    <svg
-      viewBox={`0 0 390 140`}
-      className="w-full h-36 bg-paper-dark/50 rounded-2xl border border-charcoal/5 my-4"
-    >
-      <defs>
-        <marker
-          id="arrow-act"
-          viewBox="0 0 10 10"
-          refX="20"
-          refY="5"
-          markerWidth="6"
-          markerHeight="6"
-          orient="auto-start-reverse"
-        >
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="#e05342" />
-        </marker>
-        <marker
-          id="arrow-def"
-          viewBox="0 0 10 10"
-          refX="20"
-          refY="5"
-          markerWidth="6"
-          markerHeight="6"
-          orient="auto-start-reverse"
-        >
-          <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(45,45,45,0.25)" />
-        </marker>
-      </defs>
+  const svgWidth = Math.max(380, values.length * 85 + 10);
 
-      {/* Draw pointers */}
-      {values.map((val) => {
-        const nextVal = listPointers.get(val);
-        if (nextVal === undefined || nextVal === null) {
+  return (
+    <div className="w-full overflow-x-auto py-2 flex justify-start sm:justify-center">
+      <svg
+        viewBox={`0 0 ${svgWidth} 140`}
+        style={{ width: `${svgWidth}px`, height: "130px" }}
+        className="bg-paper-dark/35 rounded-xl border border-charcoal/10 shadow-inner shrink-0"
+      >
+        <defs>
+          <marker
+            id="arrow-act"
+            viewBox="0 0 10 10"
+            refX="23"
+            refY="5"
+            markerWidth="7"
+            markerHeight="7"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#e05342" />
+          </marker>
+          <marker
+            id="arrow-def"
+            viewBox="0 0 10 10"
+            refX="23"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(45,45,45,0.3)" />
+          </marker>
+        </defs>
+
+        {/* Draw pointers */}
+        {values.map((val) => {
+          const nextVal = listPointers.get(val);
+          if (nextVal === undefined || nextVal === null) {
+            const from = positions.get(val);
+            if (!from) return null;
+            const isAct = val === activeNode && activeTarget === null;
+            return (
+              <g key={`null-${val}`}>
+                <line
+                  x1={from.x}
+                  y1={from.y}
+                  x2={from.x}
+                  y2={from.y + 35}
+                  stroke={isAct ? "#e05342" : "rgba(45,45,45,0.25)"}
+                  strokeWidth={isAct ? 2.5 : 1.5}
+                  markerEnd={isAct ? "url(#arrow-act)" : "url(#arrow-def)"}
+                />
+                <text
+                  x={from.x}
+                  y={from.y + 48}
+                  textAnchor="middle"
+                  fontSize="9.5"
+                  fontWeight="900"
+                  fill={isAct ? "#e05342" : "rgba(45,45,45,0.5)"}
+                >
+                  null
+                </text>
+              </g>
+            );
+          }
+
           const from = positions.get(val);
-          if (!from) return null;
-          const isAct = val === activeNode && activeTarget === null;
+          const to = positions.get(nextVal);
+          if (!from || !to) return null;
+
+          const isAct = val === activeNode && nextVal === activeTarget;
+          const isBackward = to.x < from.x;
+
           return (
-            <g key={`null-${val}`}>
-              <line
-                x1={from.x}
-                y1={from.y}
-                x2={from.x}
-                y2={from.y + 35}
-                stroke={isAct ? "#e05342" : "rgba(45,45,45,0.25)"}
-                strokeWidth={isAct ? 2 : 1.5}
-                markerEnd={isAct ? "url(#arrow-act)" : "url(#arrow-def)"}
+            <path
+              key={`line-${val}-${nextVal}`}
+              d={
+                isBackward
+                  ? `M ${from.x} ${from.y} C ${(from.x + to.x) / 2} ${from.y - 25}, ${(from.x + to.x) / 2} ${to.y - 25}, ${to.x} ${to.y}`
+                  : `M ${from.x} ${from.y} L ${to.x} ${to.y}`
+              }
+              fill="none"
+              stroke={isAct ? "#e05342" : "rgba(45,45,45,0.3)"}
+              strokeWidth={isAct ? 2.8 : 1.5}
+              markerEnd={isAct ? "url(#arrow-act)" : "url(#arrow-def)"}
+            />
+          );
+        })}
+
+        {/* Draw node circles */}
+        {values.map((val) => {
+          const pos = positions.get(val);
+          if (!pos) return null;
+          const isActive = val === activeNode;
+          return (
+            <g key={val}>
+              <circle
+                cx={pos.x}
+                cy={pos.y}
+                r={nodeRadius}
+                fill={isActive ? "#e05342" : "#fdfbf7"}
+                stroke={isActive ? "#b83b2c" : "rgba(45,45,45,0.2)"}
+                strokeWidth={isActive ? 2.5 : 1.5}
               />
               <text
-                x={from.x}
-                y={from.y + 45}
+                x={pos.x}
+                y={pos.y}
                 textAnchor="middle"
-                fontSize="8"
-                fontWeight="bold"
-                fill="rgba(45,45,45,0.4)"
+                dominantBaseline="central"
+                fontSize="11.5"
+                fontWeight="900"
+                fill={isActive ? "#fdfbf7" : "#2d2d2d"}
               >
-                null
+                {val}
               </text>
             </g>
           );
-        }
-
-        const from = positions.get(val);
-        const to = positions.get(nextVal);
-        if (!from || !to) return null;
-
-        const isAct = val === activeNode && nextVal === activeTarget;
-        const isBackward = to.x < from.x;
-
-        return (
-          <path
-            key={`line-${val}-${nextVal}`}
-            d={
-              isBackward
-                ? `M ${from.x} ${from.y} C ${(from.x + to.x) / 2} ${from.y - 25}, ${(from.x + to.x) / 2} ${to.y - 25}, ${to.x} ${to.y}`
-                : `M ${from.x} ${from.y} L ${to.x} ${to.y}`
-            }
-            fill="none"
-            stroke={isAct ? "#e05342" : "rgba(45,45,45,0.25)"}
-            strokeWidth={isAct ? 2.2 : 1.5}
-            markerEnd={isAct ? "url(#arrow-act)" : "url(#arrow-def)"}
-          />
-        );
-      })}
-
-      {/* Draw node circles */}
-      {values.map((val) => {
-        const pos = positions.get(val);
-        if (!pos) return null;
-        const isActive = val === activeNode;
-        return (
-          <g key={val}>
-            <circle
-              cx={pos.x}
-              cy={pos.y}
-              r={nodeRadius}
-              fill={isActive ? "#e05342" : "#fdfbf7"}
-              stroke={isActive ? "#b83b2c" : "rgba(45,45,45,0.2)"}
-              strokeWidth={isActive ? 2.5 : 1.5}
-            />
-            <text
-              x={pos.x}
-              y={pos.y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fontSize="9"
-              fontWeight="bold"
-              fill={isActive ? "#fdfbf7" : "#2d2d2d"}
-            >
-              {val}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+        })}
+      </svg>
+    </div>
   );
 }
 
@@ -358,11 +704,11 @@ function BinarySearchVisualizer({
   return (
     <div className="flex flex-col items-center gap-4 w-full">
       {/* Target search label */}
-      <div className="text-sm font-sans text-charcoal/70 bg-paper-dark border border-charcoal/5 px-4 py-1.5 rounded-full font-bold">
+      <div className="text-[13px] font-sans text-charcoal/70 bg-paper-dark border border-charcoal/5 px-4 py-1.5 rounded-full font-black uppercase tracking-wider">
         Searching for target: <span className="text-coral font-mono">{target}</span>
       </div>
 
-      <div className="flex gap-2 justify-center py-6 px-4 bg-paper-dark/50 rounded-2xl border border-charcoal/5 shadow-inner w-full overflow-x-auto">
+      <div className="flex gap-2.5 justify-center py-4 px-4 bg-paper-dark/50 rounded-2xl border border-charcoal/5 shadow-inner w-full overflow-x-auto">
         {values.map((val, idx) => {
           const isMid = idx === mid;
           const isFound = idx === foundIndex;
@@ -372,13 +718,13 @@ function BinarySearchVisualizer({
           let labelText = "";
 
           if (isFound) {
-            bgClass = "bg-emerald-600 border-emerald-700 text-paper shadow-md scale-105";
+            bgClass = "bg-gradient-to-br from-emerald-600 to-emerald-400 border-emerald-700 text-paper shadow-md scale-105 font-black";
           } else if (isMid) {
-            bgClass = "bg-amber-400 border-amber-500 text-charcoal shadow-md scale-105";
+            bgClass = "bg-gradient-to-br from-amber-400 to-amber-300 border-amber-500 text-charcoal shadow-md scale-105 font-black";
           } else if (inRange) {
-            bgClass = "bg-paper border-charcoal/10 text-charcoal";
+            bgClass = "bg-paper border-charcoal/10 text-charcoal font-black";
           } else {
-            bgClass = "bg-paper/30 border-charcoal/5 text-charcoal/30 opacity-40";
+            bgClass = "bg-paper/35 border-charcoal/5 text-charcoal/30 opacity-40 font-light";
           }
 
           if (idx === low && idx === high) {
@@ -390,14 +736,14 @@ function BinarySearchVisualizer({
           }
 
           return (
-            <div key={idx} className="flex flex-col items-center gap-1 min-w-[2.5rem]">
-              <span className="font-mono text-[9px] text-charcoal/40 font-bold">[{idx}]</span>
+            <div key={idx} className="flex flex-col items-center gap-1.5 min-w-[3rem]">
+              <span className="font-mono text-[11px] text-charcoal/50 font-black">[{idx}]</span>
               <div
-                className={`w-11 h-11 rounded-xl border flex items-center justify-center font-mono text-xs font-bold transition-all duration-200 ${bgClass}`}
+                className={`w-12 h-12 rounded-xl border flex items-center justify-center font-mono text-[14px] font-black transition-all duration-200 ${bgClass}`}
               >
                 {val}
               </div>
-              <span className="h-4 font-mono text-[9px] font-bold text-coral uppercase tracking-wide">
+              <span className="h-4 font-mono text-[11px] font-black text-coral uppercase tracking-wide">
                 {labelText}
               </span>
             </div>
@@ -422,20 +768,20 @@ function StackParenthesesVisualizer({
   return (
     <div className="flex flex-col items-center gap-6 w-full py-2">
       {/* Input String Traversal */}
-      <div className="flex flex-col items-center gap-1.5 w-full">
-        <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
+      <div className="flex flex-col items-center gap-2 w-full">
+        <span className="text-[11px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
           Input String
         </span>
-        <div className="flex gap-1.5 bg-paper-dark border border-charcoal/5 p-2 rounded-xl shadow-inner overflow-x-auto max-w-full">
+        <div className="flex gap-1.5 bg-paper-dark border border-charcoal/5 p-2.5 rounded-xl shadow-inner overflow-x-auto max-w-full">
           {inputString.split("").map((char, idx) => {
             const isActive = idx === charIndex;
             return (
               <div
                 key={idx}
-                className={`w-8 h-8 rounded-lg flex items-center justify-center font-mono text-base font-bold transition-all ${
+                className={`w-10 h-10 rounded-lg flex items-center justify-center font-mono text-[17px] font-black transition-all ${
                   isActive
-                    ? "bg-coral text-paper scale-110 shadow-sm"
-                    : "bg-paper text-charcoal/60"
+                    ? "bg-coral text-paper scale-110 shadow-sm font-black"
+                    : "bg-paper text-charcoal/60 font-black border border-charcoal/5"
                 }`}
               >
                 {char}
@@ -447,14 +793,14 @@ function StackParenthesesVisualizer({
 
       {/* Physical Stack Representation */}
       <div className="flex flex-col items-center gap-2">
-        <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
+        <span className="text-[11px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
           Stack
         </span>
-        <div className="relative w-28 h-48 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1.5 p-3 bg-paper-dark/30 shadow-inner">
+        <div className="relative w-32 h-52 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1.5 p-3.5 bg-paper-dark/30 shadow-inner">
           <AnimatePresence>
             {stackState.length === 0 ? (
               <div className="absolute inset-0 flex items-center justify-center text-center p-4">
-                <span className="text-[10px] font-mono text-charcoal/30 italic">Empty Stack</span>
+                <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty Stack</span>
               </div>
             ) : (
               stackState.map((char, idx) => (
@@ -464,7 +810,7 @@ function StackParenthesesVisualizer({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -20, scale: 0.8 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="w-20 py-2.5 bg-emerald-600 border border-emerald-700 text-paper rounded-lg flex items-center justify-center font-mono text-base font-bold shadow-sm"
+                  className="w-24 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 border border-emerald-700 text-paper font-black rounded-lg flex items-center justify-center font-mono text-lg shadow-[0_2px_8px_rgba(16,185,129,0.2)]"
                 >
                   {char}
                 </motion.div>
@@ -493,7 +839,11 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   const codeViewerRef = useRef<HTMLDivElement | null>(null);
   const traceListRef = useRef<HTMLDivElement | null>(null);
 
-  const steps = testResult?.steps || [];
+  const rawSteps = testResult?.steps || [];
+  const steps = useMemo(
+    () => buildDisplaySteps(challenge, rawSteps),
+    [challenge, rawSteps],
+  );
   const totalSteps = steps.length;
 
   // Reset steps on test result change
@@ -524,12 +874,29 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   // Validation to verify if testResult corresponds to current challenge
   const isValidResultForChallenge = useMemo(() => {
     if (!testResult) return false;
-    if (challenge === "two-sum" || challenge === "binary-search") {
+    const isArrayAndNumber = [
+      "two-sum", "binary-search", "kth-largest", "top-k-frequent", "remove-nth-node"
+    ].includes(challenge);
+    if (isArrayAndNumber) {
       return Array.isArray(testResult.input[0]) && typeof testResult.input[1] === "number";
     }
-    if (challenge === "find-max" || challenge === "reverse-list") {
+
+    const isSingleArray = [
+      "find-max", "reverse-list", "remove-duplicates", "max-subarray", 
+      "sort-colors", "linked-list-cycle", "middle-list"
+    ].includes(challenge);
+    if (isSingleArray) {
       return Array.isArray(testResult.input[0]);
     }
+
+    if (challenge === "merge-sorted-array") {
+      return Array.isArray(testResult.input[0]) && typeof testResult.input[1] === "number" && Array.isArray(testResult.input[2]) && typeof testResult.input[3] === "number";
+    }
+
+    if (challenge === "intersection-arrays" || challenge === "merge-two-lists") {
+      return Array.isArray(testResult.input[0]) && Array.isArray(testResult.input[1]);
+    }
+
     if (challenge === "valid-parentheses") {
       return typeof testResult.input[0] === "string";
     }
@@ -596,6 +963,14 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   const currentStep = steps[stepIndex] || steps[steps.length - 1] || null;
   const activeLine = currentStep ? currentStep.line : null;
   const isFinalStep = stepIndex === totalSteps;
+  const stepMeta = getStepMeta(currentStep?.type);
+  const operationLabel = currentStep
+    ? stepMeta.label
+    : isFinalStep
+      ? "Complete"
+      : "Idle";
+  const activeLineLabel = activeLine ?? "None";
+  const sandboxLegend = SANDBOX_LEGENDS[challenge] ?? [];
 
   // Auto-scroll active code line into view
   useEffect(() => {
@@ -622,9 +997,12 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
 
   if (!testResult || !isValidResultForChallenge) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-paper border border-charcoal/10 rounded-3xl h-full shadow-sm min-h-[350px]">
-        <div className="text-charcoal/30 italic text-base">
-          Run code to visualize execution timeline.
+      <div
+        data-testid="execution-visualizer-panel"
+        className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-paper border border-charcoal/10 rounded-3xl h-full shadow-sm min-h-[350px]"
+      >
+        <div className="text-charcoal/60 italic text-base">
+          Run code to visualize execution timeline, sandbox state, and trace flow.
         </div>
       </div>
     );
@@ -745,8 +1123,12 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
     let high = arr.length - 1;
     let mid: number | null = null;
     let foundIndex: number | null = null;
+    const currentSourceIndex =
+      typeof currentStep?.sourceIndex === "number"
+        ? currentStep.sourceIndex
+        : Math.min(stepIndex, rawSteps.length - 1);
 
-    steps.slice(0, stepIndex).forEach((step) => {
+    const applyBinaryAccess = (step: any) => {
       if (step.type === "access") {
         const val = step.value;
         const m = step.index;
@@ -758,25 +1140,32 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
           high = m - 1;
         }
       }
-    });
+    };
 
-    if (currentStep && currentStep.type === "access") {
+    rawSteps.slice(0, Math.max(0, currentSourceIndex)).forEach(applyBinaryAccess);
+
+    if (
+      currentStep &&
+      (currentStep.type === "binary_window" ||
+        currentStep.type === "access" ||
+        currentStep.type === "binary_decision")
+    ) {
       mid = currentStep.index;
       const val = currentStep.value;
-      statusText = `Check arr[${mid}] = ${val}. Target is ${target}. ${
-        val === target
-          ? "Target found!"
-          : val < target
-            ? `Too small, shifting low to ${mid + 1}.`
-            : `Too large, shifting high to ${mid - 1}.`
-      }`;
 
-      if (val === target) {
-        foundIndex = mid;
-      } else if (val < target) {
-        low = mid + 1;
+      if (currentStep.type === "binary_window") {
+        statusText = `Choose midpoint index ${mid} inside [${low}, ${high}].`;
+      } else if (currentStep.type === "access") {
+        statusText = `Read arr[${mid}] = ${val}; compare with target ${target}.`;
       } else {
-        high = mid - 1;
+        if (val === target) {
+          statusText = `Target matched. Return index ${mid}.`;
+        } else if (val < target) {
+          statusText = `${val} is too small; move low to ${mid + 1}.`;
+        } else {
+          statusText = `${val} is too large; move high to ${mid - 1}.`;
+        }
+        applyBinaryAccess(currentStep);
       }
     }
 
@@ -840,216 +1229,390 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         stackState={stackState}
       />
     );
+  } else {
+    // Check if linked list challenge
+    const isLinkedListChallenge = [
+      "reverse-list", "merge-two-lists", "linked-list-cycle", "middle-list", "remove-nth-node"
+    ].includes(challenge);
+
+    if (isLinkedListChallenge) {
+      const isTwoLists = challenge === "merge-two-lists";
+      const initialValues = isTwoLists
+        ? [...(testResult.input[0] || []), ...(testResult.input[1] || [])]
+        : (testResult.input[0] || []);
+
+      const listPointers = new Map<number, number | null>();
+
+      if (isTwoLists) {
+        const list1 = testResult.input[0] || [];
+        const list2 = testResult.input[1] || [];
+        list1.forEach((val: number, idx: number) => {
+          listPointers.set(val, idx < list1.length - 1 ? list1[idx + 1] : null);
+        });
+        list2.forEach((val: number, idx: number) => {
+          listPointers.set(val, idx < list2.length - 1 ? list2[idx + 1] : null);
+        });
+      } else {
+        initialValues.forEach((val: number, idx: number) => {
+          listPointers.set(
+            val,
+            idx < initialValues.length - 1 ? initialValues[idx + 1] : null
+          );
+        });
+      }
+
+      let activeNode: number | null = null;
+      let activeTarget: number | null = null;
+      let activeType: "get" | "set" | null = null;
+
+      steps.slice(0, stepIndex).forEach((step) => {
+        if (step.type === "set_next") {
+          listPointers.set(step.node, step.nextNode);
+        }
+      });
+
+      if (currentStep) {
+        if (currentStep.type === "set_next") {
+          listPointers.set(currentStep.node, currentStep.nextNode);
+          activeNode = currentStep.node;
+          activeTarget = currentStep.nextNode;
+          activeType = "set";
+          statusText = `Set: node ${activeNode}.next → ${activeTarget !== null ? activeTarget : "null"}`;
+        } else if (currentStep.type === "get_next") {
+          activeNode = currentStep.node;
+          activeTarget = currentStep.nextNode;
+          activeType = "get";
+          statusText = `Read: node ${activeNode}.next points to ${activeTarget !== null ? activeTarget : "null"}`;
+        }
+      }
+
+      if (isFinalStep) {
+        statusText = `Execution complete. Output: ${safeStringify(testResult.actual)}`;
+      }
+
+      visualizerNode = (
+        <LinkedListVisualizer
+          values={initialValues}
+          listPointers={listPointers}
+          activeNode={activeNode}
+          activeTarget={activeTarget}
+          activeType={activeType}
+        />
+      );
+    } else {
+      // Array challenge
+      const arr = testResult.input[0] || [];
+      let activeIdx: number | null = null;
+
+      if (currentStep && currentStep.type === "access") {
+        activeIdx = currentStep.index;
+        statusText = `Read index ${activeIdx}: ${currentStep.value}`;
+      }
+
+      if (isFinalStep) {
+        statusText = `Execution complete. Output: ${safeStringify(testResult.actual)}`;
+      }
+
+      visualizerNode = (
+        <ArrayVisualizer
+          values={arr}
+          activeIndex={activeIdx}
+        />
+      );
+    }
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between gap-4 bg-paper border border-charcoal/10 rounded-3xl p-5 shadow-sm min-h-[550px] h-full w-full">
-      <div>
-        <h3 className="font-editorial text-xl font-bold text-charcoal mb-1">
-          Execution Visualizer
-        </h3>
-        <p className="text-xs font-sans text-charcoal/50 uppercase tracking-wider mb-3">
-          Visualizing Test Case {testResult.passed ? "✓ Passed" : "✗ Failed"}
-        </p>
-
-        {/* Code Viewer Panel */}
-        <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[180px] shadow-inner mb-4">
-          <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
-            <span className="text-[10px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
-              Code Viewer
-            </span>
-            {activeLine !== null && (
-              <span className="text-[9px] font-mono text-coral font-bold uppercase tracking-wider animate-pulse">
-                Executing Line {activeLine}
-              </span>
-            )}
+    <section
+      data-testid="execution-visualizer-panel"
+      aria-label="Execution visualizer"
+      className="flex-1 flex flex-col justify-between gap-3 bg-paper border border-charcoal/10 rounded-2xl p-5 shadow-sm h-full w-full overflow-hidden"
+    >
+      {/* Top Header & KPIs */}
+      <div className="flex shrink-0 flex-col gap-2">
+        <div className="flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h3 className="font-editorial text-2xl font-extrabold text-charcoal leading-tight">
+              Execution Visualizer
+            </h3>
           </div>
-          <div
-            ref={codeViewerRef}
-            className="p-3 overflow-y-auto space-y-0.5 flex-1 font-mono text-[11px] leading-relaxed select-none"
+          <span
+            className={`mr-10 inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-xs font-sans font-extrabold uppercase tracking-wider sm:mr-0 ${
+              testResult.passed
+                ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                : "bg-red-50 text-red-700 border-red-200"
+            }`}
           >
-            {codeLines.map((line, idx) => {
-              const lineNum = idx + 1;
-              const isActive = lineNum === activeLine;
-              return (
-                <div
-                  key={lineNum}
-                  data-line={lineNum}
-                  className={`flex items-start -mx-3 px-3 py-0.5 transition-all duration-150 ${
-                    isActive
-                      ? "bg-coral/10 border-l-2 border-coral text-charcoal font-bold"
-                      : "text-charcoal/60 hover:text-charcoal/80"
-                  }`}
-                >
-                  <span className="w-6 shrink-0 text-right pr-2 text-charcoal/30 select-none font-mono text-[10px]">
-                    {lineNum}
-                  </span>
-                  <span className="whitespace-pre font-mono">{line}</span>
-                </div>
-              );
-            })}
-          </div>
+            <span
+              className={`h-2 w-2 rounded-full ${
+                testResult.passed ? "bg-emerald-500" : "bg-red-500"
+              }`}
+            />
+            {testResult.passed ? "Passed" : "Failed"}
+          </span>
         </div>
 
-        {/* Visual Sandbox Panel */}
-        <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm mb-1">
-          <span className="text-[10px] font-sans font-bold text-charcoal/40 uppercase tracking-wider block mb-2">
+        <div className="grid grid-cols-3 gap-2">
+          {/* Step KPI */}
+          <div
+            data-testid="execution-kpi-step"
+            className="rounded-xl border border-charcoal/10 bg-paper-dark/55 px-2.5 py-1.5 shadow-inner"
+          >
+            <span className="block text-[10px] font-sans font-black uppercase tracking-widest text-charcoal/45">
+              Step
+            </span>
+            <span className="mt-0.5 block font-mono text-[13px] font-black text-charcoal tabular-nums">
+              {stepIndex} / {totalSteps}
+            </span>
+          </div>
+          {/* Line KPI */}
+          <div
+            data-testid="execution-kpi-line"
+            className="rounded-xl border border-charcoal/10 bg-paper-dark/55 px-2.5 py-1.5 shadow-inner"
+          >
+            <span className="block text-[10px] font-sans font-black uppercase tracking-widest text-charcoal/45">
+              Line
+            </span>
+            <span className="mt-0.5 block font-mono text-[13px] font-black text-charcoal tabular-nums">
+              {activeLineLabel}
+            </span>
+          </div>
+          {/* Operation KPI */}
+          <div
+            data-testid="execution-kpi-operation"
+            className="rounded-xl border border-charcoal/10 bg-paper-dark/55 px-2.5 py-1.5 shadow-inner"
+          >
+            <span className="block text-[10px] font-sans font-black uppercase tracking-widest text-charcoal/45">
+              Operation
+            </span>
+            <span className="mt-0.5 flex items-center gap-1 font-mono text-[12px] font-black text-charcoal truncate">
+              <span className={`h-1.5 w-1.5 rounded-full shrink-0 ${stepMeta.dotClass}`} />
+              {operationLabel}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Executing Code Viewer Panel */}
+      <div className="border border-charcoal/10 rounded-xl bg-paper-dark/20 overflow-hidden flex flex-col h-[170px] shrink-0 shadow-inner">
+        <div className="bg-paper-light border-b border-charcoal/5 px-3 py-1 flex items-center justify-between gap-3">
+          <span className="text-[12px] font-sans font-extrabold text-charcoal/50 uppercase tracking-wider">
+            Executing Code
+          </span>
+          {activeLine !== null && (
+            <span className="text-[11px] font-mono text-coral font-black uppercase tracking-wider">
+              Line {activeLine}
+            </span>
+          )}
+        </div>
+        <div
+          ref={codeViewerRef}
+          className="p-3 overflow-y-auto space-y-0.5 flex-1 font-mono text-[13px] leading-relaxed select-none"
+        >
+          {codeLines.map((line, idx) => {
+            const lineNum = idx + 1;
+            const isActive = lineNum === activeLine;
+            return (
+              <div
+                key={lineNum}
+                data-line={lineNum}
+                className={`flex items-start -mx-3 px-3 py-0.5 transition-all duration-150 ${
+                  isActive
+                    ? "bg-coral/10 border-l-2 border-coral text-charcoal font-bold"
+                    : "text-charcoal/60 hover:text-charcoal/80"
+                }`}
+              >
+                <span className="w-6 shrink-0 text-right pr-2 text-charcoal/30 select-none font-mono text-[11px]">
+                  {lineNum}
+                </span>
+                <span className="whitespace-pre font-mono">{line}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 3. Visual Sandbox Panel */}
+      <div
+        data-testid="visual-sandbox-panel"
+        aria-label="Visual sandbox"
+        className="border border-charcoal/10 rounded-xl bg-paper p-3 shadow-sm flex flex-col flex-1 min-h-[180px] overflow-hidden"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2 shrink-0">
+          <span className="text-[12px] font-sans font-extrabold text-charcoal/55 uppercase tracking-wider">
             Visual Sandbox
           </span>
+          {sandboxLegend.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1">
+              {sandboxLegend.map((item) => (
+                <span
+                  key={item.label}
+                  className="inline-flex items-center gap-1 rounded-full border border-charcoal/10 bg-paper-dark/50 px-1.5 py-0.5 text-[8px] font-sans font-bold uppercase tracking-wider text-charcoal/65"
+                >
+                  <span className={`h-1.5 w-1.5 rounded-full ${item.dotClass}`} />
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className="flex-1 flex items-center justify-center min-h-0 overflow-y-auto">
           {visualizerNode}
         </div>
       </div>
 
-      <div className="space-y-3">
-        {/* Step details message */}
-        <div className="bg-paper-dark border border-charcoal/5 rounded-xl px-4 py-2.5 min-h-[44px] flex items-center shadow-inner">
-          <span className="font-bold text-coral mr-2">›</span>
-          <span className="font-mono text-[13px] text-charcoal">{statusText}</span>
-        </div>
+      {/* 4. Trace Log list */}
+      {totalSteps > 0 && (
+        <div
+          data-testid="execution-flow-trace"
+          aria-label="Execution flow trace"
+          className="border border-charcoal/10 rounded-xl bg-paper-dark/30 overflow-hidden flex flex-col h-[110px] shrink-0 shadow-inner"
+        >
+          <div className="bg-paper-light border-b border-charcoal/5 px-3 py-1 flex items-center justify-between gap-3">
+            <span className="text-[11px] font-sans font-black uppercase tracking-wider text-charcoal/55">
+              Trace Log
+            </span>
+            <span className="text-[10px] font-mono font-extrabold text-charcoal/55">
+              {totalSteps} steps
+            </span>
+          </div>
+          <div ref={traceListRef} className="p-1.5 overflow-y-auto space-y-1 flex-1">
+            {steps.map((step: any, idx: number) => {
+              const isActive = idx === stepIndex;
+              const itemMeta = getStepMeta(step.type);
+              let description = "";
 
-        {/* Step Flow List (Trace Timeline) */}
-        {totalSteps > 0 && (
-          <div className="border border-charcoal/10 rounded-2xl bg-paper-dark/30 overflow-hidden flex flex-col max-h-[150px] shadow-inner">
-            <div className="bg-paper-light border-b border-charcoal/5 px-4 py-2 flex items-center justify-between">
-              <span className="text-[9px] font-sans font-bold text-charcoal/50 uppercase tracking-wider">
-                Execution Flow Trace
-              </span>
-              <span className="text-[9px] font-mono text-charcoal/50">
-                {totalSteps} operations
-              </span>
-            </div>
-            <div ref={traceListRef} className="p-1.5 overflow-y-auto space-y-1 flex-1">
-              {steps.map((step: any, idx: number) => {
-                const isActive = idx === stepIndex;
-                let description = "";
+              if (step.type === "access") {
+                description = `Read index ${step.index} (value: ${step.value})`;
+              } else if (step.type === "binary_window") {
+                description = `Choose mid index ${step.index}`;
+              } else if (step.type === "binary_decision") {
+                const target = testResult.input[1];
+                description =
+                  step.value === target
+                    ? `Return index ${step.index}`
+                    : step.value < target
+                      ? `Low → ${step.index + 1}`
+                      : `High → ${step.index - 1}`;
+              } else if (step.type === "get_next") {
+                description = `Read node ${step.node}.next → ${step.nextNode ?? "null"}`;
+              } else if (step.type === "set_next") {
+                description = `Set node ${step.node}.next → ${step.nextNode ?? "null"}`;
+              } else if (step.type === "string_access") {
+                description = `Read char '${step.value}' at index ${step.index}`;
+              } else if (step.type === "stack_push") {
+                description = `Push '${step.value}'`;
+              } else if (step.type === "stack_pop") {
+                description = `Pop '${step.value}'`;
+              }
 
-                if (step.type === "access") {
-                  description = `Read index ${step.index} (value: ${step.value})`;
-                } else if (step.type === "get_next") {
-                  description = `Traverse: node ${step.node}.next → ${step.nextNode ?? "null"}`;
-                } else if (step.type === "set_next") {
-                  description = `Mutate: node ${step.node}.next → ${step.nextNode ?? "null"}`;
-                } else if (step.type === "string_access") {
-                  description = `Read char '${step.value}' at index ${step.index}`;
-                } else if (step.type === "stack_push") {
-                  description = `Push '${step.value}' onto stack`;
-                } else if (step.type === "stack_pop") {
-                  description = `Pop '${step.value}' from stack`;
-                }
+              const lineLabel = step.line ? ` (L${step.line})` : "";
 
-                const lineLabel = step.line ? ` (Line ${step.line})` : "";
-
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => setStepIndex(idx)}
-                    className={`w-full text-left font-mono text-[11px] px-2.5 py-1.5 rounded-lg border transition-all flex items-center justify-between ${
-                      isActive
-                        ? "bg-coral text-paper border-coral shadow-sm font-bold"
-                        : "bg-paper/40 hover:bg-paper/85 text-charcoal/70 border-transparent"
-                    }`}
-                  >
+              return (
+                <button
+                  key={idx}
+                  data-testid="execution-flow-item"
+                  onClick={() => setStepIndex(idx)}
+                  aria-label={`Jump to step ${idx + 1}`}
+                  className={`w-full min-h-8 text-left font-mono text-[12.5px] px-3 py-1.5 rounded-lg border transition-all flex items-center justify-between gap-2 focus:outline-none focus-visible:ring-1 focus-visible:ring-coral/50 ${
+                    isActive
+                      ? "bg-coral text-paper border-coral shadow-sm font-black"
+                      : "bg-paper/55 hover:bg-paper text-charcoal border-charcoal/10 font-bold"
+                  }`}
+                >
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    <span
+                      className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                        isActive ? "bg-paper" : itemMeta.dotClass
+                      }`}
+                    />
                     <span className="truncate">
                       {idx + 1}. {description}{lineLabel}
                     </span>
-                    <span
-                      className={`text-[8px] px-1.5 py-0.5 rounded-md ${
-                        isActive ? "bg-paper/20 text-paper" : "bg-charcoal/5 text-charcoal/50"
-                      }`}
-                    >
-                      {step.type.replace("_", " ")}
-                    </span>
-                  </button>
-                );
-              })}
-              {isFinalStep && (
-                <div className="text-center font-sans text-[10px] text-charcoal/40 italic py-1.5">
-                  — End of Execution —
-                </div>
-              )}
-            </div>
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Compact playback controls */}
+      {/* 5. Playback Controls & Scrubber */}
+      <div className="flex shrink-0 flex-col gap-2 bg-paper-dark/30 border border-charcoal/10 rounded-xl p-2.5">
+        {/* Step details message */}
+        <div className="flex items-center gap-2 font-mono text-[11px] leading-snug text-charcoal truncate">
+          <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${stepMeta.dotClass}`} />
+          <span className="truncate">{statusText}</span>
+        </div>
+
+        {/* Playback Controls & Scrubber */}
         {totalSteps > 0 && (
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between font-mono text-xs text-charcoal/60 px-1">
-              <span className="flex items-center gap-1">
-                <Info className="w-3.5 h-3.5 text-charcoal/40" />
-                <span className="text-[10px]">Arrow keys & Space control timeline</span>
-              </span>
-              <span>
-                Step {stepIndex} / {totalSteps}
-              </span>
-            </div>
-
+          <div className="flex flex-col gap-1.5 pt-1.5 border-t border-charcoal/5">
             <div className="flex items-center gap-2">
               <input
                 type="range"
+                aria-label="Execution timeline scrubber"
                 min={0}
                 max={totalSteps}
                 value={stepIndex}
                 onChange={(e) => setStepIndex(Number(e.target.value))}
-                className="flex-1 accent-coral h-1.5 bg-charcoal/10 rounded-lg cursor-pointer transition-all hover:bg-charcoal/15"
+                className="flex-1 accent-coral h-1 bg-charcoal/10 rounded-lg cursor-pointer transition-all hover:bg-charcoal/15"
               />
+              <span className="text-[10px] font-mono text-charcoal/50 min-w-[40px] text-right font-bold">
+                {stepIndex} / {totalSteps}
+              </span>
             </div>
 
-            <div className="flex items-center justify-between gap-4 mt-1">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-2 mt-0.5">
+              <div className="flex items-center gap-1">
                 <button
+                  type="button"
                   onClick={() => setStepIndex(0)}
                   disabled={stepIndex === 0}
-                  title="Reset (R)"
-                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                  className="h-7 w-7 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm flex items-center justify-center"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-3 h-3" />
                 </button>
                 <button
+                  type="button"
                   onClick={handleStepBackward}
                   disabled={stepIndex === 0}
-                  title="Step Backward (Left Arrow)"
-                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                  className="h-7 w-7 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm flex items-center justify-center"
                 >
-                  <SkipBack className="w-4 h-4" />
+                  <SkipBack className="w-3 h-3" />
                 </button>
                 <button
+                  type="button"
                   onClick={handlePlayToggle}
-                  className="w-28 flex items-center justify-center gap-2 py-1.5 px-3 rounded-lg bg-coral text-paper font-sans text-xs font-bold uppercase tracking-wider hover:bg-coral-dark shadow-sm transition-all active:scale-98"
+                  className="h-7 px-2.5 rounded-lg bg-coral text-paper font-sans text-[9px] font-bold uppercase tracking-wider hover:bg-coral-dark shadow-sm flex items-center gap-1"
                 >
-                  {isPlaying ? (
-                    <>
-                      <Pause className="w-3.5 h-3.5 fill-current" /> Pause
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-3.5 h-3.5 fill-current" /> Play
-                    </>
-                  )}
+                  {isPlaying ? <Pause className="w-2.5 h-2.5 fill-current" /> : <Play className="w-2.5 h-2.5 fill-current" />}
+                  <span>{isPlaying ? "Pause" : "Play"}</span>
                 </button>
                 <button
+                  type="button"
                   onClick={handleStepForward}
                   disabled={stepIndex === totalSteps}
-                  title="Step Forward (Right Arrow)"
-                  className="p-2 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm transition-all active:scale-95"
+                  className="h-7 w-7 rounded-lg border border-charcoal/15 bg-paper hover:bg-charcoal/5 disabled:opacity-30 disabled:pointer-events-none text-charcoal shadow-sm flex items-center justify-center"
                 >
-                  <SkipForward className="w-4 h-4" />
+                  <SkipForward className="w-3 h-3" />
                 </button>
               </div>
 
-              {/* Speed Slider */}
-              <div className="flex items-center gap-2 border border-charcoal/10 rounded-lg bg-paper px-2.5 py-1 shadow-sm">
-                <span className="text-[10px] font-sans text-charcoal/45 uppercase tracking-wider font-bold">Speed:</span>
+              {/* Speed controls */}
+              <div className="flex items-center gap-1.5 border border-charcoal/10 rounded-lg bg-paper px-2 py-0.5 shadow-sm">
+                <span className="text-[8px] font-sans text-charcoal/45 uppercase tracking-wider font-bold">Speed:</span>
                 <input
                   type="range"
+                  aria-label="Execution speed"
                   min={100}
                   max={1500}
                   step={100}
                   value={1600 - speedMs}
                   onChange={(e) => setSpeedMs(1600 - Number(e.target.value))}
-                  className="w-16 accent-coral h-1 bg-charcoal/10 rounded-lg cursor-pointer"
+                  className="w-10 accent-coral h-1 bg-charcoal/10 rounded-lg cursor-pointer"
                 />
-                <span className="text-[10px] font-mono font-bold text-charcoal/70 min-w-[20px] text-right">
+                <span className="text-[8px] font-mono font-bold text-charcoal/70 min-w-[20px] text-right">
                   {Math.round((600 / speedMs) * 10) / 10}x
                 </span>
               </div>
@@ -1057,7 +1620,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -1067,7 +1630,84 @@ interface PracticeSectionProps {
   activeLesson: string | null;
 }
 
-type TabId = "two-sum" | "reverse-list" | "find-max" | "binary-search" | "valid-parentheses";
+type TabId =
+  | "two-sum"
+  | "reverse-list"
+  | "find-max"
+  | "binary-search"
+  | "valid-parentheses"
+  | "remove-duplicates"
+  | "merge-sorted-array"
+  | "max-subarray"
+  | "sort-colors"
+  | "kth-largest"
+  | "top-k-frequent"
+  | "intersection-arrays"
+  | "merge-two-lists"
+  | "linked-list-cycle"
+  | "middle-list"
+  | "remove-nth-node";
+
+const LESSON_TO_TAB: Record<string, TabId> = {
+  "Challenge: Two Sum": "two-sum",
+  "Challenge: Max Value in Array": "find-max",
+  "Challenge: Reverse Linked List": "reverse-list",
+  "Challenge: Binary Search": "binary-search",
+  "Challenge: Valid Parentheses": "valid-parentheses",
+  "Challenge: Remove Duplicates": "remove-duplicates",
+  "Challenge: Merge Sorted Array": "merge-sorted-array",
+  "Challenge: Maximum Subarray": "max-subarray",
+  "Challenge: Sort Colors": "sort-colors",
+  "Challenge: Kth Largest Element": "kth-largest",
+  "Challenge: Top K Frequent Elements": "top-k-frequent",
+  "Challenge: Intersection of Two Arrays": "intersection-arrays",
+  "Challenge: Merge Two Sorted Lists": "merge-two-lists",
+  "Challenge: Linked List Cycle": "linked-list-cycle",
+  "Challenge: Middle of the Linked List": "middle-list",
+  "Challenge: Remove Nth Node From End": "remove-nth-node",
+};
+
+const ALL_CHALLENGES: Array<{ value: TabId; label: string }> = [
+  // Chapter 1 (Arrays)
+  { value: "two-sum", label: "Two Sum" },
+  { value: "binary-search", label: "Binary Search" },
+  { value: "remove-duplicates", label: "Remove Duplicates" },
+  { value: "merge-sorted-array", label: "Merge Sorted Array" },
+  { value: "max-subarray", label: "Maximum Subarray" },
+  // Chapter 2 (Sorting)
+  { value: "find-max", label: "Max Value in Array" },
+  { value: "sort-colors", label: "Sort Colors" },
+  { value: "kth-largest", label: "Kth Largest Element" },
+  { value: "top-k-frequent", label: "Top K Frequent Elements" },
+  { value: "intersection-arrays", label: "Intersection of Two Arrays" },
+  // Chapter 3 (Linked Lists)
+  { value: "reverse-list", label: "Reverse Linked List" },
+  { value: "merge-two-lists", label: "Merge Two Sorted Lists" },
+  { value: "linked-list-cycle", label: "Linked List Cycle" },
+  { value: "middle-list", label: "Middle of the Linked List" },
+  { value: "remove-nth-node", label: "Remove Nth Node From End" },
+  // Chapter 4 (Stacks & Queues)
+  { value: "valid-parentheses", label: "Valid Parentheses" },
+];
+
+const CHALLENGE_CHAPTERS: Record<TabId, string> = {
+  "two-sum": "arrays",
+  "binary-search": "arrays",
+  "remove-duplicates": "arrays",
+  "merge-sorted-array": "arrays",
+  "max-subarray": "arrays",
+  "find-max": "sorting",
+  "sort-colors": "sorting",
+  "kth-largest": "sorting",
+  "top-k-frequent": "sorting",
+  "intersection-arrays": "sorting",
+  "reverse-list": "linked-lists",
+  "merge-two-lists": "linked-lists",
+  "linked-list-cycle": "linked-lists",
+  "middle-list": "linked-lists",
+  "remove-nth-node": "linked-lists",
+  "valid-parentheses": "stack-queue",
+};
 
 export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   const navigate = useNavigate();
@@ -1079,6 +1719,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [compileError, setCompileError] = useState<string | null>(null);
   const [activeTC, setActiveTC] = useState(0);
+  const [consoleTab, setConsoleTab] = useState<"testcases" | "results">("testcases");
 
   const [useCustomInput, setUseCustomInput] = useState(false);
   const [customInputArray, setCustomInputArray] = useState("[2, 7, 11, 15]");
@@ -1088,18 +1729,18 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   const workerRef = useRef<Worker | null>(null);
   const runRef = useRef<() => void>(() => {});
 
+  const activeChId = CHALLENGE_CHAPTERS[selectedTab];
+  const filteredChallenges = ALL_CHALLENGES.filter(
+    (item) => CHALLENGE_CHAPTERS[item.value] === activeChId
+  );
+
   // Sync activeLesson prop to selectedTab
   useEffect(() => {
-    if (activeLesson === "Challenge: Two Sum") {
-      setSelectedTab("two-sum");
-    } else if (activeLesson === "Challenge: Max Value in Array") {
-      setSelectedTab("find-max");
-    } else if (activeLesson === "Challenge: Reverse Linked List") {
-      setSelectedTab("reverse-list");
-    } else if (activeLesson === "Challenge: Binary Search") {
-      setSelectedTab("binary-search");
-    } else if (activeLesson === "Challenge: Valid Parentheses") {
-      setSelectedTab("valid-parentheses");
+    if (activeLesson) {
+      const tab = LESSON_TO_TAB[activeLesson];
+      if (tab) {
+        setSelectedTab(tab);
+      }
     }
   }, [activeLesson]);
 
@@ -1112,27 +1753,42 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     setCompileError(null);
     setActiveTC(0);
     setUseCustomInput(false);
+    setConsoleTab("testcases");
+
+    const isLinkedList = ["reverse-list", "merge-two-lists", "linked-list-cycle", "middle-list", "remove-nth-node"].includes(selectedTab);
+    const isArrayOnly = ["find-max", "remove-duplicates", "max-subarray", "sort-colors"].includes(selectedTab);
 
     if (selectedTab === "two-sum") {
-      setCustomInputArray("[2, 7, 11, 15]");
-      setCustomInputTarget("9");
+      setCustomInputArray("[1, 10, 3, 4, 20, 6]");
+      setCustomInputTarget("30");
     } else if (selectedTab === "binary-search") {
-      setCustomInputArray("[1, 3, 5, 7, 9, 11, 13]");
-      setCustomInputTarget("7");
-    } else if (selectedTab === "reverse-list") {
-      setCustomInputArray("[1, 2, 3, 4, 5]");
-    } else if (selectedTab === "find-max") {
-      setCustomInputArray("[1, 5, 3, 9, 2]");
+      setCustomInputArray("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]");
+      setCustomInputTarget("31");
+    } else if (isLinkedList) {
+      setCustomInputArray("[1, 2, 3, 4, 5, 6, 7, 8]");
+    } else if (isArrayOnly) {
+      setCustomInputArray("[1, 2, 3, 4, 5, 6, 7, 8]");
     } else if (selectedTab === "valid-parentheses") {
-      setCustomInputString("()[]{}");
+      setCustomInputString("({[]})[]{}");
+    } else if (selectedTab === "kth-largest" || selectedTab === "top-k-frequent") {
+      setCustomInputArray("[3, 2, 1, 5, 6, 4]");
+      setCustomInputTarget("2");
+    } else if (selectedTab === "intersection-arrays") {
+      setCustomInputArray("[1, 2, 2, 1]");
+      setCustomInputTarget("[2, 2]"); // For intersection, we can hijack customInputTarget to store the second array!
+    } else if (selectedTab === "remove-nth-node") {
+      setCustomInputArray("[1, 2, 3, 4, 5]");
+      setCustomInputTarget("2");
     }
   }, [selectedTab]);
 
   const handleTabClick = (tab: TabId) => {
-    navigate(`/practice/${tab}`);
+    const chId = CHALLENGE_CHAPTERS[tab];
+    navigate(`/chapters/${chId}/practice/${tab}`);
   };
 
   const handleRunCode = () => {
+    setConsoleTab("results");
     if (workerRef.current) {
       workerRef.current.terminate();
     }
@@ -1150,30 +1806,53 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
 
     if (useCustomInput) {
       try {
-        if (
-          currentTab === "two-sum" ||
-          currentTab === "binary-search" ||
-          currentTab === "reverse-list" ||
-          currentTab === "find-max"
-        ) {
-          const parsed = JSON.parse(customInputArray);
-          if (!Array.isArray(parsed)) {
-            throw new Error("Input must be a valid array (e.g. [1, 2, 3])");
+        if (currentTab === "valid-parentheses") {
+          testCases = [{ input: [customInputString], expected: null }];
+        } else {
+          // Parse first array
+          const parsedArray = JSON.parse(customInputArray);
+          if (!Array.isArray(parsedArray)) {
+            throw new Error("First input must be a valid JSON array");
           }
-          if (parsed.some((x) => typeof x !== "number")) {
+          if (parsedArray.some((x) => typeof x !== "number")) {
             throw new Error("Array must contain numbers only");
           }
-          if (currentTab === "two-sum" || currentTab === "binary-search") {
+
+          const isArrayAndNumber = [
+            "two-sum", "binary-search", "kth-largest", "top-k-frequent", "remove-nth-node"
+          ].includes(currentTab);
+
+          const isTwoArrays = [
+            "intersection-arrays", "merge-two-lists"
+          ].includes(currentTab);
+
+          if (isArrayAndNumber) {
             const targetNum = Number(customInputTarget);
             if (isNaN(targetNum)) {
               throw new Error("Target must be a valid number");
             }
-            testCases = [{ input: [parsed, targetNum], expected: null }];
+            testCases = [{ input: [parsedArray, targetNum], expected: null }];
+          } else if (isTwoArrays) {
+            const parsedArray2 = JSON.parse(customInputTarget);
+            if (!Array.isArray(parsedArray2)) {
+              throw new Error("Second input must be a valid JSON array");
+            }
+            if (parsedArray2.some((x) => typeof x !== "number")) {
+              throw new Error("Second array must contain numbers only");
+            }
+            testCases = [{ input: [parsedArray, parsedArray2], expected: null }];
+          } else if (currentTab === "merge-sorted-array") {
+            const parsedArray2 = JSON.parse(customInputTarget);
+            if (!Array.isArray(parsedArray2)) {
+              throw new Error("Second input must be a valid JSON array");
+            }
+            const m = parsedArray.length;
+            const n = parsedArray2.length;
+            const nums1 = [...parsedArray, ...Array(n).fill(0)];
+            testCases = [{ input: [nums1, m, parsedArray2, n], expected: null }];
           } else {
-            testCases = [{ input: [parsed], expected: null }];
+            testCases = [{ input: [parsedArray], expected: null }];
           }
-        } else if (currentTab === "valid-parentheses") {
-          testCases = [{ input: [customInputString], expected: null }];
         }
       } catch (err: any) {
         setCompileError(`Invalid custom input: ${err.message}`);
@@ -1192,6 +1871,28 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       functionName = "binarySearch";
     } else if (currentTab === "valid-parentheses") {
       functionName = "isValid";
+    } else if (currentTab === "remove-duplicates") {
+      functionName = "removeDuplicates";
+    } else if (currentTab === "merge-sorted-array") {
+      functionName = "merge";
+    } else if (currentTab === "max-subarray") {
+      functionName = "maxSubArray";
+    } else if (currentTab === "sort-colors") {
+      functionName = "sortColors";
+    } else if (currentTab === "kth-largest") {
+      functionName = "findKthLargest";
+    } else if (currentTab === "top-k-frequent") {
+      functionName = "topKFrequent";
+    } else if (currentTab === "intersection-arrays") {
+      functionName = "intersection";
+    } else if (currentTab === "merge-two-lists") {
+      functionName = "mergeTwoLists";
+    } else if (currentTab === "linked-list-cycle") {
+      functionName = "hasCycle";
+    } else if (currentTab === "middle-list") {
+      functionName = "middleNode";
+    } else if (currentTab === "remove-nth-node") {
+      functionName = "removeNthFromEnd";
     }
 
     const workerCode = `
@@ -1325,12 +2026,26 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             const lines = stack.split('\\n');
             for (let i = 1; i < lines.length; i++) {
               const line = lines[i];
+              if (
+                line.indexOf('getLineNumber') !== -1 ||
+                line.indexOf('Object.push') !== -1 ||
+                line.indexOf('tracker.push') !== -1 ||
+                line.indexOf('Object.get') !== -1 ||
+                line.indexOf('Object.set') !== -1 ||
+                line.indexOf('Array.push') !== -1 ||
+                line.indexOf('Array.pop') !== -1 ||
+                line.indexOf('createArrayProxy') !== -1 ||
+                line.indexOf('createStringProxy') !== -1 ||
+                line.indexOf('wrapNode') !== -1
+              ) {
+                continue;
+              }
               const match = line.match(/<anonymous>:(\\d+):/) || 
                             line.match(/eval:(\\d+):/);
               if (match) {
                 const compiledLineNum = parseInt(match[1], 10);
-                // Offset is 3 due to Function constructor wrapper lines.
-                return Math.max(1, compiledLineNum - 3);
+                // Offset is 4 due to Function constructor wrapper and template format lines.
+                return Math.max(1, compiledLineNum - 4);
               }
             }
             return null;
@@ -1445,19 +2160,32 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             proxyMap.clear();
 
             let realArgs = tc.input;
-            if (functionName === 'twoSum') {
+            if (functionName === 'twoSum' || functionName === 'binarySearch' || functionName === 'findKthLargest' || functionName === 'topKFrequent') {
               const arrayProxy = createArrayProxy(tc.input[0]);
               realArgs = [arrayProxy, tc.input[1]];
-            } else if (functionName === 'findMax') {
+            } else if (functionName === 'findMax' || functionName === 'removeDuplicates' || functionName === 'maxSubArray' || functionName === 'sortColors') {
               const arrayProxy = createArrayProxy(tc.input[0]);
               realArgs = [arrayProxy];
-            } else if (functionName === 'reverseList') {
+            } else if (functionName === 'merge') {
+              const arrayProxy1 = createArrayProxy(tc.input[0]);
+              const arrayProxy2 = createArrayProxy(tc.input[2]);
+              realArgs = [arrayProxy1, tc.input[1], arrayProxy2, tc.input[3]];
+            } else if (functionName === 'intersection') {
+              const arrayProxy1 = createArrayProxy(tc.input[0]);
+              const arrayProxy2 = createArrayProxy(tc.input[1]);
+              realArgs = [arrayProxy1, arrayProxy2];
+            } else if (functionName === 'reverseList' || functionName === 'hasCycle' || functionName === 'middleNode') {
               const listHead = arrayToList(tc.input[0]);
               const listProxy = wrapNode(listHead);
               realArgs = [listProxy];
-            } else if (functionName === 'binarySearch') {
-              const arrayProxy = createArrayProxy(tc.input[0]);
-              realArgs = [arrayProxy, tc.input[1]];
+            } else if (functionName === 'mergeTwoLists') {
+              const list1 = wrapNode(arrayToList(tc.input[0]));
+              const list2 = wrapNode(arrayToList(tc.input[1]));
+              realArgs = [list1, list2];
+            } else if (functionName === 'removeNthFromEnd') {
+              const listHead = arrayToList(tc.input[0]);
+              const listProxy = wrapNode(listHead);
+              realArgs = [listProxy, tc.input[1]];
             } else if (functionName === 'isValid') {
               const stringProxy = createStringProxy(tc.input[0]);
               realArgs = [stringProxy];
@@ -1467,9 +2195,22 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             let error = null;
             try {
               self.isTracking = true;
-              actual = userFn(...realArgs);
+              if (functionName === 'merge') {
+                userFn(...realArgs);
+                actual = [...realArgs[0]]; // Clone elements to plain array
+              } else if (functionName === 'sortColors') {
+                userFn(...realArgs);
+                actual = [...realArgs[0]]; // Clone elements to plain array
+              } else {
+                actual = userFn(...realArgs);
+                if (self.Array.isArray(actual)) {
+                  actual = [...actual]; // Convert proxy array to plain array
+                }
+              }
               self.isTracking = false;
-              if (functionName === 'reverseList') {
+              
+              const isLinkedListOutput = ['reverseList', 'mergeTwoLists', 'middleNode', 'removeNthFromEnd'].includes(functionName);
+              if (isLinkedListOutput) {
                 actual = listToArray(actual);
               }
               JSON.stringify(actual);
@@ -1615,279 +2356,319 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
   }, []);
 
   const leftColumnContent = (
-    <>
-      <div className="relative border border-charcoal/10 rounded-2xl bg-paper-dark overflow-hidden font-mono text-base shadow-sm">
-        <div className="flex items-center justify-between border-b border-charcoal/5 px-6 py-3 bg-paper-light">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-            <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+    <div className="flex flex-col h-full border border-charcoal/10 rounded-2xl bg-paper overflow-hidden shadow-sm">
+      {/* 1. Header with file name / tab name */}
+      <div className="flex shrink-0 items-center justify-between border-b border-charcoal/5 px-4 py-2.5 bg-paper-light">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+        </div>
+        <span className="text-xs font-sans font-bold text-charcoal/60 uppercase tracking-widest">
+          {selectedTab === "two-sum"
+            ? "twoSum.js"
+            : selectedTab === "reverse-list"
+              ? "reverseList.js"
+              : selectedTab === "find-max"
+                ? "findMax.js"
+                : selectedTab === "binary-search"
+                  ? "binarySearch.js"
+                  : "isValid.js"}
+        </span>
+      </div>
+
+      {/* 2. CodeMirror Editor */}
+      <div id="code-editor" className="flex-1 min-h-0 bg-paper overflow-hidden">
+        <CodeMirror
+          value={code}
+          height="100%"
+          theme="light"
+          extensions={cmExtensions}
+          onChange={handleCodeChange}
+          basicSetup={{
+            lineNumbers: true,
+            highlightActiveLine: true,
+            bracketMatching: true,
+            closeBrackets: true,
+            autocompletion: true,
+            indentOnInput: true,
+            tabSize: 2,
+          }}
+          className="text-base font-mono h-full"
+        />
+      </div>
+
+      {/* 3. Console/Drawer Area */}
+      <div className="flex shrink-0 flex-col h-[280px] border-t border-charcoal/10 bg-paper-dark/30">
+        {/* Drawer Tabs Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-charcoal/5 bg-paper-light px-3 h-[38px]">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setConsoleTab("testcases")}
+              className={`px-3 py-1 text-xs font-sans font-extrabold uppercase tracking-wider rounded-lg transition-all ${
+                consoleTab === "testcases"
+                  ? "bg-coral/10 text-coral"
+                  : "text-charcoal/55 hover:text-charcoal"
+              }`}
+            >
+              Test Cases
+            </button>
+            <button
+              type="button"
+              onClick={() => setConsoleTab("results")}
+              className={`px-3 py-1 text-xs font-sans font-extrabold uppercase tracking-wider rounded-lg transition-all flex items-center gap-1.5 ${
+                consoleTab === "results"
+                  ? "bg-coral/10 text-coral"
+                  : "text-charcoal/55 hover:text-charcoal"
+              }`}
+            >
+              Test Results
+              {testResults.length > 0 && (
+                <span className="w-1.5 h-1.5 rounded-full bg-coral animate-ping" />
+              )}
+            </button>
           </div>
-          <span className="text-base text-charcoal/65 tracking-wider font-semibold">
-            {selectedTab === "two-sum"
-              ? "twoSum.js"
-              : selectedTab === "reverse-list"
-                ? "reverseList.js"
-                : selectedTab === "find-max"
-                  ? "findMax.js"
-                  : selectedTab === "binary-search"
-                    ? "binarySearch.js"
-                    : "isValid.js"}
+          <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-widest font-black">
+            Console
           </span>
         </div>
-        <div id="code-editor" className="bg-paper">
-          <CodeMirror
-            value={code}
-            height="220px"
-            theme="light"
-            extensions={cmExtensions}
-            onChange={handleCodeChange}
-            basicSetup={{
-              lineNumbers: true,
-              highlightActiveLine: true,
-              bracketMatching: true,
-              closeBrackets: true,
-              autocompletion: true,
-              indentOnInput: true,
-              tabSize: 2,
-            }}
-            className="text-base font-mono"
-          />
+
+        {/* Drawer Content */}
+        <div className="flex-1 min-h-0 overflow-y-auto p-4 font-sans">
+          {consoleTab === "testcases" ? (
+            <div className="flex flex-col gap-3 h-full">
+              <div className="flex items-center justify-between pb-2 border-b border-charcoal/5">
+                <Switch
+                  checked={useCustomInput}
+                  onChange={(e) => setUseCustomInput(e.currentTarget.checked)}
+                  label="Use Custom Input"
+                  size="xs"
+                  styles={{
+                    track: {
+                      backgroundColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                      borderColor: useCustomInput ? 'var(--color-coral)' : undefined,
+                      cursor: 'pointer',
+                    },
+                    label: {
+                      fontFamily: 'var(--font-sans)',
+                      fontWeight: 800,
+                      fontSize: '11px',
+                      color: 'var(--color-charcoal)',
+                      cursor: 'pointer',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                    }
+                  }}
+                />
+                <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-extrabold">
+                  {useCustomInput ? "Custom Mode" : "Default Mode"}
+                </span>
+              </div>
+
+              <div className="flex-1 min-h-0">
+                {useCustomInput ? (
+                  <div className="flex flex-col gap-3">
+                    {(selectedTab === "two-sum" ||
+                      selectedTab === "binary-search" ||
+                      selectedTab === "reverse-list" ||
+                      selectedTab === "find-max") && (
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                          Array Items (JSON format):
+                        </span>
+                        <input
+                          type="text"
+                          value={customInputArray}
+                          onChange={(e) => setCustomInputArray(e.target.value)}
+                          placeholder="e.g. [2, 7, 11, 15]"
+                          className="px-3 py-2 border border-charcoal/10 rounded-lg bg-paper font-mono text-sm focus:border-coral/50 focus:ring-1 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                        />
+                      </div>
+                    )}
+
+                    {(selectedTab === "two-sum" || selectedTab === "binary-search") && (
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                          Target Number:
+                        </span>
+                        <input
+                          type="number"
+                          value={customInputTarget}
+                          onChange={(e) => setCustomInputTarget(e.target.value)}
+                          placeholder="e.g. 9"
+                          className="px-3 py-2 border border-charcoal/10 rounded-lg bg-paper font-mono text-sm focus:border-coral/50 focus:ring-1 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                        />
+                      </div>
+                    )}
+
+                    {selectedTab === "valid-parentheses" && (
+                      <div className="flex flex-col gap-1">
+                        <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
+                          Parentheses String:
+                        </span>
+                        <input
+                          type="text"
+                          value={customInputString}
+                          onChange={(e) => setCustomInputString(e.target.value)}
+                          placeholder="e.g. ()[]{}"
+                          className="px-3 py-2 border border-charcoal/10 rounded-lg bg-paper font-mono text-sm focus:border-coral/50 focus:ring-1 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <span className="text-[11px] text-charcoal/40 font-bold uppercase tracking-wider mb-0.5">
+                      Default Test Cases:
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {TEST_CASES[selectedTab]?.map((tc, idx) => (
+                        <div key={idx} className="p-3 rounded-xl bg-paper/50 border border-charcoal/5 flex flex-col gap-1">
+                          <span className="text-[10px] font-sans font-bold text-charcoal/50">CASE {idx + 1}</span>
+                          <span className="text-xs font-mono text-charcoal/80 truncate">In: {safeStringify(tc.input)}</span>
+                          <span className="text-xs font-mono text-coral/80 truncate">Out: {safeStringify(tc.expected)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2.5 h-full">
+              {compileError && (
+                <div className="text-red-500 font-mono text-sm font-semibold whitespace-pre-wrap bg-red-500/5 border border-red-500/10 rounded-xl p-3">
+                  Error: {compileError}
+                </div>
+              )}
+              {testResults.length === 0 ? (
+                <div className="text-charcoal/45 italic text-sm py-8 text-center flex flex-col items-center justify-center gap-2">
+                  <span>No test results yet. Write your code and click Run Code.</span>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  {testResults.map((tc, idx) => {
+                    const isPassed = tc.passed;
+                    const isActive = idx === activeTC;
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setActiveTC(idx)}
+                        role="button"
+                        tabIndex={0}
+                        className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                          isActive
+                            ? "ring-1 ring-coral border-coral/30 bg-paper shadow-sm"
+                            : "bg-paper/40 hover:bg-paper/80 border-charcoal/5"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          {isPassed ? (
+                            <CheckCircle className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
+                          ) : (
+                            <XCircle className="w-4.5 h-4.5 text-red-500 shrink-0" />
+                          )}
+                          <div className="min-w-0">
+                            <span className="font-sans text-xs font-extrabold text-charcoal block">
+                              {useCustomInput ? "Custom Case" : `Test Case ${idx + 1}`}
+                            </span>
+                            <span className="text-[10px] font-mono text-charcoal/50 block truncate">
+                              Input: {safeStringify(tc.input)}
+                            </span>
+                          </div>
+                        </div>
+                        <span
+                          className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-sans border shrink-0 ${
+                            isPassed
+                              ? "bg-emerald-500/10 text-emerald-700 border-emerald-500/20"
+                              : "bg-red-500/10 text-red-700 border-red-500/20"
+                          }`}
+                        >
+                          {useCustomInput ? (tc.error ? "Failed" : "Success") : (isPassed ? "Passed" : "Failed")}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Custom Input Configuration */}
-      <div className="border border-charcoal/10 rounded-2xl bg-paper p-4 shadow-sm flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <Switch
-            checked={useCustomInput}
-            onChange={(e) => setUseCustomInput(e.currentTarget.checked)}
-            label="Use Custom Test Case"
-            size="sm"
-            styles={{
-              track: {
-                backgroundColor: useCustomInput ? 'var(--color-coral)' : undefined,
-                borderColor: useCustomInput ? 'var(--color-coral)' : undefined,
-                cursor: 'pointer',
-              },
-              label: {
-                fontFamily: 'var(--font-sans)',
-                fontWeight: 800,
-                fontSize: '13px',
-                color: 'var(--color-charcoal)',
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-              }
-            }}
-          />
-          <span className="text-[10px] font-sans text-charcoal/40 uppercase tracking-wider font-bold">
-            {useCustomInput ? "Custom Input Active" : "Using Default Test Cases"}
-          </span>
-        </div>
-
-        {useCustomInput && (
-          <div className="pt-3 border-t border-charcoal/5 flex flex-col gap-3 font-sans text-sm">
-            {(selectedTab === "two-sum" ||
-              selectedTab === "binary-search" ||
-              selectedTab === "reverse-list" ||
-              selectedTab === "find-max") && (
-              <div className="flex flex-col gap-1.5">
-                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                  Array / List Items:
-                </span>
-                <input
-                  type="text"
-                  value={customInputArray}
-                  onChange={(e) => setCustomInputArray(e.target.value)}
-                  placeholder="e.g. [2, 7, 11, 15]"
-                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                />
-                <span className="text-[10px] text-charcoal/40 font-mono">
-                  Must be a valid JSON array of numbers.
-                </span>
-              </div>
-            )}
-
-            {(selectedTab === "two-sum" || selectedTab === "binary-search") && (
-              <div className="flex flex-col gap-1.5">
-                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                  Target Number:
-                </span>
-                <input
-                  type="number"
-                  value={customInputTarget}
-                  onChange={(e) => setCustomInputTarget(e.target.value)}
-                  placeholder="e.g. 9"
-                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                />
-              </div>
-            )}
-
-            {selectedTab === "valid-parentheses" && (
-              <div className="flex flex-col gap-1.5">
-                <span className="font-bold text-charcoal/70 text-xs uppercase tracking-wide">
-                  Parentheses String:
-                </span>
-                <input
-                  type="text"
-                  value={customInputString}
-                  onChange={(e) => setCustomInputString(e.target.value)}
-                  placeholder="e.g. ()[]{}"
-                  className="px-3 py-2 border border-charcoal/10 rounded-xl bg-paper-dark/40 font-mono text-xs focus:border-coral/50 focus:bg-paper focus:ring-2 focus:ring-coral/20 focus:outline-none w-full transition-all duration-200"
-                />
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Action Controls */}
-      <div className="flex items-center justify-between gap-4">
+      {/* 4. Action / Control Bar */}
+      <div className="flex shrink-0 items-center justify-between border-t border-charcoal/10 bg-paper-light px-4 py-2.5 h-[56px]">
         <button
           id="btn-run-code"
           onClick={handleRunCode}
           title="Run code (⌘/Ctrl + Enter)"
-          className="px-6 py-3 bg-coral text-paper rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer"
+          className="px-5 py-2 bg-coral text-paper rounded-xl font-sans text-sm font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer flex items-center gap-2"
         >
-          Run Code{" "}
-          <span className="hidden md:inline ml-2 font-mono text-xs opacity-80">⌘↵</span>
+          <span>Run Code</span>
+          <span className="font-mono text-[10px] opacity-70 border border-paper/30 px-1.5 py-0.5 rounded bg-paper/10">Ctrl+Enter</span>
         </button>
 
         <div
           id="test-summary"
-          className={`font-sans text-base font-bold tracking-wide uppercase px-3 py-1 rounded-full ${
+          className={`font-sans text-xs font-extrabold tracking-wider uppercase px-3 py-1.5 rounded-full ${
             summary === "All Tests Passed"
-              ? "bg-green-500/10 text-green-700 border border-green-500/20"
+              ? "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20"
               : summary === "Empty submission" ||
                   summary === "Timeout" ||
                   summary === "Tests Failed"
                 ? "bg-red-500/10 text-red-700 border border-red-500/20"
-                : "bg-charcoal/5 text-charcoal/60 border border-transparent"
+                : "bg-charcoal/5 text-charcoal/60 border border-charcoal/5"
           }`}
         >
-          {summary || "Not Evaluated"}
+          {summary || "Ready"}
         </div>
       </div>
-
-      {/* Test Results Drawer */}
-      <div
-        id="test-results-drawer"
-        className="border border-charcoal/10 rounded-2xl bg-paper-dark p-5 max-h-[160px] overflow-y-auto font-mono text-base shadow-inner flex flex-col gap-3"
-      >
-        {compileError && (
-          <div className="text-red-500 font-semibold mb-2 whitespace-pre-wrap">
-            Error: {compileError}
-          </div>
-        )}
-        {testResults.length === 0 ? (
-          <div className="text-charcoal/50 italic text-sm py-4 text-center">
-            {summary === "Empty submission"
-              ? "Empty submission"
-              : "No test results yet. Write your code and click Run Code."}
-          </div>
-        ) : (
-          testResults.map((tc, idx) => {
-            const isPassed = tc.passed;
-            const isActive = idx === activeTC;
-            return (
-              <div
-                key={idx}
-                onClick={() => setActiveTC(idx)}
-                role="button"
-                tabIndex={0}
-                className={`p-4 rounded-xl border transition-all cursor-pointer ${
-                  isActive
-                    ? "ring-2 ring-coral/50 shadow-md bg-paper border-charcoal/20"
-                    : "bg-paper/40 hover:bg-paper/70 border-charcoal/10"
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold mb-2">
-                  <span className="flex items-center gap-1.5 text-sm">
-                    {isPassed ? (
-                      <CheckCircle className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <XCircle className="w-4 h-4 text-red-500" />
-                    )}
-                    {useCustomInput ? "Custom Test Case" : `Test Case ${idx + 1}`}
-                  </span>
-                  <span
-                    className={`text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-sans border ${
-                      isPassed
-                        ? "bg-green-500/10 text-green-700 border-green-500/20"
-                        : "bg-red-500/10 text-red-700 border-red-500/20"
-                    }`}
-                  >
-                    {useCustomInput ? (tc.error ? "Failed" : "Success") : (isPassed ? "Passed" : "Failed")}
-                  </span>
-                </div>
-                <div className="text-charcoal/70 font-mono text-[11px] truncate">
-                  Input: {safeStringify(tc.input)}
-                </div>
-                {tc.error && (
-                  <div className="text-red-500 font-mono text-[11px] mt-1.5 whitespace-pre-wrap">
-                    Error: {tc.error}
-                  </div>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
-    </>
+    </div>
   );
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      {/* Tabs - Segmented Capsule style */}
-      <div className="flex p-1 bg-paper-dark border border-charcoal/10 rounded-2xl w-full md:w-max overflow-x-auto scrollbar-none flex-nowrap mb-2 gap-1.5">
-        {(
-          [
-            ["two-sum", "Two Sum"],
-            ["binary-search", "Binary Search"],
-            ["reverse-list", "Reverse List"],
-            ["find-max", "Find Max"],
-            ["valid-parentheses", "Valid Parentheses"],
-          ] as const
-        ).map(([tabId, label]) => {
-          const isActive = selectedTab === tabId;
-          return (
-            <button
-              key={tabId}
-              id={`challenge-tab-${tabId}`}
-              onClick={() => handleTabClick(tabId)}
-              className={`px-4 py-2 rounded-xl font-sans text-xs sm:text-[13px] font-extrabold uppercase tracking-wider transition-all duration-200 shrink-0 select-none relative focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 ${
-                isActive ? "text-paper font-black z-10 animate-fade-in" : "text-charcoal/60 hover:text-charcoal z-10"
-              }`}
-            >
-              {label}
-              {isActive && (
-                <motion.div
-                  layoutId="activeTabBackground"
-                  className="absolute inset-0 bg-coral rounded-xl shadow-sm -z-10"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-            </button>
-          );
-        })}
+      {/* Select Dropdown Component */}
+      <div className="flex flex-col gap-1.5 mb-2 select-none">
+        <label className="font-sans text-[10px] font-black uppercase tracking-[0.2em] text-charcoal/45">
+          Select Coding Challenge
+        </label>
+        <div className="relative inline-block w-full sm:w-[280px]">
+          <select
+            value={selectedTab}
+            onChange={(e) => handleTabClick(e.target.value as TabId)}
+            className="w-full bg-paper-dark border border-charcoal/15 text-charcoal font-sans text-[13px] font-extrabold uppercase tracking-wider pl-4 pr-10 py-2.5 rounded-xl cursor-pointer appearance-none focus:outline-none focus:border-coral/50 focus:ring-2 focus:ring-coral/10 transition-all duration-200 shadow-sm"
+          >
+            {filteredChallenges.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-charcoal/55">
+            <ChevronDown className="w-4 h-4" />
+          </div>
+        </div>
       </div>
 
       {isDesktop ? (
-        <PanelGroup direction="horizontal" className="w-full gap-0">
-          <Panel defaultSize={50} minSize={30} className="flex flex-col gap-4 min-w-0 pr-1 h-full self-stretch">
-            {leftColumnContent}
-          </Panel>
-          <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
-            <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
-          </PanelResizeHandle>
-          <Panel defaultSize={50} minSize={30} className="flex flex-col min-w-0 pl-1 h-full self-stretch">
-            <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
-          </Panel>
-        </PanelGroup>
+        <div className="h-[880px] w-full flex relative">
+          <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
+            <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pr-1 h-full">
+              {leftColumnContent}
+            </Panel>
+            <PanelResizeHandle className="w-5 flex items-center justify-center cursor-col-resize group transition-all duration-200 self-stretch select-none mx-1.5 rounded-full">
+              <div className="w-1 h-16 rounded-full bg-charcoal/10 group-hover:bg-coral group-active:bg-coral-dark transition-colors duration-200" />
+            </PanelResizeHandle>
+            <Panel defaultSize={60} minSize={35} className="flex flex-col min-w-0 pl-1 h-full">
+              <CodeVisualizer challenge={selectedTab} testResult={testResults[activeTC]} userCode={lastSubmittedCode} />
+            </Panel>
+          </PanelGroup>
+        </div>
       ) : (
         <div className="flex flex-col gap-8">
-          <div className="flex-1 min-w-0 flex flex-col gap-4">
+          <div className="flex-1 min-w-0 flex flex-col h-[700px]">
             {leftColumnContent}
           </div>
           <div className="flex-1 min-w-0 flex flex-col">

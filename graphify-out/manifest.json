@@ -25,8 +25,8 @@
     "semantic_hash": "f89d7e46ebb9ab5cda9933f83cd678ce"
   },
   "src/app/App.tsx": {
-    "mtime": 1782714321.2889533,
-    "ast_hash": "f08f482ef37eb989a27f73aefa605cea",
+    "mtime": 1782807916.62933,
+    "ast_hash": "2db19013928cde131fdefc1658695363",
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
@@ -90,9 +90,9 @@
     "semantic_hash": "5e0a66e7bfb23251f7d189568a33c196"
   },
   "src/features/linked-list/components/LinkedListVisualizer.tsx": {
-    "mtime": 1782698508.7025366,
-    "ast_hash": "769796cf2e83faf1a3cd07aa79c17334",
-    "semantic_hash": "769796cf2e83faf1a3cd07aa79c17334"
+    "mtime": 1782806468.7390404,
+    "ast_hash": "4213e49db23c3e30d5fbc063ee8b6ff5",
+    "semantic_hash": ""
   },
   "src/features/linked-list/components/LinkedListWorkspace.tsx": {
     "mtime": 1782698508.7025366,
@@ -110,18 +110,18 @@
     "semantic_hash": "35f202a381178e6376f9848c0dc51c86"
   },
   "src/features/practice/components/PracticeSection.tsx": {
-    "mtime": 1782722800.261346,
-    "ast_hash": "5ac938b3f1210b05786ffa4894f48529",
+    "mtime": 1782807928.8733952,
+    "ast_hash": "26f83618f88d9aff2dcbec43566ac36c",
     "semantic_hash": ""
   },
   "src/features/practice/index.tsx": {
-    "mtime": 1782462497.534228,
-    "ast_hash": "729568ced98aad9c229844feaeef59df",
-    "semantic_hash": "729568ced98aad9c229844feaeef59df"
+    "mtime": 1782802135.142643,
+    "ast_hash": "5ef6d688c3088dc6cce904a813f61a37",
+    "semantic_hash": ""
   },
   "src/features/search/components/SearchVisualizer.tsx": {
-    "mtime": 1782711209.2512898,
-    "ast_hash": "ee1faba8345a9fb0c2925ce854b8570b",
+    "mtime": 1782803123.517121,
+    "ast_hash": "7ae1548f19709ca0aa93604c72726e4f",
     "semantic_hash": ""
   },
   "src/features/search/index.tsx": {
@@ -230,18 +230,18 @@
     "semantic_hash": "68d8acabc668fb0ca1cad295d76efec0"
   },
   "src/layouts/MainLayout.tsx": {
-    "mtime": 1782717488.3982265,
-    "ast_hash": "4deec3add680e5db744aa621ecd1dfa0",
+    "mtime": 1782802309.8933322,
+    "ast_hash": "6ac47f60d0371e610f6c49946a482d2a",
     "semantic_hash": ""
   },
   "src/layouts/components/Navbar.tsx": {
-    "mtime": 1782704884.6131382,
-    "ast_hash": "6d77aa62d4524f6cc7bc272c02073949",
+    "mtime": 1782807963.109585,
+    "ast_hash": "7b5c5aa52545b23f6f0a2186012b2063",
     "semantic_hash": ""
   },
   "src/layouts/components/TableOfContents.tsx": {
-    "mtime": 1782717483.8702023,
-    "ast_hash": "65fdd4b0b78352f1e01ff22760bff6da",
+    "mtime": 1782803074.488769,
+    "ast_hash": "a85e534723513d5a1847ca82b23c6164",
     "semantic_hash": ""
   },
   "src/main.tsx": {
@@ -250,9 +250,9 @@
     "semantic_hash": ""
   },
   "src/pages/(home)/index.tsx": {
-    "mtime": 1782704235.566093,
-    "ast_hash": "dee33999bc38c1b6a7a5bdd0ff669ad2",
-    "semantic_hash": "dee33999bc38c1b6a7a5bdd0ff669ad2"
+    "mtime": 1782728447.1830962,
+    "ast_hash": "3ea7172c42c04fc9704394bda4cc9518",
+    "semantic_hash": ""
   },
   "src/pages/graph/index.tsx": {
     "mtime": 1782467883.7103078,
@@ -275,9 +275,9 @@
     "semantic_hash": "2e64064ff78c46b2c3ce1dd4fc0b8227"
   },
   "src/pages/practice/[challengeId]/index.tsx": {
-    "mtime": 1782475286.5864944,
-    "ast_hash": "0287ac403adb534f9ee36dfbdfb0fd0d",
-    "semantic_hash": "0287ac403adb534f9ee36dfbdfb0fd0d"
+    "mtime": 1782805212.175757,
+    "ast_hash": "9a3dd8358754faedcb26b8cf647cf8f3",
+    "semantic_hash": ""
   },
   "src/pages/search/index.tsx": {
     "mtime": 1782463709.829542,
@@ -315,13 +315,13 @@
     "semantic_hash": ""
   },
   "src/shared/constants/chapters.ts": {
-    "mtime": 1782475283.310464,
-    "ast_hash": "721e17840544088dd3711523e6c4de0f",
-    "semantic_hash": "721e17840544088dd3711523e6c4de0f"
+    "mtime": 1782807419.2496743,
+    "ast_hash": "84cbb5c19dfd405674d1f6c03e4817ac",
+    "semantic_hash": ""
   },
   "src/shared/constants/routes.ts": {
-    "mtime": 1782704864.1610634,
-    "ast_hash": "5cbed0e50a26247cc83e4f028b92de64",
+    "mtime": 1782807903.645258,
+    "ast_hash": "bc80a1f9d9e605741f066b9926f5de57",
     "semantic_hash": ""
   },
   "src/shared/hooks/usePlayback.ts": {
@@ -957,6 +957,16 @@
   "header.png": {
     "mtime": 1782713618.7029543,
     "ast_hash": "5c73876fc68d51a8846a8bc3c6b0054e",
+    "semantic_hash": ""
+  },
+  "e2e/practice-visualizer.spec.ts": {
+    "mtime": 1782725125.2667918,
+    "ast_hash": "00fd58373ea12153eec98efd94f9a567",
+    "semantic_hash": ""
+  },
+  "docs/CHALLENGE_TECHNIQUES.md": {
+    "mtime": 1782723082.4102266,
+    "ast_hash": "f43280f11089244a3fc3bf4b508ca9d4",
     "semantic_hash": ""
   }
 }

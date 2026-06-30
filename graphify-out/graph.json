@@ -716,6 +716,26 @@
       "norm_label": "pageerrors"
     },
     {
+      "label": "practice-visualizer.spec.ts",
+      "file_type": "code",
+      "source_file": "e2e/practice-visualizer.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "e2e_practice_visualizer_spec",
+      "community": 96,
+      "norm_label": "practice-visualizer.spec.ts"
+    },
+    {
+      "label": "setupConsoleLogging()",
+      "file_type": "code",
+      "source_file": "e2e/practice-visualizer.spec.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "e2e_practice_visualizer_spec_setupconsolelogging",
+      "community": 96,
+      "norm_label": "setupconsolelogging()"
+    },
+    {
       "label": "visualizers.spec.ts",
       "file_type": "code",
       "source_file": "e2e/visualizers.spec.ts",
@@ -1622,7 +1642,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_graphworkspace",
-      "community": 16,
+      "community": 48,
       "norm_label": "graphworkspace.tsx"
     },
     {
@@ -1632,7 +1652,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_graphworkspace_algoid",
-      "community": 16,
+      "community": 48,
       "norm_label": "algoid"
     },
     {
@@ -1642,7 +1662,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "components_graphworkspace_graphworkspace",
-      "community": 16,
+      "community": 48,
       "norm_label": "graphworkspace()"
     },
     {
@@ -1652,7 +1672,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_graph_index_tsx_graph_index",
-      "community": 16,
+      "community": 48,
       "norm_label": "index.tsx"
     },
     {
@@ -1662,7 +1682,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphsection",
-      "community": 16,
+      "community": 97,
       "norm_label": "graphsection()"
     },
     {
@@ -1732,7 +1752,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "utils_generateframes_builddefaultgraph",
-      "community": 16,
+      "community": 9,
       "norm_label": "builddefaultgraph()"
     },
     {
@@ -1812,7 +1832,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode",
-      "community": 16,
+      "community": 48,
       "norm_label": "graphcode.ts"
     },
     {
@@ -1822,7 +1842,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_graphcode_bfs_code",
-      "community": 16,
+      "community": 48,
       "norm_label": "bfs_code"
     },
     {
@@ -1832,7 +1852,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "utils_graphcode_dfs_code",
-      "community": 16,
+      "community": 48,
       "norm_label": "dfs_code"
     },
     {
@@ -1892,7 +1912,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_hashtableworkspace",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashtableworkspace.tsx"
     },
     {
@@ -1902,7 +1922,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "components_hashtableworkspace_hashop",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashop"
     },
     {
@@ -1912,7 +1932,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_hashtableworkspace_op_tabs",
-      "community": 4,
+      "community": 16,
       "norm_label": "op_tabs"
     },
     {
@@ -1922,7 +1942,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "components_hashtableworkspace_code_map",
-      "community": 4,
+      "community": 16,
       "norm_label": "code_map"
     },
     {
@@ -1932,7 +1952,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "components_hashtableworkspace_makeidleframe",
-      "community": 4,
+      "community": 16,
       "norm_label": "makeidleframe()"
     },
     {
@@ -1942,7 +1962,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "components_hashtableworkspace_hashtableworkspace",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashtableworkspace()"
     },
     {
@@ -1952,7 +1972,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_hash_table_index_tsx_hash_table_index",
-      "community": 4,
+      "community": 16,
       "norm_label": "index.tsx"
     },
     {
@@ -1962,7 +1982,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "hash_table_index_hashtablesection",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashtablesection()"
     },
     {
@@ -2092,7 +2112,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_hashcode",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashcode.ts"
     },
     {
@@ -2102,7 +2122,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "utils_hashcode_hash_insert_code",
-      "community": 4,
+      "community": 16,
       "norm_label": "hash_insert_code"
     },
     {
@@ -2112,7 +2132,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "utils_hashcode_hash_search_code",
-      "community": 4,
+      "community": 16,
       "norm_label": "hash_search_code"
     },
     {
@@ -2122,7 +2142,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "utils_hashcode_hash_delete_code",
-      "community": 4,
+      "community": 16,
       "norm_label": "hash_delete_code"
     },
     {
@@ -2132,7 +2152,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer",
-      "community": 36,
+      "community": 1,
       "norm_label": "linkedlistvisualizer.tsx"
     },
     {
@@ -2142,7 +2162,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_insertposition",
-      "community": 36,
+      "community": 1,
       "norm_label": "insertposition"
     },
     {
@@ -2152,7 +2172,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_linkedlistvisualizerprops",
-      "community": 36,
+      "community": 1,
       "norm_label": "linkedlistvisualizerprops"
     },
     {
@@ -2162,7 +2182,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_linkedlistvisualizer_linkedlistvisualizer",
-      "community": 36,
+      "community": 1,
       "norm_label": "linkedlistvisualizer()"
     },
     {
@@ -2202,7 +2222,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_linked_list_index_tsx_linked_list_index",
-      "community": 95,
+      "community": 36,
       "norm_label": "index.tsx"
     },
     {
@@ -2212,7 +2232,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "linked_list_index_linkedlistsection",
-      "community": 95,
+      "community": 99,
       "norm_label": "linkedlistsection()"
     },
     {
@@ -2222,7 +2242,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_linked_list_utils_generateframes_ts_utils_generateframes",
-      "community": 36,
+      "community": 1,
       "norm_label": "generateframes.ts"
     },
     {
@@ -2232,7 +2252,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_generateframes_generatelistframes",
-      "community": 36,
+      "community": 1,
       "norm_label": "generatelistframes()"
     },
     {
@@ -2242,7 +2262,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "utils_generateframes_generatefindframes",
-      "community": 36,
+      "community": 1,
       "norm_label": "generatefindframes()"
     },
     {
@@ -2252,7 +2272,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "src_features_linked_list_utils_generateframes_ts_utils_generateframes_generatedeleteframes",
-      "community": 36,
+      "community": 1,
       "norm_label": "generatedeleteframes()"
     },
     {
@@ -2269,7 +2289,7 @@
       "label": "BOILERPLATES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "components_practicesection_boilerplates",
       "community": 5,
@@ -2279,7 +2299,7 @@
       "label": "TestCase",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L87",
+      "source_location": "L227",
       "_origin": "ast",
       "id": "components_practicesection_testcase",
       "community": 5,
@@ -2289,17 +2309,67 @@
       "label": "TestResult",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L92",
+      "source_location": "L232",
       "_origin": "ast",
       "id": "components_practicesection_testresult",
       "community": 5,
       "norm_label": "testresult"
     },
     {
+      "label": "STEP_META",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L241",
+      "_origin": "ast",
+      "id": "components_practicesection_step_meta",
+      "community": 5,
+      "norm_label": "step_meta"
+    },
+    {
+      "label": "DEFAULT_STEP_META",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L287",
+      "_origin": "ast",
+      "id": "components_practicesection_default_step_meta",
+      "community": 5,
+      "norm_label": "default_step_meta"
+    },
+    {
+      "label": "SANDBOX_LEGENDS",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L293",
+      "_origin": "ast",
+      "id": "components_practicesection_sandbox_legends",
+      "community": 5,
+      "norm_label": "sandbox_legends"
+    },
+    {
+      "label": "getStepMeta()",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L357",
+      "_origin": "ast",
+      "id": "components_practicesection_getstepmeta",
+      "community": 5,
+      "norm_label": "getstepmeta()"
+    },
+    {
+      "label": "buildDisplaySteps()",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L361",
+      "_origin": "ast",
+      "id": "components_practicesection_builddisplaysteps",
+      "community": 5,
+      "norm_label": "builddisplaysteps()"
+    },
+    {
       "label": "TEST_CASES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L101",
+      "source_location": "L375",
       "_origin": "ast",
       "id": "components_practicesection_test_cases",
       "community": 5,
@@ -2309,7 +2379,7 @@
       "label": "isEqual()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L129",
+      "source_location": "L451",
       "_origin": "ast",
       "id": "components_practicesection_isequal",
       "community": 5,
@@ -2319,7 +2389,7 @@
       "label": "safeStringify()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L158",
+      "source_location": "L499",
       "_origin": "ast",
       "id": "components_practicesection_safestringify",
       "community": 5,
@@ -2329,7 +2399,7 @@
       "label": "ArrayVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L168",
+      "source_location": "L509",
       "_origin": "ast",
       "id": "components_practicesection_arrayvisualizer",
       "community": 5,
@@ -2339,7 +2409,7 @@
       "label": "LinkedListVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L205",
+      "source_location": "L546",
       "_origin": "ast",
       "id": "components_practicesection_linkedlistvisualizer",
       "community": 5,
@@ -2349,7 +2419,7 @@
       "label": "BinarySearchVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L341",
+      "source_location": "L687",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizerprops",
       "community": 5,
@@ -2359,7 +2429,7 @@
       "label": "BinarySearchVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L350",
+      "source_location": "L696",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizer",
       "community": 5,
@@ -2369,7 +2439,7 @@
       "label": "StackParenthesesVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L411",
+      "source_location": "L757",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizerprops",
       "community": 5,
@@ -2379,7 +2449,7 @@
       "label": "StackParenthesesVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L417",
+      "source_location": "L763",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizer",
       "community": 5,
@@ -2389,7 +2459,7 @@
       "label": "CodeVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L482",
+      "source_location": "L828",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizerprops",
       "community": 5,
@@ -2399,7 +2469,7 @@
       "label": "CodeVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L488",
+      "source_location": "L834",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizer",
       "community": 5,
@@ -2409,7 +2479,7 @@
       "label": "PracticeSectionProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1066",
+      "source_location": "L1629",
       "_origin": "ast",
       "id": "components_practicesection_practicesectionprops",
       "community": 5,
@@ -2419,17 +2489,47 @@
       "label": "TabId",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1070",
+      "source_location": "L1633",
       "_origin": "ast",
       "id": "components_practicesection_tabid",
       "community": 5,
       "norm_label": "tabid"
     },
     {
+      "label": "LESSON_TO_TAB",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1651",
+      "_origin": "ast",
+      "id": "components_practicesection_lesson_to_tab",
+      "community": 5,
+      "norm_label": "lesson_to_tab"
+    },
+    {
+      "label": "ALL_CHALLENGES",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1670",
+      "_origin": "ast",
+      "id": "components_practicesection_all_challenges",
+      "community": 5,
+      "norm_label": "all_challenges"
+    },
+    {
+      "label": "CHALLENGE_CHAPTERS",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1693",
+      "_origin": "ast",
+      "id": "components_practicesection_challenge_chapters",
+      "community": 5,
+      "norm_label": "challenge_chapters"
+    },
+    {
       "label": "PracticeSection()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1072",
+      "source_location": "L1712",
       "_origin": "ast",
       "id": "components_practicesection_practicesection",
       "community": 5,
@@ -2562,7 +2662,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "search_index_searchsection",
-      "community": 48,
+      "community": 15,
       "norm_label": "searchsection()"
     },
     {
@@ -2572,7 +2672,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_sortingarrayeditor",
-      "community": 1,
+      "community": 95,
       "norm_label": "sortingarrayeditor.tsx"
     },
     {
@@ -2582,7 +2682,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_sortingarrayeditorprops",
-      "community": 1,
+      "community": 95,
       "norm_label": "sortingarrayeditorprops"
     },
     {
@@ -2592,7 +2692,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_randomarray",
-      "community": 1,
+      "community": 95,
       "norm_label": "randomarray()"
     },
     {
@@ -2602,7 +2702,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_nearlysortedarray",
-      "community": 1,
+      "community": 95,
       "norm_label": "nearlysortedarray()"
     },
     {
@@ -2612,7 +2712,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_sortedarray",
-      "community": 1,
+      "community": 95,
       "norm_label": "sortedarray()"
     },
     {
@@ -2622,7 +2722,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_parsecustom",
-      "community": 1,
+      "community": 95,
       "norm_label": "parsecustom()"
     },
     {
@@ -2632,7 +2732,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "components_sortingarrayeditor_sortingarrayeditor",
-      "community": 1,
+      "community": 95,
       "norm_label": "sortingarrayeditor()"
     },
     {
@@ -2682,7 +2782,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_sortingworkspace",
-      "community": 1,
+      "community": 95,
       "norm_label": "sortingworkspace.tsx"
     },
     {
@@ -2702,7 +2802,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "components_sortingworkspace_sortingworkspace",
-      "community": 1,
+      "community": 36,
       "norm_label": "sortingworkspace()"
     },
     {
@@ -2942,7 +3042,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueuevisualizer.tsx"
     },
     {
@@ -2952,7 +3052,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_mode",
-      "community": 31,
+      "community": 94,
       "norm_label": "mode"
     },
     {
@@ -2962,7 +3062,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_stackqueuevisualizerprops",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueuevisualizerprops"
     },
     {
@@ -2972,7 +3072,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_status_style",
-      "community": 31,
+      "community": 94,
       "norm_label": "status_style"
     },
     {
@@ -2982,7 +3082,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_modes",
-      "community": 31,
+      "community": 94,
       "norm_label": "modes"
     },
     {
@@ -2992,7 +3092,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_stackqueuevisualizer",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueuevisualizer()"
     },
     {
@@ -3002,7 +3102,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_stackview",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackview()"
     },
     {
@@ -3012,7 +3112,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "components_stackqueuevisualizer_queueview",
-      "community": 31,
+      "community": 94,
       "norm_label": "queueview()"
     },
     {
@@ -3022,7 +3122,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_stackqueueworkspace",
-      "community": 94,
+      "community": 31,
       "norm_label": "stackqueueworkspace.tsx"
     },
     {
@@ -3032,7 +3132,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_mode",
-      "community": 94,
+      "community": 31,
       "norm_label": "mode"
     },
     {
@@ -3042,7 +3142,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_stackqueueworkspace",
-      "community": 94,
+      "community": 31,
       "norm_label": "stackqueueworkspace()"
     },
     {
@@ -3052,7 +3152,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_stack_queue_index_tsx_stack_queue_index",
-      "community": 94,
+      "community": 31,
       "norm_label": "index.tsx"
     },
     {
@@ -3062,7 +3162,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "stack_queue_index_stackqueuesection",
-      "community": 94,
+      "community": 31,
       "norm_label": "stackqueuesection()"
     },
     {
@@ -3072,7 +3172,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_stack_queue_utils_generateframes_ts_utils_generateframes",
-      "community": 94,
+      "community": 31,
       "norm_label": "generateframes.ts"
     },
     {
@@ -3082,7 +3182,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_generateframes_stackqueueframe",
-      "community": 31,
+      "community": 94,
       "norm_label": "stackqueueframe"
     },
     {
@@ -3092,7 +3192,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "utils_generateframes_generatestackpushpopframes",
-      "community": 94,
+      "community": 31,
       "norm_label": "generatestackpushpopframes()"
     },
     {
@@ -3102,7 +3202,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "utils_generateframes_generatequeueframes",
-      "community": 94,
+      "community": 31,
       "norm_label": "generatequeueframes()"
     },
     {
@@ -3112,7 +3212,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_stackqueuecode",
-      "community": 94,
+      "community": 31,
       "norm_label": "stackqueuecode.ts"
     },
     {
@@ -3122,7 +3222,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_stackqueuecode_stack_code",
-      "community": 94,
+      "community": 31,
       "norm_label": "stack_code"
     },
     {
@@ -3132,7 +3232,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "utils_stackqueuecode_queue_code",
-      "community": 94,
+      "community": 31,
       "norm_label": "queue_code"
     },
     {
@@ -3142,7 +3242,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_codeviewer",
-      "community": 35,
+      "community": 95,
       "norm_label": "codeviewer.tsx"
     },
     {
@@ -3152,7 +3252,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "components_codeviewer_linked_list_code",
-      "community": 35,
+      "community": 95,
       "norm_label": "linked_list_code"
     },
     {
@@ -3162,7 +3262,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_codeviewer_linear_search_code",
-      "community": 35,
+      "community": 95,
       "norm_label": "linear_search_code"
     },
     {
@@ -3172,7 +3272,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_codeviewer_binary_search_code",
-      "community": 35,
+      "community": 95,
       "norm_label": "binary_search_code"
     },
     {
@@ -3182,7 +3282,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "components_codeviewer_codeviewerprops",
-      "community": 35,
+      "community": 95,
       "norm_label": "codeviewerprops"
     },
     {
@@ -3192,7 +3292,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "components_codeviewer_codeviewer",
-      "community": 35,
+      "community": 95,
       "norm_label": "codeviewer()"
     },
     {
@@ -3729,7 +3829,7 @@
       "label": "Navbar()",
       "file_type": "code",
       "source_file": "src/layouts/components/Navbar.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "_origin": "ast",
       "id": "components_navbar_navbar",
       "community": 0,
@@ -3742,7 +3842,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_tableofcontents",
-      "community": 1,
+      "community": 0,
       "norm_label": "tableofcontents.tsx"
     },
     {
@@ -3752,7 +3852,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "components_tableofcontents_tableofcontentsprops",
-      "community": 1,
+      "community": 0,
       "norm_label": "tableofcontentsprops"
     },
     {
@@ -3762,7 +3862,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_tableofcontents_chapter_routes",
-      "community": 1,
+      "community": 0,
       "norm_label": "chapter_routes"
     },
     {
@@ -3809,7 +3909,7 @@
       "label": "HomePage()",
       "file_type": "code",
       "source_file": "src/pages/(home)/index.tsx",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "home_index_homepage",
       "community": 68,
@@ -3842,7 +3942,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_graph_index_tsx_graph_index",
-      "community": 16,
+      "community": 97,
       "norm_label": "index.tsx"
     },
     {
@@ -3852,7 +3952,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "graph_index_graphpage",
-      "community": 16,
+      "community": 97,
       "norm_label": "graphpage()"
     },
     {
@@ -3862,7 +3962,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_hash_table_index_tsx_hash_table_index",
-      "community": 4,
+      "community": 16,
       "norm_label": "index.tsx"
     },
     {
@@ -3872,7 +3972,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "hash_table_index_hashtablepage",
-      "community": 4,
+      "community": 16,
       "norm_label": "hashtablepage()"
     },
     {
@@ -3882,7 +3982,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_linked_list_index_tsx_linked_list_index",
-      "community": 95,
+      "community": 99,
       "norm_label": "index.tsx"
     },
     {
@@ -3892,7 +3992,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "linked_list_index_linkedlistpage",
-      "community": 95,
+      "community": 99,
       "norm_label": "linkedlistpage()"
     },
     {
@@ -3942,7 +4042,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_search_index_tsx_search_index",
-      "community": 48,
+      "community": 15,
       "norm_label": "index.tsx"
     },
     {
@@ -3952,7 +4052,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "search_index_searchpage",
-      "community": 48,
+      "community": 15,
       "norm_label": "searchpage()"
     },
     {
@@ -3982,7 +4082,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_stack_queue_index_tsx_stack_queue_index",
-      "community": 94,
+      "community": 31,
       "norm_label": "index.tsx"
     },
     {
@@ -3992,7 +4092,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "stack_queue_index_stackqueuepage",
-      "community": 94,
+      "community": 31,
       "norm_label": "stackqueuepage()"
     },
     {
@@ -4112,7 +4212,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "ui_playbackcontrols",
-      "community": 15,
+      "community": 48,
       "norm_label": "playbackcontrols.tsx"
     },
     {
@@ -4122,7 +4222,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "ui_playbackcontrols_playbackcontrolsprops",
-      "community": 15,
+      "community": 48,
       "norm_label": "playbackcontrolsprops"
     },
     {
@@ -4132,7 +4232,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "ui_playbackcontrols_shortcuts",
-      "community": 15,
+      "community": 48,
       "norm_label": "shortcuts"
     },
     {
@@ -4142,7 +4242,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "ui_playbackcontrols_playbackcontrols",
-      "community": 15,
+      "community": 48,
       "norm_label": "playbackcontrols()"
     },
     {
@@ -4162,7 +4262,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "constants_chapters_chapters",
-      "community": 1,
+      "community": 0,
       "norm_label": "chapters"
     },
     {
@@ -4199,7 +4299,7 @@
       "label": "ROUTE_LESSON_MAP",
       "file_type": "code",
       "source_file": "src/shared/constants/routes.ts",
-      "source_location": "L60",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "constants_routes_route_lesson_map",
       "community": 0,
@@ -4212,7 +4312,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useplayback",
-      "community": 16,
+      "community": 36,
       "norm_label": "useplayback.ts"
     },
     {
@@ -4222,7 +4322,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "hooks_useplayback_useplaybackoptions",
-      "community": 16,
+      "community": 36,
       "norm_label": "useplaybackoptions"
     },
     {
@@ -4232,7 +4332,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "hooks_useplayback_useplayback",
-      "community": 16,
+      "community": 36,
       "norm_label": "useplayback()"
     },
     {
@@ -4242,7 +4342,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard",
-      "community": 36,
+      "community": 98,
       "norm_label": "useplaybackkeyboard.ts"
     },
     {
@@ -4252,7 +4352,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_playbackhandle",
-      "community": 36,
+      "community": 98,
       "norm_label": "playbackhandle"
     },
     {
@@ -4262,7 +4362,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_options",
-      "community": 36,
+      "community": 98,
       "norm_label": "options"
     },
     {
@@ -4272,7 +4372,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_clamp",
-      "community": 36,
+      "community": 98,
       "norm_label": "clamp()"
     },
     {
@@ -4312,7 +4412,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "types_index_nodeitem",
-      "community": 36,
+      "community": 1,
       "norm_label": "nodeitem"
     },
     {
@@ -9006,6 +9106,116 @@
       "norm_label": "feature checklist"
     },
     {
+      "label": "CHALLENGE_TECHNIQUES.md",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques",
+      "community": 93,
+      "norm_label": "challenge_techniques.md"
+    },
+    {
+      "label": "Challenge Visualizer Techniques & Architecture",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_challenge_visualizer_techniques_architecture",
+      "community": 93,
+      "norm_label": "challenge visualizer techniques & architecture"
+    },
+    {
+      "label": "1. Instrumented Sandboxed Execution",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_1_instrumented_sandboxed_execution",
+      "community": 93,
+      "norm_label": "1. instrumented sandboxed execution"
+    },
+    {
+      "label": "A. Thread Isolation & Security Shadowing",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_a_thread_isolation_security_shadowing",
+      "community": 93,
+      "norm_label": "a. thread isolation & security shadowing"
+    },
+    {
+      "label": "B. JavaScript Proxy API (Access Tracking)",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_b_javascript_proxy_api_access_tracking",
+      "community": 93,
+      "norm_label": "b. javascript proxy api (access tracking)"
+    },
+    {
+      "label": "C. Error Stack Source-Mapping (Line-by-Line Highlight)",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L67",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_c_error_stack_source_mapping_line_by_line_highlight",
+      "community": 93,
+      "norm_label": "c. error stack source-mapping (line-by-line highlight)"
+    },
+    {
+      "label": "2. Playback Simulation & Focus Scroll Synchronization",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L89",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_2_playback_simulation_focus_scroll_synchronization",
+      "community": 93,
+      "norm_label": "2. playback simulation & focus scroll synchronization"
+    },
+    {
+      "label": "A. Infinite-Loop Free Playback Hook",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L93",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_a_infinite_loop_free_playback_hook",
+      "community": 93,
+      "norm_label": "a. infinite-loop free playback hook"
+    },
+    {
+      "label": "B. Double-Scroll Highlight Sync",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L98",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_b_double_scroll_highlight_sync",
+      "community": 93,
+      "norm_label": "b. double-scroll highlight sync"
+    },
+    {
+      "label": "3. Responsive Resizable Column Layout",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L130",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_3_responsive_resizable_column_layout",
+      "community": 93,
+      "norm_label": "3. responsive resizable column layout"
+    },
+    {
+      "label": "4. Visual Sandbox Renderers",
+      "file_type": "document",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L147",
+      "_origin": "ast",
+      "id": "docs_challenge_techniques_4_visual_sandbox_renderers",
+      "community": 93,
+      "norm_label": "4. visual sandbox renderers"
+    },
+    {
       "label": "React Logo SVG",
       "file_type": "image",
       "source_file": "src/assets/react.svg",
@@ -10530,6 +10740,16 @@
       "confidence_score": 1.0,
       "source": "e2e_comprehensive_audit_spec",
       "target": "e2e_comprehensive_audit_spec_pageerrors"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/practice-visualizer.spec.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "e2e_practice_visualizer_spec",
+      "target": "e2e_practice_visualizer_spec_setupconsolelogging"
     },
     {
       "relation": "contains",
@@ -13189,6 +13409,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1287",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_all_challenges"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
       "source_location": "L165",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13229,6 +13459,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L184",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_builddisplaysteps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1295",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_challenge_chapters"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
       "source_location": "L485",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13249,11 +13499,41 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L137",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_default_step_meta"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L170",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_getstepmeta"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
       "source_location": "L126",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "components_practicesection",
       "target": "components_practicesection_isequal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1279",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_lesson_to_tab"
     },
     {
       "relation": "contains",
@@ -13299,6 +13579,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L143",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_sandbox_legends"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
       "source_location": "L414",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13314,6 +13604,16 @@
       "confidence_score": 1.0,
       "source": "components_practicesection",
       "target": "components_practicesection_stackparenthesesvisualizerprops"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_step_meta"
     },
     {
       "relation": "contains",
@@ -13359,12 +13659,56 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "constants_chapters"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection",
+      "target": "constants_chapters_chapters"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "src/features/practice/index.tsx",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "practice_index",
       "target": "components_practicesection"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L672",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection_codevisualizer",
+      "target": "components_practicesection_getstepmeta"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1285",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_practicesection_codevisualizer",
+      "target": "components_practicesection_safestringify"
     },
     {
       "relation": "imports",
@@ -21021,6 +21365,106 @@
       "target": "test_ready_test_runner"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques",
+      "target": "docs_challenge_techniques_challenge_visualizer_techniques_architecture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_challenge_visualizer_techniques_architecture",
+      "target": "docs_challenge_techniques_1_instrumented_sandboxed_execution"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_challenge_visualizer_techniques_architecture",
+      "target": "docs_challenge_techniques_2_playback_simulation_focus_scroll_synchronization"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L130",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_challenge_visualizer_techniques_architecture",
+      "target": "docs_challenge_techniques_3_responsive_resizable_column_layout"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L147",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_challenge_visualizer_techniques_architecture",
+      "target": "docs_challenge_techniques_4_visual_sandbox_renderers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_1_instrumented_sandboxed_execution",
+      "target": "docs_challenge_techniques_a_thread_isolation_security_shadowing"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_1_instrumented_sandboxed_execution",
+      "target": "docs_challenge_techniques_b_javascript_proxy_api_access_tracking"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_1_instrumented_sandboxed_execution",
+      "target": "docs_challenge_techniques_c_error_stack_source_mapping_line_by_line_highlight"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_2_playback_simulation_focus_scroll_synchronization",
+      "target": "docs_challenge_techniques_a_infinite_loop_free_playback_hook"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/CHALLENGE_TECHNIQUES.md",
+      "source_location": "L98",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "docs_challenge_techniques_2_playback_simulation_focus_scroll_synchronization",
+      "target": "docs_challenge_techniques_b_double_scroll_highlight_sync"
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -21182,5 +21626,5 @@
       "source_file": "TEST_INFRA.md"
     }
   ],
-  "built_at_commit": "aabadaf8083c2bb81de46bd17140d0c136174229"
+  "built_at_commit": "37429c867a80ae3f341c4a26bbf1b4d9e70584e5"
 }

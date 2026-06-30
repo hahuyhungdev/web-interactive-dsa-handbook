@@ -1,16 +1,16 @@
-# Graph Report - web-interactive-dsa-handbook  (2026-06-29)
+# Graph Report - web-interactive-dsa-handbook  (2026-06-30)
 
 ## Corpus Check
-- 146 files · ~370,695 words
+- 148 files · ~375,820 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 915 nodes · 1153 edges · 95 communities (67 shown, 28 thin omitted)
+- 936 nodes · 1176 edges · 100 communities (71 shown, 29 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `aabadaf8`
+- Built from commit: `37429c86`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -99,8 +99,12 @@
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
+- [[_COMMUNITY_Community 93|Community 93]]
 - [[_COMMUNITY_Community 94|Community 94]]
 - [[_COMMUNITY_Community 95|Community 95]]
+- [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 20 edges
@@ -123,8 +127,8 @@
   scratch/leetcode/test_group_anagrams.py → scratch/leetcode/group_anagrams.py
 - `ChaptersPage()` --calls--> `useActiveLesson()`  [EXTRACTED]
   src/pages/chapters/index.tsx → src/app/lesson-sync.tsx
-- `GraphWorkspace()` --calls--> `usePlaybackKeyboard()`  [EXTRACTED]
-  src/features/graph/components/GraphWorkspace.tsx → src/shared/hooks/usePlaybackKeyboard.ts
+- `GraphWorkspace()` --calls--> `usePlayback()`  [EXTRACTED]
+  src/features/graph/components/GraphWorkspace.tsx → src/shared/hooks/usePlayback.ts
 
 ## Import Cycles
 - 1-file cycle: `src/pages/graph/index.tsx -> src/pages/graph/index.tsx`
@@ -139,15 +143,15 @@
 - **Record-then-Replay Architecture Flow** — interactive_upgrade_record_replay, interactive_upgrade_generate_frames, interactive_upgrade_sorting_workspace, interactive_upgrade_sorting_visualizer, interactive_upgrade_code_viewer [EXTRACTED 0.95]
 - **E2E Test Interface Selector Contracts** — test_infra_playback_controls, test_infra_sorting_visualizer, test_infra_linked_list_visualizer, test_infra_practice_challenges [EXTRACTED 0.90]
 
-## Communities (95 total, 28 thin omitted)
+## Communities (100 total, 29 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.07
-Nodes (31): App(), ChaptersPage, GraphPage, HashTablePage, HomePage, LinkedListPage, NotFoundPage, PracticePage (+23 more)
+Cohesion: 0.06
+Nodes (34): App(), ChaptersPage, GraphPage, HashTablePage, HomePage, LinkedListPage, NotFoundPage, PracticePage (+26 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.07
-Nodes (32): SortingArrayEditor(), SortingArrayEditorProps, SortingVisualizer(), SortingVisualizerProps, STATUS_STYLE, SortingWorkspace(), SortingWorkspaceProps, CHAPTER_ROUTES (+24 more)
+Cohesion: 0.08
+Nodes (32): InsertPosition, LinkedListVisualizer(), LinkedListVisualizerProps, SortingVisualizer(), SortingVisualizerProps, STATUS_STYLE, SortingWorkspaceProps, SortingSection() (+24 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.11
@@ -158,12 +162,12 @@ Cohesion: 0.05
 Nodes (40): dependencies, @codemirror/lang-javascript, @codemirror/view, lucide-react, @mantine/core, @mantine/hooks, motion, @radix-ui/react-slider (+32 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.12
-Nodes (24): BUCKET_STYLE, ENTRY_STYLE, HashTableVisualizer(), HashTableVisualizerProps, CODE_MAP, HashOp, HashTableWorkspace(), makeIdleFrame() (+16 more)
+Cohesion: 0.24
+Nodes (15): BUCKET_STYLE, ENTRY_STYLE, HashTableVisualizer(), HashTableVisualizerProps, generateDeleteFrames(), generateInsertFrames(), generateSearchFrames(), buildDefaultHashTable() (+7 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.09
-Nodes (12): BinarySearchVisualizerProps, BOILERPLATES, CodeVisualizerProps, PracticeSection(), PracticeSectionProps, StackParenthesesVisualizerProps, TabId, TEST_CASES (+4 more)
+Cohesion: 0.07
+Nodes (21): ALL_CHALLENGES, BinarySearchVisualizerProps, BOILERPLATES, CHALLENGE_CHAPTERS, CodeVisualizer(), CodeVisualizerProps, DEFAULT_STEP_META, getStepMeta() (+13 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.09
@@ -178,8 +182,8 @@ Cohesion: 0.19
 Nodes (19): _clean_command_name(), combined_tool_content(), get_graphify_count(), graph_json_denial(), graph_report_denial(), graphify_skill_denial(), is_doc_context_file(), is_exact_file_path() (+11 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.17
-Nodes (17): EDGE_STYLES, GraphVisualizer(), GraphVisualizerProps, NODE_COLORS, NODE_IDS, cloneNodes(), makeFrame(), cloneEdges() (+9 more)
+Cohesion: 0.16
+Nodes (18): EDGE_STYLES, GraphVisualizer(), GraphVisualizerProps, NODE_COLORS, NODE_IDS, cloneNodes(), makeFrame(), buildDefaultGraph() (+10 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.19
@@ -202,12 +206,12 @@ Cohesion: 0.13
 Nodes (14): 1. Smoke & Network Pass, 2. Responsive Visual Pass, 3. Accessibility (A11y) Pass, 🔍 Browser QA Checklists, 📊 E2E Test Report Template, 📦 Page Object Model (POM) Design, Phase 1: Boot & Port Check, Phase 2: Spec Execution with Observability (+6 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.18
-Nodes (7): SearchArrayEditorProps, SearchFrame, SearchVisualizer(), VisualFrame, PlaybackControls(), PlaybackControlsProps, SHORTCUTS
+Cohesion: 0.20
+Nodes (5): SearchArrayEditorProps, SearchFrame, SearchVisualizer(), VisualFrame, SearchSection()
 
 ### Community 16 - "Community 16"
 Cohesion: 0.21
-Nodes (8): AlgoId, GraphWorkspace(), GraphSection(), usePlayback(), UsePlaybackOptions, buildDefaultGraph(), BFS_CODE, DFS_CODE
+Nodes (9): CODE_MAP, HashOp, HashTableWorkspace(), makeIdleFrame(), OP_TABS, HashTableSection(), HASH_DELETE_CODE, HASH_INSERT_CODE (+1 more)
 
 ### Community 17 - "Community 17"
 Cohesion: 0.15
@@ -266,8 +270,8 @@ Cohesion: 0.17
 Nodes (11): 1. What is Cartesian.app?, 2. Core Feature Analysis, 3. Structural Comparison Matrix, 4. Recommendations for Expanding Our Repo, A. Procedural & Interactive Visualizations, Analysis of Cartesian.app Features and Comparison with Our Repository, B. Playback Controls & Frame Steppers, C. Synchronized Code Playback (Visual Debugger) (+3 more)
 
 ### Community 31 - "Community 31"
-Cohesion: 0.25
-Nodes (6): Mode, MODES, StackQueueVisualizer(), StackQueueVisualizerProps, STATUS_STYLE, StackQueueFrame
+Cohesion: 0.22
+Nodes (7): Mode, StackQueueWorkspace(), StackQueueSection(), generateQueueFrames(), generateStackPushPopFrames(), QUEUE_CODE, STACK_CODE
 
 ### Community 32 - "Community 32"
 Cohesion: 0.20
@@ -282,12 +286,12 @@ Cohesion: 0.20
 Nodes (9): Artifact Index, Audit Progress, Audit Scope, BRIEFING — 2026-06-28T20:57:30+07:00, Current Parent, 🔒 Key Constraints, Key Decisions Made, Mission (+1 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.16
-Nodes (10): BINARY_SEARCH_CODE, CodeViewer(), CodeViewerProps, LINEAR_SEARCH_CODE, LINKED_LIST_CODE, THEORY_CONTENT, TheoryContent(), TheoryContentProps (+2 more)
+Cohesion: 0.28
+Nodes (5): THEORY_CONTENT, TheoryContent(), TheoryContentProps, TheorySection(), TheorySectionProps
 
 ### Community 36 - "Community 36"
-Cohesion: 0.17
-Nodes (11): InsertPosition, LinkedListVisualizer(), LinkedListVisualizerProps, CODE_SNIPPETS, LinkedListWorkspace(), Options, PlaybackHandle, usePlaybackKeyboard() (+3 more)
+Cohesion: 0.36
+Nodes (6): CODE_SNIPPETS, LinkedListWorkspace(), SortingWorkspace(), usePlayback(), UsePlaybackOptions, usePlaybackKeyboard()
 
 ### Community 37 - "Community 37"
 Cohesion: 0.22
@@ -329,6 +333,10 @@ Nodes (6): 1. Observation, 2. Logic Chain, 3. Caveats, 4. Conclusion, 5. Verific
 Cohesion: 0.29
 Nodes (6): 1. Observation, 2. Logic Chain, 3. Caveats, 4. Conclusion, 5. Verification Method, Handoff Report — Victory Audit
 
+### Community 48 - "Community 48"
+Cohesion: 0.25
+Nodes (7): AlgoId, GraphWorkspace(), PlaybackControls(), PlaybackControlsProps, SHORTCUTS, BFS_CODE, DFS_CODE
+
 ### Community 49 - "Community 49"
 Cohesion: 0.33
 Nodes (5): Milestones and Roles, Phase 1: Real-Browser Interactive Audit, Phase 2: Premium UI/UX Polish, Phase 3: Automated Test Verification, Project Plan - Browser-Based Audit and Premium UI/UX Polish
@@ -369,29 +377,37 @@ Nodes (3): Linked List Visualizer Test Specs, Playback Controls Test Specs, Sort
 Cohesion: 0.67
 Nodes (3): Blue-Purple Linear Gradient, Yellow-Orange Linear Gradient, Vite Logo
 
+### Community 93 - "Community 93"
+Cohesion: 0.18
+Nodes (10): 1. Instrumented Sandboxed Execution, 2. Playback Simulation & Focus Scroll Synchronization, 3. Responsive Resizable Column Layout, 4. Visual Sandbox Renderers, A. Infinite-Loop Free Playback Hook, A. Thread Isolation & Security Shadowing, B. Double-Scroll Highlight Sync, B. JavaScript Proxy API (Access Tracking) (+2 more)
+
 ### Community 94 - "Community 94"
-Cohesion: 0.22
-Nodes (7): Mode, StackQueueWorkspace(), StackQueueSection(), generateQueueFrames(), generateStackPushPopFrames(), QUEUE_CODE, STACK_CODE
+Cohesion: 0.25
+Nodes (6): Mode, MODES, StackQueueVisualizer(), StackQueueVisualizerProps, STATUS_STYLE, StackQueueFrame
+
+### Community 95 - "Community 95"
+Cohesion: 0.16
+Nodes (7): BINARY_SEARCH_CODE, CodeViewer(), CodeViewerProps, LINEAR_SEARCH_CODE, LINKED_LIST_CODE, SortingArrayEditor(), SortingArrayEditorProps
 
 ## Knowledge Gaps
-- **456 isolated node(s):** `consoleErrors`, `pageErrors`, `name`, `private`, `version` (+451 more)
+- **469 isolated node(s):** `consoleErrors`, `pageErrors`, `name`, `private`, `version` (+464 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `usePlaybackKeyboard()` connect `Community 36` to `Community 1`, `Community 2`, `Community 4`, `Community 15`, `Community 16`, `Community 94`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `usePlayback()` connect `Community 16` to `Community 1`, `Community 2`, `Community 4`, `Community 36`, `Community 15`, `Community 94`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `CodeViewer()` connect `Community 35` to `Community 1`, `Community 2`, `Community 4`, `Community 36`, `Community 15`, `Community 16`, `Community 94`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `usePlaybackKeyboard()` connect `Community 36` to `Community 2`, `Community 98`, `Community 15`, `Community 48`, `Community 16`, `Community 95`, `Community 31`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `usePlayback()` connect `Community 36` to `Community 2`, `Community 15`, `Community 48`, `Community 16`, `Community 95`, `Community 31`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
+- **Why does `CodeViewer()` connect `Community 95` to `Community 2`, `Community 35`, `Community 36`, `Community 15`, `Community 48`, `Community 16`, `Community 31`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **What connects `consoleErrors`, `pageErrors`, `name` to the rest of the system?**
-  _456 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _469 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06565656565656566 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06037414965986394 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.07482993197278912 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07777777777777778 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.10570824524312897 - nodes in this community are weakly interconnected._

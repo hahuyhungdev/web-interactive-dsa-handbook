@@ -29,6 +29,21 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
     return () => media.removeEventListener("change", listener);
   }, []);
 
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace("#", "");
+      const element = document.getElementById(id);
+      if (element) {
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+        return () => clearTimeout(timer);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [location.pathname, location.hash]);
+
   useHotkeys(
     "shift+slash",
     (event) => {
@@ -52,7 +67,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
         {!hideSidebar && (
           <div 
             className="hidden md:flex shrink-0 relative transition-[width] duration-300 z-30" 
-            style={{ width: isSidebarCollapsed ? 0 : '16rem' }}
+            style={{ width: isSidebarCollapsed ? 0 : '18.5rem' }}
           >
             <aside className={`shrink-0 md:border-r border-charcoal/10 md:py-0 md:sticky md:top-24 md:self-start md:max-h-[calc(100vh-128px)] md:overflow-y-auto scrollbar-none transition-[width,padding,border-color,opacity] duration-300 relative w-full ${
               isSidebarCollapsed ? 'md:pr-0 md:border-r-0 overflow-hidden' : 'md:pr-6'
@@ -121,16 +136,18 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
           </div>
 
           {/* Footer */}
-          <footer className="border-t border-charcoal/10 mt-10 py-6 text-center text-base text-charcoal font-sans tracking-wide shrink-0">
-            <p className="flex items-center justify-center gap-1">
-              Designed with an editorial eye. Made with{" "}
-              <Heart className="w-4 h-4 text-coral fill-coral" /> for computer
-              science.
-            </p>
-            <p className="mt-2">
-              © 2026 Interactive DSA Handbook. All rights reserved.
-            </p>
-          </footer>
+          {!location.pathname.startsWith("/practice") && (
+            <footer className="border-t border-charcoal/10 mt-10 py-6 text-center text-base text-charcoal font-sans tracking-wide shrink-0">
+              <p className="flex items-center justify-center gap-1">
+                Designed with an editorial eye. Made with{" "}
+                <Heart className="w-4 h-4 text-coral fill-coral" /> for computer
+                science.
+              </p>
+              <p className="mt-2">
+                © 2026 Interactive DSA Handbook. All rights reserved.
+              </p>
+            </footer>
+          )}
         </main>
       </div>
 

@@ -435,14 +435,14 @@ export function SearchVisualizer() {
       <SearchArrayEditor array={array} onChange={setArray} />
       {/* Target input and Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-paper-light border border-charcoal/10 rounded-2xl p-4 shadow-sm">
-        <div className="flex gap-3">
+        <div className="flex p-1 bg-charcoal/[0.04] border border-charcoal/10 rounded-2xl">
           <button
             id="btn-select-linear-search"
             onClick={() => setActiveTab("linear")}
-            className={`px-4 py-2 rounded-xl font-sans text-base font-bold uppercase tracking-wider transition-all duration-300 ${
+            className={`px-5 py-2 rounded-xl font-sans text-[13px] font-black uppercase tracking-wider transition-all duration-200 ${
               activeTab === "linear"
-                ? "bg-coral text-paper shadow-sm"
-                : "border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal"
+                ? "bg-paper text-coral shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-charcoal/5"
+                : "bg-transparent text-charcoal/60 hover:text-charcoal"
             }`}
           >
             Linear Search
@@ -450,10 +450,10 @@ export function SearchVisualizer() {
           <button
             id="btn-select-binary-search"
             onClick={() => setActiveTab("binary")}
-            className={`px-4 py-2 rounded-xl font-sans text-base font-bold uppercase tracking-wider transition-all duration-300 ${
+            className={`px-5 py-2 rounded-xl font-sans text-[13px] font-black uppercase tracking-wider transition-all duration-200 ${
               activeTab === "binary"
-                ? "bg-coral text-paper shadow-sm"
-                : "border border-charcoal/20 bg-transparent hover:bg-charcoal/5 text-charcoal"
+                ? "bg-paper text-coral shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-charcoal/5"
+                : "bg-transparent text-charcoal/60 hover:text-charcoal"
             }`}
           >
             Binary Search
@@ -551,20 +551,25 @@ export function SearchVisualizer() {
 
           <div
             id="sorting-visualizer-container"
-            className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-paper-dark border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
+            className={`flex items-end justify-start sm:justify-center ${containerGapClass} bg-gradient-to-br from-paper-dark to-charcoal/[0.02] border border-charcoal/10 rounded-3xl p-4 sm:p-8 h-[340px] pb-28 overflow-y-hidden shadow-inner`}
           >
             {array.map((val, idx) => {
               const el = currentFrame.elements[idx] || {
                 status: "default",
                 pointers: [],
               };
-              let barColor = "bg-charcoal/30 border-charcoal/10";
+              let barColorClass = "bg-gradient-to-t from-charcoal/15 to-charcoal/25 hover:from-charcoal/25 hover:to-charcoal/35 border border-charcoal/5 shadow-sm";
+              let labelClass = "text-charcoal/60";
+
               if (el.status === "comparing") {
-                barColor = "bg-amber-400 border-amber-500";
+                barColorClass = "bg-gradient-to-t from-amber-400 to-amber-300 shadow-[0_4px_12px_rgba(251,191,36,0.3)] border border-amber-500/20";
+                labelClass = "text-amber-600 font-extrabold";
               } else if (el.status === "found") {
-                barColor = "bg-emerald-500 border-emerald-600 text-paper";
+                barColorClass = "bg-gradient-to-t from-emerald-600 to-emerald-400 shadow-[0_4px_12px_rgba(16,185,129,0.25)] border border-emerald-700/20 text-paper";
+                labelClass = "text-emerald-600 font-extrabold";
               } else if (el.status === "excluded") {
-                barColor = "bg-charcoal/10 border-charcoal/5 opacity-40";
+                barColorClass = "bg-charcoal/10 border border-charcoal/5 opacity-40";
+                labelClass = "text-charcoal/30 font-light opacity-50";
               }
 
               return (
@@ -578,11 +583,11 @@ export function SearchVisualizer() {
                     data-index={idx}
                     data-status={el.status}
                   >
-                    <span className={`bg-paper px-1 py-0.5 rounded border border-charcoal/10 shadow-sm mb-1.5 font-mono ${labelTextClass}`}>
+                    <span className={`font-mono font-bold tabular-nums transition-colors duration-200 mb-1.5 ${labelTextClass} ${labelClass}`}>
                       {val}
                     </span>
                     <div
-                      className={`w-full h-full rounded-t-md border transition-all duration-200 ${barColor}`}
+                      className={`w-full h-full rounded-t-md transition-all duration-200 ${barColorClass}`}
                     ></div>
                   </div>
                   <span className="font-mono text-xs sm:text-sm text-charcoal/60 mt-1 select-none font-bold">

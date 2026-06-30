@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,41 +19,41 @@ export function Navbar() {
       {/* Mobile Dropdown Panel */}
       {isOpen && (
         <div className="absolute top-[calc(100%+8px)] left-0 w-full backdrop-blur-lg bg-paper/80 border border-charcoal/10 shadow-premium-hover rounded-2xl p-6 flex flex-col gap-4 animate-fade-in md:hidden">
-          <a
-            href="/"
+          <Link
+            to="/"
             onClick={() => setIsOpen(false)}
             className="font-sans text-base font-bold tracking-wider uppercase text-charcoal hover:text-coral py-2 border-b border-charcoal/5 focus:outline-none focus-visible:text-coral"
           >
             Home
-          </a>
-          <a
-            href="/chapters"
+          </Link>
+          <Link
+            to="/chapters"
             onClick={() => setIsOpen(false)}
             className="font-sans text-base font-bold tracking-wider uppercase text-charcoal hover:text-coral py-2 border-b border-charcoal/5 focus:outline-none focus-visible:text-coral"
           >
             Chapters
-          </a>
-          <a
-            href="/practice/two-sum"
+          </Link>
+          <Link
+            to="/chapters/arrays/practice/two-sum"
             onClick={() => setIsOpen(false)}
             className="font-sans text-base font-bold tracking-wider uppercase text-charcoal hover:text-coral py-2 border-b border-charcoal/5 focus:outline-none focus-visible:text-coral"
           >
             Practice
-          </a>
-          <a
-            href="/#about"
+          </Link>
+          <Link
+            to="/#about"
             onClick={() => setIsOpen(false)}
             className="font-sans text-base font-bold tracking-wider uppercase text-charcoal hover:text-coral py-2 border-b border-charcoal/5 focus:outline-none focus-visible:text-coral"
           >
             About
-          </a>
-          <a
-            href="/chapters"
+          </Link>
+          <Link
+            to="/chapters"
             onClick={() => setIsOpen(false)}
             className="flex items-center justify-center gap-2 bg-coral text-paper py-3 rounded-xl font-sans text-base font-bold uppercase tracking-wider shadow-sm mt-2 focus:outline-none focus-visible:bg-coral-dark"
           >
             Start Reading <ArrowRight className="w-4 h-4" />
-          </a>
+          </Link>
         </div>
       )}
 
@@ -65,28 +66,28 @@ export function Navbar() {
         }`}
       >
         {/* Brand/Logo */}
-        <a href="/" className="flex items-center gap-2.5 group">
+        <Link to="/" className="flex items-center gap-2.5 group">
           <div className="w-8 h-8 rounded-lg bg-coral flex items-center justify-center text-paper font-bold text-lg transition-transform duration-300 group-hover:scale-105">
             D
           </div>
           <h1 className="font-editorial text-xl font-bold text-charcoal tracking-tight">
             DSA <span className="font-sans text-base uppercase tracking-widest text-coral-dark font-bold ml-1">Handbook</span>
           </h1>
-        </a>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-8 font-sans text-base font-semibold tracking-wider uppercase text-charcoal">
-          <a href="/" className="hover:text-coral transition-colors duration-200">Home</a>
-          <a href="/chapters" className="hover:text-coral transition-colors duration-200">Chapters</a>
-          <a href="/practice/two-sum" className="hover:text-coral transition-colors duration-200">Practice</a>
-          <a href="/#about" className="hover:text-coral transition-colors duration-200">About</a>
+          <Link to="/" className="hover:text-coral transition-colors duration-200">Home</Link>
+          <Link to="/chapters" className="hover:text-coral transition-colors duration-200">Chapters</Link>
+          <Link to="/chapters/arrays/practice/two-sum" className="hover:text-coral transition-colors duration-200">Practice</Link>
+          <Link to="/#about" className="hover:text-coral transition-colors duration-200">About</Link>
         </div>
 
         {/* CTA Launch Button */}
         <div className="hidden md:flex items-center">
-          <a href="/chapters" className="flex items-center gap-2 bg-charcoal text-paper hover:bg-coral hover:text-paper transition-all duration-300 px-4 py-2 rounded-xl font-sans text-base font-bold tracking-wider uppercase shadow-sm">
+          <Link to="/chapters" className="flex items-center gap-2 bg-charcoal text-paper hover:bg-coral hover:text-paper transition-all duration-300 px-4 py-2 rounded-xl font-sans text-base font-bold tracking-wider uppercase shadow-sm">
             Start Reading <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle button */}
