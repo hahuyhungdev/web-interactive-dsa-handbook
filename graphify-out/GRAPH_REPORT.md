@@ -1,16 +1,16 @@
 # Graph Report - web-interactive-dsa-handbook  (2026-06-30)
 
 ## Corpus Check
-- 148 files · ~375,820 words
+- 152 files · ~496,893 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 936 nodes · 1176 edges · 100 communities (71 shown, 29 thin omitted)
+- 951 nodes · 1187 edges · 103 communities (73 shown, 30 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `37429c86`
+- Built from commit: `8de8f229`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -105,6 +105,8 @@
 - [[_COMMUNITY_Community 97|Community 97]]
 - [[_COMMUNITY_Community 98|Community 98]]
 - [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
+- [[_COMMUNITY_Community 101|Community 101]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 20 edges
@@ -143,7 +145,7 @@
 - **Record-then-Replay Architecture Flow** — interactive_upgrade_record_replay, interactive_upgrade_generate_frames, interactive_upgrade_sorting_workspace, interactive_upgrade_sorting_visualizer, interactive_upgrade_code_viewer [EXTRACTED 0.95]
 - **E2E Test Interface Selector Contracts** — test_infra_playback_controls, test_infra_sorting_visualizer, test_infra_linked_list_visualizer, test_infra_practice_challenges [EXTRACTED 0.90]
 
-## Communities (100 total, 29 thin omitted)
+## Communities (103 total, 30 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.06
@@ -166,8 +168,8 @@ Cohesion: 0.24
 Nodes (15): BUCKET_STYLE, ENTRY_STYLE, HashTableVisualizer(), HashTableVisualizerProps, generateDeleteFrames(), generateInsertFrames(), generateSearchFrames(), buildDefaultHashTable() (+7 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.07
-Nodes (21): ALL_CHALLENGES, BinarySearchVisualizerProps, BOILERPLATES, CHALLENGE_CHAPTERS, CodeVisualizer(), CodeVisualizerProps, DEFAULT_STEP_META, getStepMeta() (+13 more)
+Cohesion: 0.06
+Nodes (23): ALL_CHALLENGES, BinarySearchVisualizerProps, BOILERPLATES, CHALLENGE_CHAPTERS, CodeVisualizer(), CodeVisualizerProps, DEFAULT_STEP_META, DualStackVisualizerProps (+15 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.09
@@ -286,12 +288,12 @@ Cohesion: 0.20
 Nodes (9): Artifact Index, Audit Progress, Audit Scope, BRIEFING — 2026-06-28T20:57:30+07:00, Current Parent, 🔒 Key Constraints, Key Decisions Made, Mission (+1 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.28
-Nodes (5): THEORY_CONTENT, TheoryContent(), TheoryContentProps, TheorySection(), TheorySectionProps
+Cohesion: 0.22
+Nodes (7): QUIZ_DATA, QuizQuestion, THEORY_CONTENT, TheoryContent(), TheoryContentProps, TheorySection(), TheorySectionProps
 
 ### Community 36 - "Community 36"
-Cohesion: 0.36
-Nodes (6): CODE_SNIPPETS, LinkedListWorkspace(), SortingWorkspace(), usePlayback(), UsePlaybackOptions, usePlaybackKeyboard()
+Cohesion: 0.29
+Nodes (5): CODE_SNIPPETS, LinkedListWorkspace(), usePlayback(), UsePlaybackOptions, LinkedListSection()
 
 ### Community 37 - "Community 37"
 Cohesion: 0.22
@@ -386,28 +388,32 @@ Cohesion: 0.25
 Nodes (6): Mode, MODES, StackQueueVisualizer(), StackQueueVisualizerProps, STATUS_STYLE, StackQueueFrame
 
 ### Community 95 - "Community 95"
-Cohesion: 0.16
-Nodes (7): BINARY_SEARCH_CODE, CodeViewer(), CodeViewerProps, LINEAR_SEARCH_CODE, LINKED_LIST_CODE, SortingArrayEditor(), SortingArrayEditorProps
+Cohesion: 0.18
+Nodes (6): SortingArrayEditor(), SortingArrayEditorProps, SortingWorkspace(), Options, PlaybackHandle, usePlaybackKeyboard()
+
+### Community 98 - "Community 98"
+Cohesion: 0.33
+Nodes (5): BINARY_SEARCH_CODE, CodeViewer(), CodeViewerProps, LINEAR_SEARCH_CODE, LINKED_LIST_CODE
 
 ## Knowledge Gaps
-- **469 isolated node(s):** `consoleErrors`, `pageErrors`, `name`, `private`, `version` (+464 more)
+- **477 isolated node(s):** `consoleErrors`, `pageErrors`, `testCases`, `name`, `private` (+472 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **30 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `usePlaybackKeyboard()` connect `Community 36` to `Community 2`, `Community 98`, `Community 15`, `Community 48`, `Community 16`, `Community 95`, `Community 31`?**
+- **Why does `CodeViewer()` connect `Community 98` to `Community 2`, `Community 35`, `Community 36`, `Community 15`, `Community 48`, `Community 16`, `Community 31`, `Community 95`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **Why does `usePlaybackKeyboard()` connect `Community 95` to `Community 2`, `Community 36`, `Community 15`, `Community 48`, `Community 16`, `Community 31`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Why does `usePlayback()` connect `Community 36` to `Community 2`, `Community 15`, `Community 48`, `Community 16`, `Community 95`, `Community 31`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `CodeViewer()` connect `Community 95` to `Community 2`, `Community 35`, `Community 36`, `Community 15`, `Community 48`, `Community 16`, `Community 31`?**
-  _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **What connects `consoleErrors`, `pageErrors`, `name` to the rest of the system?**
-  _469 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `consoleErrors`, `pageErrors`, `testCases` to the rest of the system?**
+  _477 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06037414965986394 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05959183673469388 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.07777777777777778 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07928118393234672 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.10570824524312897 - nodes in this community are weakly interconnected._

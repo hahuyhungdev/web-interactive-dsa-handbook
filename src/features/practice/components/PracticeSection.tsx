@@ -349,6 +349,29 @@ function runMinStack(ops, vals) {
   }
   return nums1.map(num => map.has(num) ? map.get(num) : -1);
 }`,
+  "invert-tree": `function invertTree(root) {
+  // Write your code here
+  if (root === null) return null;
+  let temp = root.left;
+  root.left = invertTree(root.right);
+  root.right = invertTree(temp);
+  return root;
+}`,
+  "contains-duplicate": `function containsDuplicate(nums) {
+  // Write your code here
+  const set = new Set();
+  for (const num of nums) {
+    if (set.has(num)) return true;
+    set.add(num);
+  }
+  return false;
+}`,
+  "find-center": `function findCenter(edges) {
+  // Write your code here
+  const [u1, v1] = edges[0];
+  const [u2, v2] = edges[1];
+  return (u1 === u2 || u1 === v2) ? u1 : v1;
+}`,
 };
 
 interface TestCase {
@@ -614,6 +637,20 @@ const TEST_CASES: Record<string, TestCase[]> = {
     { input: [[4, 1, 2], [1, 3, 4, 2]], expected: [-1, 3, -1] },
     { input: [[2, 4], [1, 2, 3, 4]], expected: [3, -1] }
   ],
+  "invert-tree": [
+    { input: [[4, 2, 7, 1, 3, 6, 9]], expected: [4, 7, 2, 9, 6, 3, 1] },
+    { input: [[2, 1, 3]], expected: [2, 3, 1] },
+    { input: [[]], expected: [] },
+  ],
+  "contains-duplicate": [
+    { input: [[1, 2, 3, 1]], expected: true },
+    { input: [[1, 2, 3, 4]], expected: false },
+    { input: [[1, 1, 1, 3, 3, 4, 3, 2, 4, 2]], expected: true },
+  ],
+  "find-center": [
+    { input: [[[1, 2], [2, 3], [4, 2]]], expected: 2 },
+    { input: [[[1, 2], [5, 1], [1, 3], [1, 4]]], expected: 1 },
+  ],
 };
 
 function isEqual(actual: any, expected: any, challenge: string): boolean {
@@ -644,7 +681,8 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
     challenge === "remove-nth-node" ||
     challenge === "queue-using-stacks" ||
     challenge === "min-stack" ||
-    challenge === "next-greater-element"
+    challenge === "next-greater-element" ||
+    challenge === "invert-tree"
   ) {
     if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
     if (actual.length !== expected.length) return false;
@@ -661,7 +699,9 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
     challenge === "max-subarray" ||
     challenge === "kth-largest" ||
     challenge === "linked-list-cycle" ||
-    challenge === "evaluate-rpn"
+    challenge === "evaluate-rpn" ||
+    challenge === "contains-duplicate" ||
+    challenge === "find-center"
   ) {
     return actual === expected;
   }
@@ -2052,6 +2092,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
             <div className="flex items-center justify-between gap-2 mt-0.5">
               <div className="flex items-center gap-1">
                 <button
+                  id="btn-reset"
                   type="button"
                   onClick={() => setStepIndex(0)}
                   disabled={stepIndex === 0}
@@ -2076,6 +2117,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
                   <span>{isPlaying ? "Pause" : "Play"}</span>
                 </button>
                 <button
+                  id="btn-step-forward"
                   type="button"
                   onClick={handleStepForward}
                   disabled={stepIndex === totalSteps}
@@ -2424,6 +2466,12 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       functionName = "evalRPN";
     } else if (currentTab === "next-greater-element") {
       functionName = "nextGreaterElement";
+    } else if (currentTab === "invert-tree") {
+      functionName = "invertTree";
+    } else if (currentTab === "contains-duplicate") {
+      functionName = "containsDuplicate";
+    } else if (currentTab === "find-center") {
+      functionName = "findCenter";
     }
 
     const workerCode = `
@@ -2553,6 +2601,45 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               curr = curr.next;
             }
             return arr;
+          }
+          function arrayToTree(arr) {
+            if (!arr || arr.length === 0) return null;
+            let root = { val: arr[0], left: null, right: null };
+            let queue = [root];
+            let i = 1;
+            while (i < arr.length) {
+              let curr = queue.shift();
+              if (arr[i] !== null && arr[i] !== undefined) {
+                curr.left = { val: arr[i], left: null, right: null };
+                queue.push(curr.left);
+              }
+              i++;
+              if (i < arr.length && arr[i] !== null && arr[i] !== undefined) {
+                curr.right = { val: arr[i], left: null, right: null };
+                queue.push(curr.right);
+              }
+              i++;
+            }
+            return root;
+          }
+          function treeToArray(root) {
+            if (!root) return [];
+            let result = [];
+            let queue = [root];
+            while (queue.length > 0) {
+              let curr = queue.shift();
+              if (curr) {
+                result.push(curr.val);
+                queue.push(curr.left);
+                queue.push(curr.right);
+              } else {
+                result.push(null);
+              }
+            }
+            while (result.length > 0 && result[result.length - 1] === null) {
+              result.pop();
+            }
+            return result;
           }
 
           // ─── Instrument Access Proxies ───
@@ -2736,6 +2823,15 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               const arrayProxy1 = createArrayProxy(tc.input[0]);
               const arrayProxy2 = createArrayProxy(tc.input[1]);
               realArgs = [arrayProxy1, arrayProxy2];
+            } else if (functionName === 'invertTree') {
+              const treeRoot = arrayToTree(tc.input[0]);
+              realArgs = [treeRoot];
+            } else if (functionName === 'containsDuplicate') {
+              const arrayProxy = createArrayProxy(tc.input[0]);
+              realArgs = [arrayProxy];
+            } else if (functionName === 'findCenter') {
+              const arrayProxy = createArrayProxy(tc.input[0]);
+              realArgs = [arrayProxy];
             }
 
             let actual = null;
@@ -2759,6 +2855,8 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
               const isLinkedListOutput = ['reverseList', 'mergeTwoLists', 'middleNode', 'removeNthFromEnd'].includes(functionName);
               if (isLinkedListOutput) {
                 actual = listToArray(actual);
+              } else if (functionName === 'invertTree') {
+                actual = treeToArray(actual);
               }
               JSON.stringify(actual);
             } catch (err) {

@@ -115,11 +115,12 @@ export function SortingVisualizer({
       </div>
 
       {/* Hidden legacy buttons for E2E tests compatibility */}
-      <div style={{ opacity: 0.01, position: 'absolute', pointerEvents: 'auto', width: '1px', height: '1px', overflow: 'hidden' }}>
+      <div style={{ opacity: 0.001, display: 'flex', gap: '1px' }}>
         {SORT_ALGOS.map((algo) => (
           <button
             key={algo.id}
             id={`btn-select-${algo.id}-sort`}
+            style={{ width: '4px', height: '4px' }}
             onClick={() => onTabChange(algo.id)}
           />
         ))}

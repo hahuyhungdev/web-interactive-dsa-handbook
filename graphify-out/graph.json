@@ -716,6 +716,36 @@
       "norm_label": "pageerrors"
     },
     {
+      "label": "e2e-all-challenges.spec.ts",
+      "file_type": "code",
+      "source_file": "e2e/e2e-all-challenges.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "e2e_e2e_all_challenges_spec",
+      "community": 100,
+      "norm_label": "e2e-all-challenges.spec.ts"
+    },
+    {
+      "label": "testCases",
+      "file_type": "code",
+      "source_file": "e2e/e2e-all-challenges.spec.ts",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "e2e_e2e_all_challenges_spec_testcases",
+      "community": 100,
+      "norm_label": "testcases"
+    },
+    {
+      "label": "e2e-chapter5.spec.ts",
+      "file_type": "code",
+      "source_file": "e2e/e2e-chapter5.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "e2e_e2e_chapter5_spec",
+      "community": 102,
+      "norm_label": "e2e-chapter5.spec.ts"
+    },
+    {
       "label": "practice-visualizer.spec.ts",
       "file_type": "code",
       "source_file": "e2e/practice-visualizer.spec.ts",
@@ -1194,6 +1224,46 @@
       "id": "postcss_config",
       "community": 87,
       "norm_label": "postcss.config.js"
+    },
+    {
+      "label": "audit-all-challenges.js",
+      "file_type": "code",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scratch_audit_all_challenges",
+      "community": 99,
+      "norm_label": "audit-all-challenges.js"
+    },
+    {
+      "label": "challenges",
+      "file_type": "code",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "scratch_audit_all_challenges_challenges",
+      "community": 99,
+      "norm_label": "challenges"
+    },
+    {
+      "label": "KEYWORDS",
+      "file_type": "code",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "scratch_audit_all_challenges_keywords",
+      "community": 99,
+      "norm_label": "keywords"
+    },
+    {
+      "label": "runAudit()",
+      "file_type": "code",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "scratch_audit_all_challenges_runaudit",
+      "community": 99,
+      "norm_label": "runaudit()"
     },
     {
       "label": "group_anagrams.py",
@@ -2199,7 +2269,7 @@
       "label": "CODE_SNIPPETS",
       "file_type": "code",
       "source_file": "src/features/linked-list/components/LinkedListWorkspace.tsx",
-      "source_location": "L15",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "components_linkedlistworkspace_code_snippets",
       "community": 36,
@@ -2209,7 +2279,7 @@
       "label": "LinkedListWorkspace()",
       "file_type": "code",
       "source_file": "src/features/linked-list/components/LinkedListWorkspace.tsx",
-      "source_location": "L80",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "components_linkedlistworkspace_linkedlistworkspace",
       "community": 36,
@@ -2232,7 +2302,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "linked_list_index_linkedlistsection",
-      "community": 99,
+      "community": 36,
       "norm_label": "linkedlistsection()"
     },
     {
@@ -2299,7 +2369,7 @@
       "label": "TestCase",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L227",
+      "source_location": "L377",
       "_origin": "ast",
       "id": "components_practicesection_testcase",
       "community": 5,
@@ -2309,7 +2379,7 @@
       "label": "TestResult",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L232",
+      "source_location": "L382",
       "_origin": "ast",
       "id": "components_practicesection_testresult",
       "community": 5,
@@ -2319,7 +2389,7 @@
       "label": "STEP_META",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L241",
+      "source_location": "L391",
       "_origin": "ast",
       "id": "components_practicesection_step_meta",
       "community": 5,
@@ -2329,7 +2399,7 @@
       "label": "DEFAULT_STEP_META",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L287",
+      "source_location": "L437",
       "_origin": "ast",
       "id": "components_practicesection_default_step_meta",
       "community": 5,
@@ -2339,7 +2409,7 @@
       "label": "SANDBOX_LEGENDS",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L293",
+      "source_location": "L443",
       "_origin": "ast",
       "id": "components_practicesection_sandbox_legends",
       "community": 5,
@@ -2349,7 +2419,7 @@
       "label": "getStepMeta()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L357",
+      "source_location": "L507",
       "_origin": "ast",
       "id": "components_practicesection_getstepmeta",
       "community": 5,
@@ -2359,7 +2429,7 @@
       "label": "buildDisplaySteps()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L361",
+      "source_location": "L511",
       "_origin": "ast",
       "id": "components_practicesection_builddisplaysteps",
       "community": 5,
@@ -2369,7 +2439,7 @@
       "label": "TEST_CASES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L375",
+      "source_location": "L525",
       "_origin": "ast",
       "id": "components_practicesection_test_cases",
       "community": 5,
@@ -2379,7 +2449,7 @@
       "label": "isEqual()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L451",
+      "source_location": "L656",
       "_origin": "ast",
       "id": "components_practicesection_isequal",
       "community": 5,
@@ -2389,7 +2459,7 @@
       "label": "safeStringify()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L499",
+      "source_location": "L711",
       "_origin": "ast",
       "id": "components_practicesection_safestringify",
       "community": 5,
@@ -2399,7 +2469,7 @@
       "label": "ArrayVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L509",
+      "source_location": "L721",
       "_origin": "ast",
       "id": "components_practicesection_arrayvisualizer",
       "community": 5,
@@ -2409,7 +2479,7 @@
       "label": "LinkedListVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L546",
+      "source_location": "L758",
       "_origin": "ast",
       "id": "components_practicesection_linkedlistvisualizer",
       "community": 5,
@@ -2419,7 +2489,7 @@
       "label": "BinarySearchVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L687",
+      "source_location": "L899",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizerprops",
       "community": 5,
@@ -2429,7 +2499,7 @@
       "label": "BinarySearchVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L696",
+      "source_location": "L908",
       "_origin": "ast",
       "id": "components_practicesection_binarysearchvisualizer",
       "community": 5,
@@ -2439,7 +2509,7 @@
       "label": "StackParenthesesVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L757",
+      "source_location": "L969",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizerprops",
       "community": 5,
@@ -2449,17 +2519,57 @@
       "label": "StackParenthesesVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L763",
+      "source_location": "L975",
       "_origin": "ast",
       "id": "components_practicesection_stackparenthesesvisualizer",
       "community": 5,
       "norm_label": "stackparenthesesvisualizer()"
     },
     {
+      "label": "DualStackVisualizerProps",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1038",
+      "_origin": "ast",
+      "id": "components_practicesection_dualstackvisualizerprops",
+      "community": 5,
+      "norm_label": "dualstackvisualizerprops"
+    },
+    {
+      "label": "DualStackVisualizer()",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1045",
+      "_origin": "ast",
+      "id": "components_practicesection_dualstackvisualizer",
+      "community": 5,
+      "norm_label": "dualstackvisualizer()"
+    },
+    {
+      "label": "SingleStackVisualizerProps",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1114",
+      "_origin": "ast",
+      "id": "components_practicesection_singlestackvisualizerprops",
+      "community": 5,
+      "norm_label": "singlestackvisualizerprops"
+    },
+    {
+      "label": "SingleStackVisualizer()",
+      "file_type": "code",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1122",
+      "_origin": "ast",
+      "id": "components_practicesection_singlestackvisualizer",
+      "community": 5,
+      "norm_label": "singlestackvisualizer()"
+    },
+    {
       "label": "CodeVisualizerProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L828",
+      "source_location": "L1189",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizerprops",
       "community": 5,
@@ -2469,7 +2579,7 @@
       "label": "CodeVisualizer()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L834",
+      "source_location": "L1195",
       "_origin": "ast",
       "id": "components_practicesection_codevisualizer",
       "community": 5,
@@ -2479,7 +2589,7 @@
       "label": "PracticeSectionProps",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1629",
+      "source_location": "L2157",
       "_origin": "ast",
       "id": "components_practicesection_practicesectionprops",
       "community": 5,
@@ -2489,7 +2599,7 @@
       "label": "TabId",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1633",
+      "source_location": "L2161",
       "_origin": "ast",
       "id": "components_practicesection_tabid",
       "community": 5,
@@ -2499,7 +2609,7 @@
       "label": "LESSON_TO_TAB",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1651",
+      "source_location": "L2183",
       "_origin": "ast",
       "id": "components_practicesection_lesson_to_tab",
       "community": 5,
@@ -2509,7 +2619,7 @@
       "label": "ALL_CHALLENGES",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1670",
+      "source_location": "L2206",
       "_origin": "ast",
       "id": "components_practicesection_all_challenges",
       "community": 5,
@@ -2519,7 +2629,7 @@
       "label": "CHALLENGE_CHAPTERS",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1693",
+      "source_location": "L2233",
       "_origin": "ast",
       "id": "components_practicesection_challenge_chapters",
       "community": 5,
@@ -2529,7 +2639,7 @@
       "label": "PracticeSection()",
       "file_type": "code",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
-      "source_location": "L1712",
+      "source_location": "L2256",
       "_origin": "ast",
       "id": "components_practicesection_practicesection",
       "community": 5,
@@ -2579,7 +2689,7 @@
       "label": "randomSortedArray()",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L13",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "components_searchvisualizer_randomsortedarray",
       "community": 15,
@@ -2589,7 +2699,7 @@
       "label": "parseCustom()",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "components_searchvisualizer_parsecustom",
       "community": 15,
@@ -2599,7 +2709,7 @@
       "label": "SearchArrayEditorProps",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L52",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "components_searchvisualizer_searcharrayeditorprops",
       "community": 15,
@@ -2609,7 +2719,7 @@
       "label": "SearchArrayEditor()",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L57",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "components_searchvisualizer_searcharrayeditor",
       "community": 15,
@@ -2619,7 +2729,7 @@
       "label": "SearchFrame",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L208",
+      "source_location": "L210",
       "_origin": "ast",
       "id": "components_searchvisualizer_searchframe",
       "community": 15,
@@ -2629,7 +2739,7 @@
       "label": "VisualFrame",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L214",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "components_searchvisualizer_visualframe",
       "community": 15,
@@ -2639,7 +2749,7 @@
       "label": "SearchVisualizer()",
       "file_type": "code",
       "source_file": "src/features/search/components/SearchVisualizer.tsx",
-      "source_location": "L220",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "components_searchvisualizer_searchvisualizer",
       "community": 15,
@@ -2789,7 +2899,7 @@
       "label": "SortingWorkspaceProps",
       "file_type": "code",
       "source_file": "src/features/sorting/components/SortingWorkspace.tsx",
-      "source_location": "L12",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "components_sortingworkspace_sortingworkspaceprops",
       "community": 1,
@@ -2799,10 +2909,10 @@
       "label": "SortingWorkspace()",
       "file_type": "code",
       "source_file": "src/features/sorting/components/SortingWorkspace.tsx",
-      "source_location": "L17",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "components_sortingworkspace_sortingworkspace",
-      "community": 36,
+      "community": 95,
       "norm_label": "sortingworkspace()"
     },
     {
@@ -3129,7 +3239,7 @@
       "label": "Mode",
       "file_type": "code",
       "source_file": "src/features/stack-queue/components/StackQueueWorkspace.tsx",
-      "source_location": "L14",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_mode",
       "community": 31,
@@ -3139,7 +3249,7 @@
       "label": "StackQueueWorkspace()",
       "file_type": "code",
       "source_file": "src/features/stack-queue/components/StackQueueWorkspace.tsx",
-      "source_location": "L16",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "components_stackqueueworkspace_stackqueueworkspace",
       "community": 31,
@@ -3242,7 +3352,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_codeviewer",
-      "community": 95,
+      "community": 98,
       "norm_label": "codeviewer.tsx"
     },
     {
@@ -3252,7 +3362,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "components_codeviewer_linked_list_code",
-      "community": 95,
+      "community": 98,
       "norm_label": "linked_list_code"
     },
     {
@@ -3262,7 +3372,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "components_codeviewer_linear_search_code",
-      "community": 95,
+      "community": 98,
       "norm_label": "linear_search_code"
     },
     {
@@ -3272,7 +3382,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "components_codeviewer_binary_search_code",
-      "community": 95,
+      "community": 98,
       "norm_label": "binary_search_code"
     },
     {
@@ -3282,7 +3392,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "components_codeviewer_codeviewerprops",
-      "community": 95,
+      "community": 98,
       "norm_label": "codeviewerprops"
     },
     {
@@ -3292,7 +3402,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "components_codeviewer_codeviewer",
-      "community": 95,
+      "community": 98,
       "norm_label": "codeviewer()"
     },
     {
@@ -3309,17 +3419,37 @@
       "label": "THEORY_CONTENT",
       "file_type": "code",
       "source_file": "src/features/theory/components/TheoryContent.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "_origin": "ast",
       "id": "components_theorycontent_theory_content",
       "community": 35,
       "norm_label": "theory_content"
     },
     {
+      "label": "QuizQuestion",
+      "file_type": "code",
+      "source_file": "src/features/theory/components/TheoryContent.tsx",
+      "source_location": "L349",
+      "_origin": "ast",
+      "id": "components_theorycontent_quizquestion",
+      "community": 35,
+      "norm_label": "quizquestion"
+    },
+    {
+      "label": "QUIZ_DATA",
+      "file_type": "code",
+      "source_file": "src/features/theory/components/TheoryContent.tsx",
+      "source_location": "L356",
+      "_origin": "ast",
+      "id": "components_theorycontent_quiz_data",
+      "community": 35,
+      "norm_label": "quiz_data"
+    },
+    {
       "label": "TheoryContentProps",
       "file_type": "code",
       "source_file": "src/features/theory/components/TheoryContent.tsx",
-      "source_location": "L348",
+      "source_location": "L494",
       "_origin": "ast",
       "id": "components_theorycontent_theorycontentprops",
       "community": 35,
@@ -3329,7 +3459,7 @@
       "label": "TheoryContent()",
       "file_type": "code",
       "source_file": "src/features/theory/components/TheoryContent.tsx",
-      "source_location": "L352",
+      "source_location": "L498",
       "_origin": "ast",
       "id": "components_theorycontent_theorycontent",
       "community": 35,
@@ -3982,7 +4112,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_pages_linked_list_index_tsx_linked_list_index",
-      "community": 99,
+      "community": 36,
       "norm_label": "index.tsx"
     },
     {
@@ -3992,7 +4122,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "linked_list_index_linkedlistpage",
-      "community": 99,
+      "community": 36,
       "norm_label": "linkedlistpage()"
     },
     {
@@ -4252,7 +4382,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "constants_chapters",
-      "community": 1,
+      "community": 0,
       "norm_label": "chapters.ts"
     },
     {
@@ -4299,7 +4429,7 @@
       "label": "ROUTE_LESSON_MAP",
       "file_type": "code",
       "source_file": "src/shared/constants/routes.ts",
-      "source_location": "L71",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "constants_routes_route_lesson_map",
       "community": 0,
@@ -4342,7 +4472,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard",
-      "community": 98,
+      "community": 95,
       "norm_label": "useplaybackkeyboard.ts"
     },
     {
@@ -4352,7 +4482,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_playbackhandle",
-      "community": 98,
+      "community": 95,
       "norm_label": "playbackhandle"
     },
     {
@@ -4362,7 +4492,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_options",
-      "community": 98,
+      "community": 95,
       "norm_label": "options"
     },
     {
@@ -4372,7 +4502,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_clamp",
-      "community": 98,
+      "community": 95,
       "norm_label": "clamp()"
     },
     {
@@ -4382,7 +4512,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "hooks_useplaybackkeyboard_useplaybackkeyboard",
-      "community": 36,
+      "community": 95,
       "norm_label": "useplaybackkeyboard()"
     },
     {
@@ -9216,6 +9346,26 @@
       "norm_label": "4. visual sandbox renderers"
     },
     {
+      "label": "challenges-audit-report.md",
+      "file_type": "document",
+      "source_file": "scratch/challenges-audit-report.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scratch_challenges_audit_report",
+      "community": 101,
+      "norm_label": "challenges-audit-report.md"
+    },
+    {
+      "label": "Practice Challenges Audit Report",
+      "file_type": "document",
+      "source_file": "scratch/challenges-audit-report.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scratch_challenges_audit_report_practice_challenges_audit_report",
+      "community": 101,
+      "norm_label": "practice challenges audit report"
+    },
+    {
       "label": "React Logo SVG",
       "file_type": "image",
       "source_file": "src/assets/react.svg",
@@ -10744,6 +10894,16 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "e2e/e2e-all-challenges.spec.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "e2e_e2e_all_challenges_spec",
+      "target": "e2e_e2e_all_challenges_spec_testcases",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "e2e/practice-visualizer.spec.ts",
       "source_location": "L3",
       "weight": 1.0,
@@ -11160,6 +11320,36 @@
       "confidence_score": 1.0,
       "source": "package_devdependencies",
       "target": "package_devdependencies_vitejs_plugin_react"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "scratch_audit_all_challenges",
+      "target": "scratch_audit_all_challenges_challenges",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "scratch_audit_all_challenges",
+      "target": "scratch_audit_all_challenges_keywords",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scratch/audit-all-challenges.js",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "scratch_audit_all_challenges",
+      "target": "scratch_audit_all_challenges_runaudit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -13509,6 +13699,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1045",
+      "weight": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_dualstackvisualizer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1038",
+      "weight": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_dualstackvisualizerprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
       "source_location": "L170",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -13584,6 +13794,26 @@
       "confidence_score": 1.0,
       "source": "components_practicesection",
       "target": "components_practicesection_sandbox_legends"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1122",
+      "weight": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_singlestackvisualizer",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/practice/components/PracticeSection.tsx",
+      "source_location": "L1114",
+      "weight": 1.0,
+      "source": "components_practicesection",
+      "target": "components_practicesection_singlestackvisualizerprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -15376,6 +15606,26 @@
       "confidence_score": 1.0,
       "source": "theory_index",
       "target": "components_codeviewer_codeviewer"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/theory/components/TheoryContent.tsx",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "components_theorycontent",
+      "target": "components_theorycontent_quiz_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/features/theory/components/TheoryContent.tsx",
+      "source_location": "L349",
+      "weight": 1.0,
+      "source": "components_theorycontent",
+      "target": "components_theorycontent_quizquestion",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -21465,6 +21715,16 @@
       "target": "docs_challenge_techniques_b_double_scroll_highlight_sync"
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scratch/challenges-audit-report.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "scratch_challenges_audit_report",
+      "target": "scratch_challenges_audit_report_practice_challenges_audit_report",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -21626,5 +21886,5 @@
       "source_file": "TEST_INFRA.md"
     }
   ],
-  "built_at_commit": "37429c867a80ae3f341c4a26bbf1b4d9e70584e5"
+  "built_at_commit": "8de8f229fb9d46861ccebf84e21b3fe67f195ff4"
 }

@@ -194,6 +194,11 @@ export const CHAPTERS: Chapter[] = [
         type: "visualizer",
         duration: "25 min",
       },
+      {
+        title: "Challenge: Invert Binary Tree",
+        type: "practice",
+        duration: "20 min",
+      },
     ],
   },
   {
@@ -213,6 +218,11 @@ export const CHAPTERS: Chapter[] = [
         type: "visualizer",
         duration: "25 min",
       },
+      {
+        title: "Challenge: Contains Duplicate",
+        type: "practice",
+        duration: "15 min",
+      },
     ],
   },
   {
@@ -231,6 +241,11 @@ export const CHAPTERS: Chapter[] = [
         title: "Graph Traversal Visualizer",
         type: "visualizer",
         duration: "25 min",
+      },
+      {
+        title: "Challenge: Find Center of Star Graph",
+        type: "practice",
+        duration: "18 min",
       },
     ],
   },

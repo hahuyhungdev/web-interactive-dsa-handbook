@@ -23,7 +23,7 @@ test.describe('DSA Visualizers Comprehensive Audit', () => {
 
   test('Audit BST Visualizer (/tree)', async ({ page }) => {
     const { logs, errors } = setupConsoleLogging(page, 'Tree');
-    await page.goto('/tree');
+    await page.goto('/chapters/tree');
     await page.waitForLoadState('networkidle');
 
     // Screenshot of Initial Desktop View
@@ -57,7 +57,7 @@ test.describe('DSA Visualizers Comprehensive Audit', () => {
 
   test('Audit Hash Table Visualizer (/hash-table)', async ({ page }) => {
     const { logs, errors } = setupConsoleLogging(page, 'HashTable');
-    await page.goto('/hash-table');
+    await page.goto('/chapters/hash-table');
     await page.waitForLoadState('networkidle');
 
     // Screenshot of Initial Desktop View
@@ -90,7 +90,7 @@ test.describe('DSA Visualizers Comprehensive Audit', () => {
 
   test('Audit Graph Traversal Visualizer (/graph)', async ({ page }) => {
     const { logs, errors } = setupConsoleLogging(page, 'Graph');
-    await page.goto('/graph');
+    await page.goto('/chapters/graph');
     await page.waitForLoadState('networkidle');
 
     // Screenshot of Initial Desktop View
@@ -115,7 +115,7 @@ test.describe('DSA Visualizers Comprehensive Audit', () => {
 
   test('Audit Linear & Binary Search Visualizer (/search)', async ({ page }) => {
     const { logs, errors } = setupConsoleLogging(page, 'Search');
-    await page.goto('/search');
+    await page.goto('/chapters/arrays');
     await page.waitForLoadState('networkidle');
 
     // Screenshot of Initial Desktop View
@@ -132,20 +132,25 @@ test.describe('DSA Visualizers Comprehensive Audit', () => {
 
   // Responsive audits (visual tests at different viewports)
   test('Responsive Audit at Tablet & Mobile Viewports', async ({ page }) => {
-    const pagesList = ['/tree', '/hash-table', '/graph', '/search'];
+    const pagesList = [
+      { name: 'tree', path: '/chapters/tree' },
+      { name: 'hash-table', path: '/chapters/hash-table' },
+      { name: 'graph', path: '/chapters/graph' },
+      { name: 'search', path: '/chapters/arrays' }
+    ];
 
-    for (const p of pagesList) {
+    for (const { name, path } of pagesList) {
       // Tablet Viewport
       await page.setViewportSize({ width: 768, height: 1024 });
-      await page.goto(p);
+      await page.goto(path);
       await page.waitForLoadState('networkidle');
-      await page.screenshot({ path: `scratch/${p.replace('/', '')}-tablet.png`, fullPage: true });
+      await page.screenshot({ path: `scratch/${name}-tablet.png`, fullPage: true });
 
       // Mobile Viewport
       await page.setViewportSize({ width: 375, height: 667 });
-      await page.goto(p);
+      await page.goto(path);
       await page.waitForLoadState('networkidle');
-      await page.screenshot({ path: `scratch/${p.replace('/', '')}-mobile.png`, fullPage: true });
+      await page.screenshot({ path: `scratch/${name}-mobile.png`, fullPage: true });
     }
   });
 

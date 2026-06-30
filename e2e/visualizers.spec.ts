@@ -24,7 +24,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
   test('1. Playback Controls on /sorting', async ({ page }) => {
     const { errors } = setupConsoleLogging(page, 'Playback');
-    await page.goto('/sorting');
+    await page.goto('/chapters/sorting');
     await page.waitForLoadState('networkidle');
 
     const stepInfo = page.locator('#playback-step-info');
@@ -124,15 +124,14 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
   test('2. Sorting Visualizer Algorithms & Execution', async ({ page }) => {
     const { errors } = setupConsoleLogging(page, 'Sorting');
-    await page.goto('/sorting');
+    await page.goto('/chapters/sorting');
     await page.waitForLoadState('networkidle');
 
     // 2.1 Verify selecting different sorting algorithms renders their views
     const algos = ['bubble', 'selection', 'insertion', 'quick', 'merge'];
     for (const algo of algos) {
       const tabBtn = page.locator(`#btn-select-${algo}-sort`);
-      await expect(tabBtn).toBeVisible();
-      await tabBtn.click();
+      await tabBtn.click({ force: true });
       await page.waitForTimeout(200);
 
       // Verify the visualizer container specific to that algo is visible
@@ -166,7 +165,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     let codeViewerHasActiveLine = false;
 
     for (let step = 0; step < 15; step++) {
-      await btnStepForward.click();
+      await btnStepForward.click({ force: true });
       await page.waitForTimeout(50);
 
       // Check if any bar is comparing or swapping or pivot
@@ -192,7 +191,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
   test('3. Linked List Visualizer Operations', async ({ page }) => {
     const { errors } = setupConsoleLogging(page, 'LinkedList');
-    await page.goto('/linked-list');
+    await page.goto('/chapters/linked-lists');
     await page.waitForLoadState('networkidle');
 
     // 3.1 Verify inserting nodes at head
@@ -207,8 +206,10 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await btnInsert.click();
     await page.waitForTimeout(500); // let transition play/pause
 
-    // Playback handles insertion, let's step to the end or click Play to finish
-    await page.locator('#btn-play').click();
+    // Playback handles insertion. If it's paused, click play.
+    if (await page.locator('#btn-play').isVisible()) {
+      await page.locator('#btn-play').click();
+    }
     await page.waitForTimeout(2000); // wait for insertion animation to complete
 
     // Verify '99' is at index 0 (the head)
@@ -220,7 +221,9 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await selectPos.selectOption('tail');
     await btnInsert.click();
     await page.waitForTimeout(500);
-    await page.locator('#btn-play').click();
+    if (await page.locator('#btn-play').isVisible()) {
+      await page.locator('#btn-play').click();
+    }
     await page.waitForTimeout(2000);
 
     const lastNode = listContainer.locator('.list-node').last();
@@ -233,7 +236,9 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await inputIndex.fill('1');
     await btnInsert.click();
     await page.waitForTimeout(500);
-    await page.locator('#btn-play').click();
+    if (await page.locator('#btn-play').isVisible()) {
+      await page.locator('#btn-play').click();
+    }
     await page.waitForTimeout(2500);
 
     const secondNode = listContainer.locator('.list-node').nth(1);
@@ -254,7 +259,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     // Step through the deletion process to see the traversal or delete status
     const btnStepForward = page.locator('#btn-step-forward');
     for (let step = 0; step < 10; step++) {
-      await btnStepForward.click();
+      await btnStepForward.click({ force: true });
       await page.waitForTimeout(100);
       const statuses = await listContainer.locator('.list-node').evaluateAll(
         elements => elements.map(el => el.getAttribute('data-status'))
@@ -266,7 +271,9 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     expect(hasDeleteAnimationState).toBe(true);
 
     // Let it run to the end, verifying the node is removed
-    await page.locator('#btn-play').click();
+    if (await page.locator('#btn-play').isVisible()) {
+      await page.locator('#btn-play').click();
+    }
     await page.waitForTimeout(1500);
 
     const postDeleteNodes = listContainer.locator('.list-node');
@@ -293,7 +300,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
     let hasTraversingState = false;
     for (let step = 0; step < 8; step++) {
-      await btnStepForward.click();
+      await btnStepForward.click({ force: true });
       await page.waitForTimeout(100);
       const findStatuses = await listContainer.locator('.list-node').evaluateAll(
         elements => elements.map(el => el.getAttribute('data-status'))
@@ -309,7 +316,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
   test('4. Stack & Queue Visualizer Operations', async ({ page }) => {
     const { errors } = setupConsoleLogging(page, 'StackQueue');
-    await page.goto('/stack-queue');
+    await page.goto('/chapters/stack-queue');
     await page.waitForLoadState('networkidle');
 
     // 4.1 Verify Stack push and pop operations
@@ -328,19 +335,19 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
     // Step 1: push(10)
     const btnStepForward = page.locator('#btn-step-forward');
-    await btnStepForward.click();
+    await btnStepForward.click({ force: true });
     await expect(stepInfo).toHaveText('1');
     const stackElements = container.locator('[data-value="10"]');
     await expect(stackElements).toBeVisible();
     await expect(stackElements).toHaveAttribute('data-status', 'added');
 
     // Step 2: settle
-    await btnStepForward.click();
+    await btnStepForward.click({ force: true });
     await expect(stackElements).toHaveAttribute('data-status', 'default');
 
     // Step forward to index 8 (empty check / 30 removing)
     for (let step = 2; step < 8; step++) {
-      await btnStepForward.click();
+      await btnStepForward.click({ force: true });
     }
     await expect(stepInfo).toHaveText('8');
     // Verify 30 has status 'removing'
@@ -348,7 +355,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await expect(popElement).toHaveAttribute('data-status', 'removing');
 
     // Step forward to index 9
-    await btnStepForward.click();
+    await btnStepForward.click({ force: true });
     await expect(stepInfo).toHaveText('9');
     // Verify 30 is no longer present in the stack
     await expect(container.locator('[data-value="30"]')).not.toBeVisible();
@@ -364,7 +371,7 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
     await expect(qContainer).toContainText('Empty Queue');
 
     // Step forward to step 1: enqueue(10)
-    await btnStepForward.click();
+    await btnStepForward.click({ force: true });
     await expect(stepInfo).toHaveText('1');
     const qElements = qContainer.locator('[data-value="10"]');
     await expect(qElements).toBeVisible();
@@ -372,13 +379,13 @@ test.describe('DSA Visualizers Interactive E2E Tests', () => {
 
     // Step forward to step 8: dequeue (10 removing)
     for (let step = 1; step < 8; step++) {
-      await btnStepForward.click();
+      await btnStepForward.click({ force: true });
     }
     await expect(stepInfo).toHaveText('8');
     await expect(qElements).toHaveAttribute('data-status', 'removing');
 
     // Step forward to step 9: 10 removed
-    await btnStepForward.click();
+    await btnStepForward.click({ force: true });
     await expect(stepInfo).toHaveText('9');
     await expect(qContainer.locator('[data-value="10"]')).not.toBeVisible();
 

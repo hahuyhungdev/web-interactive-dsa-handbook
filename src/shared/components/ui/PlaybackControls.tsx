@@ -147,7 +147,7 @@ export function PlaybackControls({
             />
           </div>
 
-          <div className="flex items-center gap-1.5 bg-charcoal/5 px-3 py-1.5 rounded-xl border border-charcoal/10 font-mono text-xs sm:text-sm text-charcoal/80">
+          <div id="playback-step-container" className="flex items-center gap-1.5 bg-charcoal/5 px-3 py-1.5 rounded-xl border border-charcoal/10 font-mono text-xs sm:text-sm text-charcoal/80">
             <Info className="w-3.5 h-3.5 text-charcoal/50" />
             <span>Step:</span>
             <span id="playback-step-info" className="font-extrabold text-charcoal">
