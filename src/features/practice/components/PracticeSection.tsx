@@ -766,21 +766,21 @@ function StackParenthesesVisualizer({
   stackState,
 }: StackParenthesesVisualizerProps) {
   return (
-    <div className="flex flex-col items-center gap-6 w-full py-2">
+    <div className="flex flex-col items-center gap-4 w-full py-1">
       {/* Input String Traversal */}
-      <div className="flex flex-col items-center gap-2 w-full">
-        <span className="text-[11px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
+      <div className="flex flex-col items-center gap-1.5 w-full">
+        <span className="text-[10px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
           Input String
         </span>
-        <div className="flex gap-1.5 bg-paper-dark border border-charcoal/5 p-2.5 rounded-xl shadow-inner overflow-x-auto max-w-full">
+        <div className="flex gap-1 bg-paper-dark border border-charcoal/5 p-1.5 rounded-lg shadow-inner overflow-x-auto max-w-full">
           {inputString.split("").map((char, idx) => {
             const isActive = idx === charIndex;
             return (
               <div
                 key={idx}
-                className={`w-10 h-10 rounded-lg flex items-center justify-center font-mono text-[17px] font-black transition-all ${
+                className={`w-8 h-8 rounded-md flex items-center justify-center font-mono text-[14px] font-black transition-all ${
                   isActive
-                    ? "bg-coral text-paper scale-110 shadow-sm font-black"
+                    ? "bg-coral text-paper scale-105 shadow-sm font-black"
                     : "bg-paper text-charcoal/60 font-black border border-charcoal/5"
                 }`}
               >
@@ -792,25 +792,25 @@ function StackParenthesesVisualizer({
       </div>
 
       {/* Physical Stack Representation */}
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-[11px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
+      <div className="flex flex-col items-center gap-1.5">
+        <span className="text-[10px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
           Stack
         </span>
-        <div className="relative w-32 h-52 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1.5 p-3.5 bg-paper-dark/30 shadow-inner">
+        <div className="relative w-28 h-36 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1 p-2 bg-paper-dark/30 shadow-inner">
           <AnimatePresence>
             {stackState.length === 0 ? (
-              <div className="absolute inset-0 flex items-center justify-center text-center p-4">
-                <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty Stack</span>
+              <div className="absolute inset-0 flex items-center justify-center text-center p-2">
+                <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty Stack</span>
               </div>
             ) : (
               stackState.map((char, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                  initial={{ opacity: 0, y: -15, scale: 0.8 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.8 }}
                   transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                  className="w-24 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 border border-emerald-700 text-paper font-black rounded-lg flex items-center justify-center font-mono text-lg shadow-[0_2px_8px_rgba(16,185,129,0.2)]"
+                  className="w-20 py-2 bg-gradient-to-r from-emerald-600 to-emerald-500 border border-emerald-700 text-paper font-black rounded-lg flex items-center justify-center font-mono text-base shadow-[0_2px_6px_rgba(16,185,129,0.2)]"
                 >
                   {char}
                 </motion.div>
