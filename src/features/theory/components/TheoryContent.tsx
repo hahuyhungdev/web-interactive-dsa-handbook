@@ -1,4 +1,5 @@
-import { BookOpen, Sparkles, AlertCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { BookOpen, Sparkles, AlertCircle, CheckCircle, XCircle, HelpCircle } from 'lucide-react';
 
 const THEORY_CONTENT: Record<string, {
   title: string;
@@ -345,12 +346,173 @@ const THEORY_CONTENT: Record<string, {
   }
 };
 
+interface QuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string;
+}
+
+const QUIZ_DATA: Record<string, QuizQuestion[]> = {
+  'contiguous-memory': [
+    {
+      question: "Which formula is used to calculate the exact physical memory address of index i in a contiguous array?",
+      options: [
+        "Address(i) = BaseAddress + i",
+        "Address(i) = BaseAddress + (i × ElementSize)",
+        "Address(i) = BaseAddress × (i + ElementSize)",
+        "Address(i) = BaseAddress + (i / ElementSize)"
+      ],
+      correctAnswer: 1,
+      explanation: "Since array elements are stored back-to-back contiguously in memory, we compute the offset by multiplying the index by the uniform size of each element, then adding it to the starting base address: Address(i) = BaseAddress + (i × ElementSize)."
+    },
+    {
+      question: "What is the amortized time complexity of inserting an element at the end of a Dynamic Array?",
+      options: [
+        "O(N)",
+        "O(log N)",
+        "O(1)",
+        "O(N²)"
+      ],
+      correctAnswer: 2,
+      explanation: "Appends to a dynamic array run in O(1) time. Although resizing the array to double its capacity is an O(N) operation, this capacity doubling happens very rarely (exponentially decreasing frequency), distributing the cost so the average/amortized cost is constant O(1)."
+    }
+  ],
+  'sorting-taxonomy': [
+    {
+      question: "What does it mean for a sorting algorithm to be 'Stable'?",
+      options: [
+        "It uses O(1) auxiliary memory.",
+        "It preserves the relative order of elements with equal keys/values.",
+        "It always runs in O(N log N) time regardless of input ordering.",
+        "It does not perform any element swaps during execution."
+      ],
+      correctAnswer: 1,
+      explanation: "Stability in sorting means that if two elements have equal keys/values, their relative sequence/order is preserved in the sorted output just as they appeared in the unsorted input."
+    },
+    {
+      question: "Which of the following sorting algorithms is NOT comparison-based?",
+      options: [
+        "Quick Sort",
+        "Merge Sort",
+        "Radix Sort",
+        "Selection Sort"
+      ],
+      correctAnswer: 2,
+      explanation: "Radix Sort is a non-comparison sort that sorts keys by processing individual digits. It bypasses the comparison-based O(N log N) theoretical limit, achieving O(N) complexity under specific numeric constraints."
+    }
+  ],
+  'pointers-references': [
+    {
+      question: "What is the time complexity of accessing the k-th node in a Singly Linked List?",
+      options: [
+        "O(1)",
+        "O(k)",
+        "O(N)",
+        "O(log N)"
+      ],
+      correctAnswer: 2,
+      explanation: "Unlike arrays with contiguous memory addressing, linked list nodes are scattered across the heap. To reach node k, we must start at the Head node and traverse pointers sequentially, taking O(N) time in the worst case (or proportional to k)."
+    },
+    {
+      question: "Why does traversing an array sequentially generally perform faster than traversing a linked list of equal size in real hardware?",
+      options: [
+        "Linked lists have larger values which take more CPU cycles to process.",
+        "Arrays benefit from cache locality because contiguous memory is pre-loaded into CPU cache lines.",
+        "Array addresses are smaller in size than pointer addresses.",
+        "Linked lists require recursive traversal which adds call stack overhead."
+      ],
+      correctAnswer: 1,
+      explanation: "Arrays exhibit strong spatial locality because elements reside contiguously. When the CPU fetches an array element from RAM, it loads an entire 64-byte Cache Line containing adjacent elements. Linked list nodes are scattered, resulting in frequent cache misses."
+    }
+  ],
+  'stack-queue-intro': [
+    {
+      question: "Which operations are supported by a Stack, and what is its access order policy?",
+      options: [
+        "Enqueue & Dequeue, FIFO (First-In, First-Out)",
+        "Push & Pop, LIFO (Last-In, First-Out)",
+        "Insert & Remove, LIFO (Last-In, First-Out)",
+        "Add & Extract, FIFO (First-In, First-Out)"
+      ],
+      correctAnswer: 1,
+      explanation: "A Stack is a LIFO (Last-In, First-Out) structure where the most recently added element (Pushed) is the first to be retrieved (Popped)."
+    },
+    {
+      question: "Which data structure is typically used to manage nodes in a Breadth-First Search (BFS) graph traversal?",
+      options: [
+        "Stack",
+        "Queue",
+        "Binary Tree",
+        "Priority Queue"
+      ],
+      correctAnswer: 1,
+      explanation: "BFS explores nodes level-by-level, meaning neighbors are visited in the order they are discovered (FIFO). A Queue is used to track neighbors waiting to be expanded."
+    }
+  ],
+  'bst-intro': [
+    {
+      question: "In a Binary Search Tree (BST), what is the relationship between any node N and its subtrees?",
+      options: [
+        "All nodes in the left subtree are greater than N, and all nodes in the right subtree are less than N.",
+        "Both subtrees must have the exact same height.",
+        "All nodes in the left subtree are less than N, and all nodes in the right subtree are greater than N.",
+        "Every node can have any arbitrary number of child nodes."
+      ],
+      correctAnswer: 2,
+      explanation: "The defining BST property is that for any node N, all values in N's left subtree are strictly less than N's value, and all values in N's right subtree are strictly greater than N's value."
+    }
+  ],
+  'hash-table-intro': [
+    {
+      question: "What is Separate Chaining in Hash Tables?",
+      options: [
+        "A method of sizing the array to be a prime number.",
+        "A collision resolution technique where each bucket stores a linked list of colliding elements.",
+        "A technique to compute the modulo compression without Division.",
+        "A mechanism to encrypt keys for secure lookups."
+      ],
+      correctAnswer: 1,
+      explanation: "Separate Chaining is a collision resolution technique. When multiple keys hash to the same bucket index, we store them as a chain (typically a linked list) within that index bucket."
+    }
+  ],
+  'graph-intro': [
+    {
+      question: "What is the time complexity of Depth-First Search (DFS) on a graph represented as an Adjacency List with V vertices and E edges?",
+      options: [
+        "O(V)",
+        "O(E)",
+        "O(V + E)",
+        "O(V × E)"
+      ],
+      correctAnswer: 2,
+      explanation: "DFS visits every vertex exactly once and checks all of its outgoing edges once, resulting in O(V + E) complexity."
+    }
+  ]
+};
+
 interface TheoryContentProps {
   lessonId: string | undefined;
 }
 
 export function TheoryContent({ lessonId }: TheoryContentProps) {
   const lesson = lessonId ? THEORY_CONTENT[lessonId] : null;
+
+  // Quiz state
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const [score, setScore] = useState(0);
+
+  // Reset quiz on lesson change
+  useEffect(() => {
+    setCurrentIdx(0);
+    setSelectedOpt(null);
+    setIsSubmitted(false);
+    setIsFinished(false);
+    setScore(0);
+  }, [lessonId]);
 
   if (!lesson) {
     return (
@@ -361,6 +523,41 @@ export function TheoryContent({ lessonId }: TheoryContentProps) {
       </section>
     );
   }
+
+  const quizQuestions = lessonId ? QUIZ_DATA[lessonId] || [] : [];
+  const hasQuiz = quizQuestions.length > 0;
+  const currentQuestion = quizQuestions[currentIdx];
+
+  const handleOptionSelect = (optIndex: number) => {
+    if (isSubmitted) return;
+    setSelectedOpt(optIndex);
+  };
+
+  const handleSubmitAnswer = () => {
+    if (selectedOpt === null || isSubmitted) return;
+    setIsSubmitted(true);
+    if (selectedOpt === currentQuestion.correctAnswer) {
+      setScore((prev) => prev + 1);
+    }
+  };
+
+  const handleNextQuestion = () => {
+    setSelectedOpt(null);
+    setIsSubmitted(false);
+    if (currentIdx + 1 < quizQuestions.length) {
+      setCurrentIdx((prev) => prev + 1);
+    } else {
+      setIsFinished(true);
+    }
+  };
+
+  const handleRestartQuiz = () => {
+    setCurrentIdx(0);
+    setSelectedOpt(null);
+    setIsSubmitted(false);
+    setIsFinished(false);
+    setScore(0);
+  };
 
   return (
     <article className="py-10 px-4 md:px-6 max-w-3xl mx-auto">
@@ -379,6 +576,165 @@ export function TheoryContent({ lessonId }: TheoryContentProps) {
         </header>
 
         {lesson.content}
+
+        {/* Quiz Section */}
+        {hasQuiz && (
+          <div className="mt-12 pt-8 border-t border-charcoal/10">
+            <div className="border border-charcoal/10 bg-paper-dark/30 rounded-2xl p-6 md:p-8 shadow-inner">
+              <div className="flex items-center gap-2 mb-4">
+                <HelpCircle className="w-5 h-5 text-coral shrink-0" />
+                <h3 className="font-editorial text-xl font-bold text-charcoal">
+                  Knowledge Check
+                </h3>
+              </div>
+
+              {!isFinished ? (
+                <div className="space-y-6">
+                  {/* Progress bar */}
+                  <div className="flex items-center justify-between gap-4 shrink-0">
+                    <span className="font-sans text-xs font-black uppercase tracking-wider text-charcoal/45">
+                      Question {currentIdx + 1} of {quizQuestions.length}
+                    </span>
+                    <div className="flex gap-1">
+                      {quizQuestions.map((_, i) => (
+                        <span
+                          key={i}
+                          className={`w-4 h-1 rounded-full transition-all duration-300 ${
+                            i === currentIdx
+                              ? "bg-coral w-6"
+                              : i < currentIdx
+                                ? "bg-emerald-500"
+                                : "bg-charcoal/10"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="font-sans font-bold text-charcoal text-base md:text-lg leading-snug">
+                    {currentQuestion.question}
+                  </p>
+
+                  <div className="space-y-2.5">
+                    {currentQuestion.options.map((opt, optIdx) => {
+                      const isSelected = selectedOpt === optIdx;
+                      const isCorrect = optIdx === currentQuestion.correctAnswer;
+
+                      let btnStyle = "border-charcoal/15 bg-paper hover:bg-charcoal/[0.03] text-charcoal";
+                      let indicatorStyle = "border-charcoal/20";
+
+                      if (isSubmitted) {
+                        if (isCorrect) {
+                          btnStyle = "border-emerald-500 bg-emerald-50/50 text-emerald-800 font-extrabold";
+                          indicatorStyle = "border-emerald-500 bg-emerald-500 text-paper";
+                        } else if (isSelected) {
+                          btnStyle = "border-red-400 bg-red-50/50 text-red-800";
+                          indicatorStyle = "border-red-500 bg-red-500 text-paper";
+                        } else {
+                          btnStyle = "border-charcoal/5 bg-paper/30 text-charcoal/40 opacity-60";
+                        }
+                      } else if (isSelected) {
+                        btnStyle = "border-coral bg-coral/[0.02] text-charcoal shadow-sm ring-1 ring-coral/20";
+                        indicatorStyle = "border-coral bg-coral text-paper";
+                      }
+
+                      return (
+                        <button
+                          key={optIdx}
+                          type="button"
+                          onClick={() => handleOptionSelect(optIdx)}
+                          disabled={isSubmitted}
+                          className={`flex items-center gap-3.5 w-full text-left p-3.5 rounded-xl border font-sans text-sm font-semibold transition-all duration-150 ${btnStyle}`}
+                        >
+                          <span className={`w-5 h-5 rounded-full border flex items-center justify-center font-mono text-[10px] shrink-0 transition-colors ${indicatorStyle}`}>
+                            {isSubmitted && isCorrect ? (
+                              <CheckCircle className="w-3.5 h-3.5 text-paper" />
+                            ) : isSubmitted && isSelected ? (
+                              <XCircle className="w-3.5 h-3.5 text-paper" />
+                            ) : (
+                              String.fromCharCode(65 + optIdx)
+                            )}
+                          </span>
+                          <span className="flex-1 leading-snug">{opt}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Submission and Explanations */}
+                  {isSubmitted && (
+                    <div className="bg-paper border border-charcoal/5 rounded-xl p-4 shadow-sm space-y-2">
+                      <div className="flex items-center gap-2">
+                        {selectedOpt === currentQuestion.correctAnswer ? (
+                          <>
+                            <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                            <span className="font-sans font-bold text-emerald-700 uppercase tracking-wider text-xs">Correct!</span>
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="w-5 h-5 text-red-500 shrink-0" />
+                            <span className="font-sans font-bold text-red-600 uppercase tracking-wider text-xs">Incorrect</span>
+                          </>
+                        )}
+                      </div>
+                      <p className="font-sans text-xs text-charcoal/70 leading-relaxed">
+                        {currentQuestion.explanation}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end pt-2">
+                    {!isSubmitted ? (
+                      <button
+                        type="button"
+                        onClick={handleSubmitAnswer}
+                        disabled={selectedOpt === null}
+                        className={`px-5 py-2.5 rounded-xl font-sans text-xs font-black uppercase tracking-wider transition-spring shadow-sm ${
+                          selectedOpt === null
+                            ? "bg-charcoal/10 text-charcoal/40 cursor-not-allowed border border-charcoal/5"
+                            : "bg-coral text-paper hover-spring active-spring cursor-pointer"
+                        }`}
+                      >
+                        Submit Answer
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleNextQuestion}
+                        className="px-5 py-2.5 bg-charcoal text-paper rounded-xl font-sans text-xs font-black uppercase tracking-wider transition-spring hover-spring active-spring cursor-pointer"
+                      >
+                        {currentIdx + 1 < quizQuestions.length ? "Next Question" : "Finish Quiz"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-6 space-y-6">
+                  <div className="flex justify-center">
+                    <Sparkles className="w-12 h-12 text-coral animate-bounce" />
+                  </div>
+                  <div>
+                    <h4 className="font-editorial text-2xl font-bold text-charcoal">
+                      Quiz Completed!
+                    </h4>
+                    <p className="font-sans text-base text-charcoal/70 mt-1">
+                      You scored <strong className="text-coral font-mono text-lg">{score}</strong> out of <strong className="font-mono text-lg">{quizQuestions.length}</strong> correct.
+                    </p>
+                  </div>
+                  <div className="flex justify-center">
+                    <button
+                      type="button"
+                      onClick={handleRestartQuiz}
+                      className="px-6 py-3 bg-coral text-paper rounded-xl font-sans text-sm font-bold uppercase tracking-wider shadow-sm transition-spring hover-spring active-spring cursor-pointer"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </article>
   );
