@@ -1633,18 +1633,27 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
   } else if (challenge === "evaluate-rpn") {
     const tokens = testResult.input[0] || [];
     let stackState: any[] = [];
+    let activeTokenIndex: number | null = null;
 
     steps.slice(0, stepIndex).forEach((step) => {
-      if (step.type === "stack_push" || step.type === "stack_pop") {
+      if (step.type === "access") {
+        activeTokenIndex = step.index;
+      } else if (step.type === "stack_push" || step.type === "stack_pop") {
         stackState = step.stackState;
       }
     });
 
-    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
-      stackState = currentStep.stackState;
-      statusText = currentStep.type === "stack_push"
-        ? `Pushed operand or result '${currentStep.value}' onto stack`
-        : `Popped operand '${currentStep.value}' from stack for evaluation`;
+    if (currentStep) {
+      if (currentStep.type === "access") {
+        activeTokenIndex = currentStep.index;
+        statusText = `Read token '${currentStep.value}' at index ${currentStep.index}`;
+      } else if (currentStep.type === "stack_push") {
+        stackState = currentStep.stackState;
+        statusText = `Pushed '${currentStep.value}' onto evaluation stack`;
+      } else if (currentStep.type === "stack_pop") {
+        stackState = currentStep.stackState;
+        statusText = `Popped '${currentStep.value}' from stack for computation`;
+      }
     }
 
     if (isFinalStep) {
@@ -1656,6 +1665,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         stackState={stackState}
         stackName="Evaluation Stack"
         inputArray={tokens}
+        activeIndex={activeTokenIndex}
         inputLabel="RPN Tokens"
       />
     );
@@ -1663,18 +1673,27 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
     const nums1 = testResult.input[0] || [];
     const nums2 = testResult.input[1] || [];
     let stackState: any[] = [];
+    let activeElementIndex: number | null = null;
 
     steps.slice(0, stepIndex).forEach((step) => {
-      if (step.type === "stack_push" || step.type === "stack_pop") {
+      if (step.type === "access") {
+        activeElementIndex = step.index;
+      } else if (step.type === "stack_push" || step.type === "stack_pop") {
         stackState = step.stackState;
       }
     });
 
-    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
-      stackState = currentStep.stackState;
-      statusText = currentStep.type === "stack_push"
-        ? `Pushed element '${currentStep.value}' onto monotonic stack`
-        : `Popped element '${currentStep.value}' from stack (found next greater element!)`;
+    if (currentStep) {
+      if (currentStep.type === "access") {
+        activeElementIndex = currentStep.index;
+        statusText = `Read element '${currentStep.value}' at index ${currentStep.index} from nums2`;
+      } else if (currentStep.type === "stack_push") {
+        stackState = currentStep.stackState;
+        statusText = `Pushed element index or value '${currentStep.value}' onto stack`;
+      } else if (currentStep.type === "stack_pop") {
+        stackState = currentStep.stackState;
+        statusText = `Popped element '${currentStep.value}' from stack`;
+      }
     }
 
     if (isFinalStep) {
@@ -1686,6 +1705,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         stackState={stackState}
         stackName="Monotonic Stack"
         inputArray={nums2}
+        activeIndex={activeElementIndex}
         inputLabel="nums2 (Traversal Array)"
       />
     );
@@ -1943,7 +1963,13 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
               let description = "";
 
               if (step.type === "access") {
-                description = `Read index ${step.index} (value: ${step.value})`;
+                if (challenge === "evaluate-rpn") {
+                  description = `Read token '${step.value}' at index ${step.index}`;
+                } else if (challenge === "next-greater-element") {
+                  description = `Read element '${step.value}' at index ${step.index}`;
+                } else {
+                  description = `Read index ${step.index} (value: ${step.value})`;
+                }
               } else if (step.type === "binary_window") {
                 description = `Choose mid index ${step.index}`;
               } else if (step.type === "binary_decision") {
@@ -2703,6 +2729,13 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
             } else if (functionName === 'isValid') {
               const stringProxy = createStringProxy(tc.input[0]);
               realArgs = [stringProxy];
+            } else if (functionName === 'evalRPN') {
+              const arrayProxy = createArrayProxy(tc.input[0]);
+              realArgs = [arrayProxy];
+            } else if (functionName === 'nextGreaterElement') {
+              const arrayProxy1 = createArrayProxy(tc.input[0]);
+              const arrayProxy2 = createArrayProxy(tc.input[1]);
+              realArgs = [arrayProxy1, arrayProxy2];
             }
 
             let actual = null;
