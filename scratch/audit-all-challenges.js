@@ -56,7 +56,7 @@ const KEYWORDS = {
 
 async function runAudit() {
   console.log('--- Starting All Challenges Visual Audit ---');
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: false, slowMo: 150 });
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 }
   });
@@ -116,6 +116,9 @@ async function runAudit() {
       // Take a screenshot of the visualizer panel
       const screenshotPath = `scratch/audit-screenshots/${id}.png`;
       await page.screenshot({ path: screenshotPath });
+      
+      // Linger on the page for 1.5 seconds so the user can watch the visualizer
+      await page.waitForTimeout(1500);
       
       results.push({
         id,
