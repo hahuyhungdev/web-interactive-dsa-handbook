@@ -1936,7 +1936,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
             </div>
           )}
         </div>
-        <div className="flex-1 flex items-center justify-center min-h-0 overflow-y-auto">
+        <div className="flex-1 flex flex-col items-center justify-start pt-2 min-h-0 overflow-y-auto w-full">
           {visualizerNode}
         </div>
       </div>
@@ -3200,7 +3200,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       </div>
 
       {isDesktop ? (
-        <div className="h-[880px] w-full flex relative">
+        <div className="h-[calc(100vh-140px)] min-h-[700px] max-h-[850px] w-full flex relative">
           <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
             <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pr-1 h-full">
               {leftColumnContent}
