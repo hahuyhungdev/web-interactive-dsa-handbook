@@ -136,7 +136,7 @@ export function MainLayout({ activeLesson, onSelectLesson }: MainLayoutProps) {
           </div>
 
           {/* Footer */}
-          {!location.pathname.startsWith("/practice") && (
+          {isHomePage && (
             <footer className="border-t border-charcoal/10 mt-10 py-6 text-center text-base text-charcoal font-sans tracking-wide shrink-0">
               <p className="flex items-center justify-center gap-1">
                 Designed with an editorial eye. Made with{" "}
