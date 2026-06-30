@@ -3200,7 +3200,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       </div>
 
       {isDesktop ? (
-        <div className="h-[calc(100vh-115px)] min-h-[700px] max-h-[880px] w-full flex relative">
+        <div className="h-[calc(100vh-85px)] min-h-[750px] max-h-[960px] w-full flex relative">
           <PanelGroup direction="horizontal" className="w-full gap-0 h-full items-stretch">
             <Panel defaultSize={40} minSize={25} className="flex flex-col min-w-0 pr-1 h-full">
               {leftColumnContent}
