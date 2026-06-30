@@ -18,7 +18,13 @@ const testCases = [
   { chapter: 'linked-lists', challenge: 'merge-two-lists' },
   { chapter: 'linked-lists', challenge: 'linked-list-cycle' },
   { chapter: 'linked-lists', challenge: 'middle-list' },
-  { chapter: 'linked-lists', challenge: 'remove-nth-node' }
+  { chapter: 'linked-lists', challenge: 'remove-nth-node' },
+  // Chapter 4: Stacks & Queues
+  { chapter: 'stack-queue', challenge: 'valid-parentheses' },
+  { chapter: 'stack-queue', challenge: 'queue-using-stacks' },
+  { chapter: 'stack-queue', challenge: 'min-stack' },
+  { chapter: 'stack-queue', challenge: 'evaluate-rpn' },
+  { chapter: 'stack-queue', challenge: 'next-greater-element' }
 ];
 
 for (const { chapter, challenge } of testCases) {

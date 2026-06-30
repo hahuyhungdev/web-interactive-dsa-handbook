@@ -155,6 +155,26 @@ export const CHAPTERS: Chapter[] = [
         type: "practice",
         duration: "25 min",
       },
+      {
+        title: "Challenge: Implement Queue using Stacks",
+        type: "practice",
+        duration: "22 min",
+      },
+      {
+        title: "Challenge: Min Stack",
+        type: "practice",
+        duration: "20 min",
+      },
+      {
+        title: "Challenge: Evaluate Reverse Polish Notation",
+        type: "practice",
+        duration: "25 min",
+      },
+      {
+        title: "Challenge: Next Greater Element I",
+        type: "practice",
+        duration: "24 min",
+      },
     ],
   },
   {

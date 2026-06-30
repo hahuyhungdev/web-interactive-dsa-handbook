@@ -222,6 +222,133 @@ const BOILERPLATES = {
   second.next = second.next.next;
   return dummy.next;
 }`,
+  "queue-using-stacks": `// Implement the MyQueue class below:
+class MyQueue {
+  constructor() {
+    this.stack1 = [];
+    this.stack2 = [];
+  }
+  push(x) {
+    this.stack1.push(x);
+  }
+  pop() {
+    if (this.stack2.length === 0) {
+      while (this.stack1.length > 0) {
+        this.stack2.push(this.stack1.pop());
+      }
+    }
+    return this.stack2.pop();
+  }
+  peek() {
+    if (this.stack2.length === 0) {
+      while (this.stack1.length > 0) {
+        this.stack2.push(this.stack1.pop());
+      }
+    }
+    return this.stack2[this.stack2.length - 1];
+  }
+  empty() {
+    return this.stack1.length === 0 && this.stack2.length === 0;
+  }
+}
+
+// Do not modify the test function below:
+function runQueue(ops, vals) {
+  const q = new MyQueue();
+  const result = [null];
+  for (let i = 1; i < ops.length; i++) {
+    const op = ops[i];
+    const val = vals[i];
+    if (op === "push") {
+      q.push(val[0]);
+      result.push(null);
+    } else if (op === "pop") {
+      result.push(q.pop());
+    } else if (op === "peek") {
+      result.push(q.peek());
+    } else if (op === "empty") {
+      result.push(q.empty());
+    }
+  }
+  return result;
+}`,
+  "min-stack": `// Implement the MinStack class below:
+class MinStack {
+  constructor() {
+    this.stack = [];
+    this.minStack = [];
+  }
+  push(val) {
+    this.stack.push(val);
+    if (this.minStack.length === 0 || val <= this.minStack[this.minStack.length - 1]) {
+      this.minStack.push(val);
+    }
+  }
+  pop() {
+    const val = this.stack.pop();
+    if (val === this.minStack[this.minStack.length - 1]) {
+      this.minStack.pop();
+    }
+    return val;
+  }
+  top() {
+    return this.stack[this.stack.length - 1];
+  }
+  getMin() {
+    return this.minStack[this.minStack.length - 1];
+  }
+}
+
+// Do not modify the test function below:
+function runMinStack(ops, vals) {
+  const s = new MinStack();
+  const result = [null];
+  for (let i = 1; i < ops.length; i++) {
+    const op = ops[i];
+    const val = vals[i];
+    if (op === "push") {
+      s.push(val[0]);
+      result.push(null);
+    } else if (op === "pop") {
+      s.pop();
+      result.push(null);
+    } else if (op === "top") {
+      result.push(s.top());
+    } else if (op === "getMin") {
+      result.push(s.getMin());
+    }
+  }
+  return result;
+}`,
+  "evaluate-rpn": `function evalRPN(tokens) {
+  // Write your code here
+  const stack = [];
+  for (const token of tokens) {
+    if (["+", "-", "*", "/"].includes(token)) {
+      const b = stack.pop();
+      const a = stack.pop();
+      if (token === "+") stack.push(a + b);
+      else if (token === "-") stack.push(a - b);
+      else if (token === "*") stack.push(a * b);
+      else if (token === "/") stack.push(Math.trunc(a / b));
+    } else {
+      stack.push(Number(token));
+    }
+  }
+  return stack[0];
+}`,
+  "next-greater-element": `function nextGreaterElement(nums1, nums2) {
+  // Write your code here
+  const stack = [];
+  const map = new Map();
+  for (const num of nums2) {
+    while (stack.length > 0 && stack[stack.length - 1] < num) {
+      map.set(stack.pop(), num);
+    }
+    stack.push(num);
+  }
+  return nums1.map(num => map.has(num) ? map.get(num) : -1);
+}`,
 };
 
 interface TestCase {
@@ -446,6 +573,47 @@ const TEST_CASES: Record<string, TestCase[]> = {
     { input: [[1], 1], expected: [] },
     { input: [[1, 2], 1], expected: [1] },
   ],
+  "queue-using-stacks": [
+    {
+      input: [
+        ["MyQueue", "push", "push", "peek", "pop", "empty"],
+        [[], [1], [2], [], [], []]
+      ],
+      expected: [null, null, null, 1, 1, false]
+    },
+    {
+      input: [
+        ["MyQueue", "push", "empty", "push", "pop", "empty"],
+        [[], [10], [], [20], [], []]
+      ],
+      expected: [null, null, false, null, 10, false]
+    }
+  ],
+  "min-stack": [
+    {
+      input: [
+        ["MinStack", "push", "push", "push", "getMin", "pop", "top", "getMin"],
+        [[], [-2], [0], [-3], [], [], [], []]
+      ],
+      expected: [null, null, null, null, -3, null, 0, -2]
+    },
+    {
+      input: [
+        ["MinStack", "push", "push", "top", "getMin"],
+        [[], [5], [3], [], []]
+      ],
+      expected: [null, null, null, 3, 3]
+    }
+  ],
+  "evaluate-rpn": [
+    { input: [["2", "1", "+", "3", "*"]], expected: 9 },
+    { input: [["4", "13", "5", "/", "+"]], expected: 6 },
+    { input: [["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]], expected: 22 }
+  ],
+  "next-greater-element": [
+    { input: [[4, 1, 2], [1, 3, 4, 2]], expected: [-1, 3, -1] },
+    { input: [[2, 4], [1, 2, 3, 4]], expected: [3, -1] }
+  ],
 };
 
 function isEqual(actual: any, expected: any, challenge: string): boolean {
@@ -473,7 +641,10 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
     challenge === "top-k-frequent" ||
     challenge === "merge-two-lists" ||
     challenge === "middle-list" ||
-    challenge === "remove-nth-node"
+    challenge === "remove-nth-node" ||
+    challenge === "queue-using-stacks" ||
+    challenge === "min-stack" ||
+    challenge === "next-greater-element"
   ) {
     if (!Array.isArray(actual) || !Array.isArray(expected)) return false;
     if (actual.length !== expected.length) return false;
@@ -489,7 +660,8 @@ function isEqual(actual: any, expected: any, challenge: string): boolean {
     challenge === "remove-duplicates" ||
     challenge === "max-subarray" ||
     challenge === "kth-largest" ||
-    challenge === "linked-list-cycle"
+    challenge === "linked-list-cycle" ||
+    challenge === "evaluate-rpn"
   ) {
     return actual === expected;
   }
@@ -823,6 +995,155 @@ function StackParenthesesVisualizer({
   );
 }
 
+interface DualStackVisualizerProps {
+  stack1Name: string;
+  stack2Name: string;
+  stack1State: any[];
+  stack2State: any[];
+}
+
+function DualStackVisualizer({
+  stack1Name,
+  stack2Name,
+  stack1State,
+  stack2State,
+}: DualStackVisualizerProps) {
+  return (
+    <div className="flex gap-12 justify-center py-5 px-6 bg-paper-dark/30 border border-charcoal/5 rounded-2xl shadow-inner w-full min-h-[220px] my-1">
+      {/* Stack 1 */}
+      <div className="flex flex-col items-center gap-2 w-32">
+        <span className="text-[10px] font-sans text-charcoal/55 uppercase tracking-widest font-black">
+          {stack1Name}
+        </span>
+        <div className="relative w-full h-44 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1 p-2 bg-paper shadow-inner overflow-y-auto">
+          <AnimatePresence>
+            {stack1State.length === 0 ? (
+              <div className="absolute inset-0 flex items-center justify-center text-center p-2">
+                <span className="text-[9px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty</span>
+              </div>
+            ) : (
+              stack1State.map((val, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: -15, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="w-full py-1.5 bg-gradient-to-r from-emerald-600 to-emerald-500 border border-emerald-700 text-paper font-black rounded-lg flex items-center justify-center font-mono text-xs shadow-sm"
+                >
+                  {val}
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Stack 2 */}
+      <div className="flex flex-col items-center gap-2 w-32">
+        <span className="text-[10px] font-sans text-charcoal/55 uppercase tracking-widest font-black">
+          {stack2Name}
+        </span>
+        <div className="relative w-full h-44 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1 p-2 bg-paper shadow-inner overflow-y-auto">
+          <AnimatePresence>
+            {stack2State.length === 0 ? (
+              <div className="absolute inset-0 flex items-center justify-center text-center p-2">
+                <span className="text-[9px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty</span>
+              </div>
+            ) : (
+              stack2State.map((val, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: -15, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="w-full py-1.5 bg-gradient-to-r from-coral/95 to-coral border border-coral-dark text-paper font-black rounded-lg flex items-center justify-center font-mono text-xs shadow-sm"
+                >
+                  {val}
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface SingleStackVisualizerProps {
+  stackState: any[];
+  stackName?: string;
+  inputArray?: any[];
+  activeIndex?: number | null;
+  inputLabel?: string;
+}
+
+function SingleStackVisualizer({
+  stackState,
+  stackName = "Stack",
+  inputArray,
+  activeIndex,
+  inputLabel = "Input Tokens",
+}: SingleStackVisualizerProps) {
+  return (
+    <div className="flex flex-col items-center gap-4 w-full py-1">
+      {inputArray && (
+        <div className="flex flex-col items-center gap-1.5 w-full">
+          <span className="text-[10px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
+            {inputLabel}
+          </span>
+          <div className="flex gap-1 bg-paper-dark border border-charcoal/5 p-1.5 rounded-lg shadow-inner overflow-x-auto max-w-full">
+            {inputArray.map((token, idx) => {
+              const isActive = idx === activeIndex;
+              return (
+                <div
+                  key={idx}
+                  className={`px-3 h-8 rounded-md flex items-center justify-center font-mono text-[13px] font-black transition-all ${
+                    isActive
+                      ? "bg-coral text-paper scale-105 shadow-sm font-black"
+                      : "bg-paper text-charcoal/60 font-black border border-charcoal/5"
+                  }`}
+                >
+                  {token}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="flex flex-col items-center gap-1.5">
+        <span className="text-[10px] font-sans text-charcoal/50 uppercase tracking-widest font-black">
+          {stackName}
+        </span>
+        <div className="relative w-32 h-44 border-b-4 border-x-4 border-charcoal/30 rounded-b-xl flex flex-col-reverse items-center justify-start gap-1 p-2 bg-paper shadow-inner overflow-y-auto">
+          <AnimatePresence>
+            {stackState.length === 0 ? (
+              <div className="absolute inset-0 flex items-center justify-center text-center p-2">
+                <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-charcoal/35 italic select-none">Empty Stack</span>
+              </div>
+            ) : (
+              stackState.map((val, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: -15, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 350, damping: 22 }}
+                  className="w-24 py-1.5 bg-gradient-to-r from-emerald-600 to-emerald-500 border border-emerald-700 text-paper font-black rounded-lg flex items-center justify-center font-mono text-xs shadow-[0_2px_6px_rgba(16,185,129,0.15)]"
+                >
+                  {val}
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Playback Visualizer Panel ──────────────────────────────────────────────
 
 interface CodeVisualizerProps {
@@ -883,7 +1204,7 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
 
     const isSingleArray = [
       "find-max", "reverse-list", "remove-duplicates", "max-subarray", 
-      "sort-colors", "linked-list-cycle", "middle-list"
+      "sort-colors", "linked-list-cycle", "middle-list", "evaluate-rpn"
     ].includes(challenge);
     if (isSingleArray) {
       return Array.isArray(testResult.input[0]);
@@ -893,7 +1214,13 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
       return Array.isArray(testResult.input[0]) && typeof testResult.input[1] === "number" && Array.isArray(testResult.input[2]) && typeof testResult.input[3] === "number";
     }
 
-    if (challenge === "intersection-arrays" || challenge === "merge-two-lists") {
+    if (
+      challenge === "intersection-arrays" ||
+      challenge === "merge-two-lists" ||
+      challenge === "queue-using-stacks" ||
+      challenge === "min-stack" ||
+      challenge === "next-greater-element"
+    ) {
       return Array.isArray(testResult.input[0]) && Array.isArray(testResult.input[1]);
     }
 
@@ -1227,6 +1554,139 @@ function CodeVisualizer({ challenge, testResult, userCode }: CodeVisualizerProps
         inputString={inputString}
         charIndex={charIndex}
         stackState={stackState}
+      />
+    );
+  } else if (challenge === "queue-using-stacks") {
+    let stack1State: any[] = [];
+    let stack2State: any[] = [];
+
+    steps.slice(0, stepIndex).forEach((step) => {
+      if (step.type === "stack_push" || step.type === "stack_pop") {
+        if (step.arrayId === 1) stack1State = step.stackState;
+        if (step.arrayId === 2) stack2State = step.stackState;
+      }
+    });
+
+    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
+      if (currentStep.arrayId === 1) {
+        stack1State = currentStep.stackState;
+        statusText = currentStep.type === "stack_push"
+          ? `Pushed '${currentStep.value}' to Stack 1 (Input Stack)`
+          : `Popped '${currentStep.value}' from Stack 1 (Input Stack)`;
+      } else if (currentStep.arrayId === 2) {
+        stack2State = currentStep.stackState;
+        statusText = currentStep.type === "stack_push"
+          ? `Pushed '${currentStep.value}' to Stack 2 (Output Stack)`
+          : `Popped '${currentStep.value}' from Stack 2 (Output Stack)`;
+      }
+    }
+
+    if (isFinalStep) {
+      statusText = `Execution complete. Result: ${safeStringify(testResult.actual)}`;
+    }
+
+    visualizerNode = (
+      <DualStackVisualizer
+        stack1Name="Stack 1 (Push)"
+        stack2Name="Stack 2 (Pop)"
+        stack1State={stack1State}
+        stack2State={stack2State}
+      />
+    );
+  } else if (challenge === "min-stack") {
+    let stackState: any[] = [];
+    let minStackState: any[] = [];
+
+    steps.slice(0, stepIndex).forEach((step) => {
+      if (step.type === "stack_push" || step.type === "stack_pop") {
+        if (step.arrayId === 1) stackState = step.stackState;
+        if (step.arrayId === 2) minStackState = step.stackState;
+      }
+    });
+
+    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
+      if (currentStep.arrayId === 1) {
+        stackState = currentStep.stackState;
+        statusText = currentStep.type === "stack_push"
+          ? `Pushed '${currentStep.value}' to Main Stack`
+          : `Popped '${currentStep.value}' from Main Stack`;
+      } else if (currentStep.arrayId === 2) {
+        minStackState = currentStep.stackState;
+        statusText = currentStep.type === "stack_push"
+          ? `Pushed '${currentStep.value}' to Min Stack`
+          : `Popped '${currentStep.value}' from Min Stack`;
+      }
+    }
+
+    if (isFinalStep) {
+      statusText = `Execution complete. Result: ${safeStringify(testResult.actual)}`;
+    }
+
+    visualizerNode = (
+      <DualStackVisualizer
+        stack1Name="Main Stack"
+        stack2Name="Min Stack"
+        stack1State={stackState}
+        stack2State={minStackState}
+      />
+    );
+  } else if (challenge === "evaluate-rpn") {
+    const tokens = testResult.input[0] || [];
+    let stackState: any[] = [];
+
+    steps.slice(0, stepIndex).forEach((step) => {
+      if (step.type === "stack_push" || step.type === "stack_pop") {
+        stackState = step.stackState;
+      }
+    });
+
+    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
+      stackState = currentStep.stackState;
+      statusText = currentStep.type === "stack_push"
+        ? `Pushed operand or result '${currentStep.value}' onto stack`
+        : `Popped operand '${currentStep.value}' from stack for evaluation`;
+    }
+
+    if (isFinalStep) {
+      statusText = `Evaluation complete. Final result: ${testResult.actual}`;
+    }
+
+    visualizerNode = (
+      <SingleStackVisualizer
+        stackState={stackState}
+        stackName="Evaluation Stack"
+        inputArray={tokens}
+        inputLabel="RPN Tokens"
+      />
+    );
+  } else if (challenge === "next-greater-element") {
+    const nums1 = testResult.input[0] || [];
+    const nums2 = testResult.input[1] || [];
+    let stackState: any[] = [];
+
+    steps.slice(0, stepIndex).forEach((step) => {
+      if (step.type === "stack_push" || step.type === "stack_pop") {
+        stackState = step.stackState;
+      }
+    });
+
+    if (currentStep && (currentStep.type === "stack_push" || currentStep.type === "stack_pop")) {
+      stackState = currentStep.stackState;
+      statusText = currentStep.type === "stack_push"
+        ? `Pushed element '${currentStep.value}' onto monotonic stack`
+        : `Popped element '${currentStep.value}' from stack (found next greater element!)`;
+    }
+
+    if (isFinalStep) {
+      statusText = `Execution complete. Output NGE: ${safeStringify(testResult.actual)}`;
+    }
+
+    visualizerNode = (
+      <SingleStackVisualizer
+        stackState={stackState}
+        stackName="Monotonic Stack"
+        inputArray={nums2}
+        inputLabel="nums2 (Traversal Array)"
       />
     );
   } else {
@@ -1636,6 +2096,10 @@ type TabId =
   | "find-max"
   | "binary-search"
   | "valid-parentheses"
+  | "queue-using-stacks"
+  | "min-stack"
+  | "evaluate-rpn"
+  | "next-greater-element"
   | "remove-duplicates"
   | "merge-sorted-array"
   | "max-subarray"
@@ -1654,6 +2118,10 @@ const LESSON_TO_TAB: Record<string, TabId> = {
   "Challenge: Reverse Linked List": "reverse-list",
   "Challenge: Binary Search": "binary-search",
   "Challenge: Valid Parentheses": "valid-parentheses",
+  "Challenge: Implement Queue using Stacks": "queue-using-stacks",
+  "Challenge: Min Stack": "min-stack",
+  "Challenge: Evaluate Reverse Polish Notation": "evaluate-rpn",
+  "Challenge: Next Greater Element I": "next-greater-element",
   "Challenge: Remove Duplicates": "remove-duplicates",
   "Challenge: Merge Sorted Array": "merge-sorted-array",
   "Challenge: Maximum Subarray": "max-subarray",
@@ -1688,6 +2156,10 @@ const ALL_CHALLENGES: Array<{ value: TabId; label: string }> = [
   { value: "remove-nth-node", label: "Remove Nth Node From End" },
   // Chapter 4 (Stacks & Queues)
   { value: "valid-parentheses", label: "Valid Parentheses" },
+  { value: "queue-using-stacks", label: "Implement Queue using Stacks" },
+  { value: "min-stack", label: "Min Stack" },
+  { value: "evaluate-rpn", label: "Evaluate Reverse Polish Notation" },
+  { value: "next-greater-element", label: "Next Greater Element I" },
 ];
 
 const CHALLENGE_CHAPTERS: Record<TabId, string> = {
@@ -1707,6 +2179,10 @@ const CHALLENGE_CHAPTERS: Record<TabId, string> = {
   "middle-list": "linked-lists",
   "remove-nth-node": "linked-lists",
   "valid-parentheses": "stack-queue",
+  "queue-using-stacks": "stack-queue",
+  "min-stack": "stack-queue",
+  "evaluate-rpn": "stack-queue",
+  "next-greater-element": "stack-queue",
 };
 
 export function PracticeSection({ activeLesson }: PracticeSectionProps) {
@@ -1773,12 +2249,20 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
     } else if (selectedTab === "kth-largest" || selectedTab === "top-k-frequent") {
       setCustomInputArray("[3, 2, 1, 5, 6, 4]");
       setCustomInputTarget("2");
-    } else if (selectedTab === "intersection-arrays") {
+    } else if (selectedTab === "intersection-arrays" || selectedTab === "next-greater-element") {
       setCustomInputArray("[1, 2, 2, 1]");
-      setCustomInputTarget("[2, 2]"); // For intersection, we can hijack customInputTarget to store the second array!
+      setCustomInputTarget("[2, 2]"); // For intersection/NGE, we hijack customInputTarget to store the second array!
     } else if (selectedTab === "remove-nth-node") {
       setCustomInputArray("[1, 2, 3, 4, 5]");
       setCustomInputTarget("2");
+    } else if (selectedTab === "queue-using-stacks") {
+      setCustomInputArray('["MyQueue", "push", "push", "peek", "pop", "empty"]');
+      setCustomInputTarget("[[], [1], [2], [], [], []]");
+    } else if (selectedTab === "min-stack") {
+      setCustomInputArray('["MinStack", "push", "push", "push", "getMin", "pop", "top", "getMin"]');
+      setCustomInputTarget("[[], [-2], [0], [-3], [], [], [], []]");
+    } else if (selectedTab === "evaluate-rpn") {
+      setCustomInputArray('["2", "1", "+", "3", "*"]');
     }
   }, [selectedTab]);
 
@@ -1808,6 +2292,19 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       try {
         if (currentTab === "valid-parentheses") {
           testCases = [{ input: [customInputString], expected: null }];
+        } else if (currentTab === "queue-using-stacks" || currentTab === "min-stack") {
+          const ops = JSON.parse(customInputArray);
+          const vals = JSON.parse(customInputTarget);
+          if (!Array.isArray(ops) || !Array.isArray(vals)) {
+            throw new Error("Inputs must be valid JSON arrays");
+          }
+          testCases = [{ input: [ops, vals], expected: null }];
+        } else if (currentTab === "evaluate-rpn") {
+          const tokens = JSON.parse(customInputArray);
+          if (!Array.isArray(tokens)) {
+            throw new Error("Input must be a valid JSON array of strings");
+          }
+          testCases = [{ input: [tokens], expected: null }];
         } else {
           // Parse first array
           const parsedArray = JSON.parse(customInputArray);
@@ -1823,7 +2320,7 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           ].includes(currentTab);
 
           const isTwoArrays = [
-            "intersection-arrays", "merge-two-lists"
+            "intersection-arrays", "merge-two-lists", "next-greater-element"
           ].includes(currentTab);
 
           if (isArrayAndNumber) {
@@ -1893,6 +2390,14 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
       functionName = "middleNode";
     } else if (currentTab === "remove-nth-node") {
       functionName = "removeNthFromEnd";
+    } else if (currentTab === "queue-using-stacks") {
+      functionName = "runQueue";
+    } else if (currentTab === "min-stack") {
+      functionName = "runMinStack";
+    } else if (currentTab === "evaluate-rpn") {
+      functionName = "evalRPN";
+    } else if (currentTab === "next-greater-element") {
+      functionName = "nextGreaterElement";
     }
 
     const workerCode = `
@@ -1941,13 +2446,18 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           // Override Array.prototype.push and Array.prototype.pop for Stack tracking
           const originalPush = self.Array.prototype.push;
           const originalPop = self.Array.prototype.pop;
+          let arrayCounter = 0;
 
           self.Array.prototype.push = function(...args) {
             if (self.isTracking) {
               self.isTracking = false; // Pause tracking to prevent recursive stack overflow
+              if (this._id === undefined) {
+                this._id = ++arrayCounter;
+              }
               tracker.push({
                 type: 'stack_push',
                 value: args[0],
+                arrayId: this._id,
                 stackState: [...this, ...args]
               });
               self.isTracking = true; // Resume tracking
@@ -1958,12 +2468,16 @@ export function PracticeSection({ activeLesson }: PracticeSectionProps) {
           self.Array.prototype.pop = function() {
             if (self.isTracking) {
               self.isTracking = false; // Pause tracking
+              if (this._id === undefined) {
+                this._id = ++arrayCounter;
+              }
               const poppedVal = this[this.length - 1];
               const nextState = this.slice(0, -1);
               const res = originalPop.apply(this);
               tracker.push({
                 type: 'stack_pop',
                 value: poppedVal,
+                arrayId: this._id,
                 stackState: nextState
               });
               self.isTracking = true; // Resume tracking
